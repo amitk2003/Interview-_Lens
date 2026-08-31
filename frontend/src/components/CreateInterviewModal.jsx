@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   X, 
   Sparkles, 
@@ -13,187 +13,254 @@ import {
   ShieldCheck,
   Activity,
   Mic,
+  MicOff,
   Volume2,
   Clock,
   Play,
-  RotateCcw
+  RotateCcw,
+  ExternalLink,
+  Upload
 } from 'lucide-react';
 
 const ADAPTERS = [
   {
-    id: 'GOOGLE_MEET',
-    name: 'Google Meet Adapter',
-    icon: Video,
+    id: 'LIVE_AI',
+    name: 'Interactive AI Interviewer Room',
+    icon: Sparkles,
     color: '#00F0FF',
-    defaultUrl: 'https://meet.google.com/abc-defg-hij',
-    badge: 'Authorized API / Stream'
+    badge: 'Real-time Voice & Q&A',
+    description: 'Dynamic interview tailored directly to your uploaded JD & Resume with speech AI'
   },
   {
-    id: 'MS_TEAMS',
-    name: 'Microsoft Teams Adapter',
+    id: 'GOOGLE_MEET',
+    name: 'Google Meet Meeting Gateway',
     icon: Video,
-    color: '#818CF8',
-    defaultUrl: 'https://teams.microsoft.com/l/meetup-join/19%3ameeting_xyz',
-    badge: 'Graph API Connector'
+    color: '#34D399',
+    defaultUrl: 'https://meet.google.com/abc-defg-hij',
+    badge: 'Live Launch + Audio Ingestion',
+    description: 'Launch real Google Meet call and record or ingest transcript live'
   },
   {
     id: 'ZOOM',
-    name: 'Zoom Adapter',
+    name: 'Zoom Meeting Gateway',
     icon: Video,
     color: '#38BDF8',
     defaultUrl: 'https://zoom.us/j/9876543210',
-    badge: 'Webhook / Bot Stream'
+    badge: 'Live Launch + Audio Ingestion',
+    description: 'Launch real Zoom call and ingest audio or live transcript'
   },
   {
-    id: 'UPLOAD_RECORDING',
-    name: 'Authorized Recording / Audio Upload',
-    icon: UploadCloud,
-    color: '#A78BFA',
-    defaultUrl: 'interview_session_audio.mp4',
-    badge: 'Audio / Video Stream'
+    id: 'MS_TEAMS',
+    name: 'Microsoft Teams Gateway',
+    icon: Video,
+    color: '#818CF8',
+    defaultUrl: 'https://teams.microsoft.com/l/meetup-join/19%3ameeting_xyz',
+    badge: 'Live Launch + Audio Ingestion',
+    description: 'Launch real Teams call with synchronized assessment'
   },
   {
     id: 'UPLOAD_TRANSCRIPT',
-    name: 'Transcript File Upload (.vtt, .srt, .json, .txt)',
+    name: 'Recorded Audio / Transcript Upload',
     icon: FileText,
-    color: '#10B981',
-    defaultUrl: 'transcript_diarized.vtt',
-    badge: 'Direct Normalizer'
+    color: '#A78BFA',
+    badge: 'File Ingest (.vtt, .srt, .txt, .mp3, .wav)',
+    description: 'Upload an existing recording file or transcript from an interview'
   }
 ];
 
-const PRESETS = [
-  {
-    id: 'fintech_distributed',
-    name: 'Fintech Distributed Systems (Redis & Concurrency)',
-    role: 'Senior Distributed Systems Engineer',
-    jd: 'Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL, and distributed concurrency controls.',
-    resume: '5+ years backend systems, Redis caching, event streaming.',
-    meetingUrl: 'https://meet.google.com/fintech-eng-interview'
-  },
-  {
-    id: 'frontend_staff',
-    name: 'Staff React & Design Systems Lead',
-    role: 'Staff Frontend Engineer',
-    jd: 'Deep React performance optimization, React Server Components (RSC), Next.js App Router, accessibility, and large-scale micro-frontends.',
-    resume: '8 years frontend architecture, React core, design tokens.',
-    meetingUrl: 'https://teams.microsoft.com/l/meetup-join/staff-react'
-  },
-  {
-    id: 'ml_systems',
-    name: 'AI & Inference Infrastructure Architect',
-    role: 'Lead ML Systems Engineer',
-    jd: 'High-throughput LLM serving, Triton Inference Server, vLLM continuous batching, GPU memory management.',
-    resume: 'MLOps, CUDA optimization, model quantization.',
-    meetingUrl: 'https://zoom.us/j/ml-infra-round3'
-  }
-];
-
-export default function CreateInterviewModal({ onClose, onCreated, apiKey, userProfile }) {
-  // Wizard steps: 1 = Workspace & Adapter Selection, 2 = Live Capture Gateway & Stream Processor, 3 = Orchestrator Execution
-  const [wizardStep, setWizardStep] = useState(1);
-
-  // Form state
-  const [title, setTitle] = useState('Senior Distributed Systems Interview');
+export default function CreateInterviewModal({ 
+  onClose, 
+  onCreated, 
+  onStartLiveRoom, 
+  apiKey, 
+  userProfile 
+}) {
+  // Mode selection
+  const [selectedAdapter, setSelectedAdapter] = useState('LIVE_AI');
+  const [title, setTitle] = useState(`${userProfile?.target_role || 'Software Engineer'} Interview`);
   const [jobRole, setJobRole] = useState(userProfile?.target_role || 'Senior Distributed Systems Engineer');
-  const [jobDescription, setJobDescription] = useState('Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL, and distributed concurrency controls.');
-  const [resumeText, setResumeText] = useState(userProfile?.resume_summary || '5+ years backend engineering, distributed event streams, microservices architecture, and caching strategies.');
-  const [selectedAdapter, setSelectedAdapter] = useState('GOOGLE_MEET');
-  const [meetingUrl, setMeetingUrl] = useState('https://meet.google.com/abc-defg-hij');
-  const [consentAuthorized, setConsentAuthorized] = useState(true);
-  const [presetScenario, setPresetScenario] = useState('fintech_distributed');
+  
+  // JD State
+  const [jdMode, setJdMode] = useState('text'); // 'text' | 'file'
+  const [jobDescription, setJobDescription] = useState(
+    'Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL, and distributed concurrency controls.'
+  );
+  const [jdFileName, setJdFileName] = useState('');
+  const [jdParsing, setJdParsing] = useState(false);
 
-  // Live Gateway state
-  const [captureSession, setCaptureSession] = useState(null);
-  const [connecting, setConnecting] = useState(false);
-  const [activeChunkIndex, setActiveChunkIndex] = useState(0);
-  const [streamProgress, setStreamProgress] = useState(0);
-  const [isSimulatingStream, setIsSimulatingStream] = useState(false);
+  // Resume State
+  const [resumeMode, setResumeMode] = useState('text'); // 'text' | 'file'
+  const [resumeText, setResumeText] = useState(
+    userProfile?.resume_summary || '5+ years backend engineering, distributed event streams, microservices architecture, and caching strategies.'
+  );
+  const [resumeFileName, setResumeFileName] = useState('');
+  const [resumeParsing, setResumeParsing] = useState(false);
 
-  // Orchestrator State
-  const [orchestratorStep, setOrchestratorStep] = useState(0);
+  // Meeting Gateway State
+  const [meetingUrl, setMeetingUrl] = useState('https://meet.google.com/new');
+  const [liveTranscriptNotes, setLiveTranscriptNotes] = useState('');
+  const [isMeetingLaunched, setIsMeetingLaunched] = useState(false);
+  const [recordingFile, setRecordingFile] = useState(null);
 
-  const applyPreset = (p) => {
-    setTitle(p.name);
-    setJobRole(p.role);
-    setJobDescription(p.jd);
-    setResumeText(p.resume);
-    setMeetingUrl(p.meetingUrl);
-    setPresetScenario(p.id);
-  };
+  // Execution state
+  const [loading, setLoading] = useState(false);
 
-  // Step 1 -> Connect Meeting Integration Layer & Gateway
-  const handleConnectMeeting = async () => {
-    if (!consentAuthorized) {
-      alert('Please confirm authorized meeting access and participant consent.');
-      return;
-    }
-    setConnecting(true);
+  // File Upload Handlers for JD & Resume
+  const handleJdFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setJdFileName(file.name);
+    setJdParsing(true);
 
-    try {
-      const res = await fetch('/api/meetings/connect', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          adapter_type: selectedAdapter,
-          meeting_url: meetingUrl,
-          candidate_name: userProfile?.name || 'Alex Chen',
-          job_role: jobRole,
-          job_description: jobDescription,
-          resume_text: resumeText,
-          preset_scenario: presetScenario
-        })
-      });
-
-      if (!res.ok) throw new Error('Meeting connection failed');
-      const sessionData = await res.json();
-      setCaptureSession(sessionData);
-      setConnecting(false);
-      setWizardStep(2); // Move to Live Capture Gateway
-      setActiveChunkIndex(sessionData.stream_chunks.length); // All chunks loaded
-    } catch (err) {
-      console.error(err);
-      alert('Failed to connect to Meeting Integration Layer');
-      setConnecting(false);
-    }
-  };
-
-  // Step 2 -> Launch Orchestrator & Specialized Agents
-  const handleRunOrchestrator = async () => {
-    if (!captureSession) return;
-    setWizardStep(3); // Move to Orchestrator animation
-    setOrchestratorStep(1);
+    const formData = new FormData();
+    formData.append('file', file);
 
     try {
-      setTimeout(() => setOrchestratorStep(2), 600); // Technical & Communication Agents
-      setTimeout(() => setOrchestratorStep(3), 1400); // Behavioral Agent (STAR)
-      setTimeout(() => setOrchestratorStep(4), 2200); // Evidence Verification Agent
-
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('job_role', jobRole);
-      if (jobDescription) formData.append('job_description', jobDescription);
-      if (resumeText) formData.append('resume_text', resumeText);
-
-      const res = await fetch(`/api/meetings/${captureSession.session_id}/finish`, {
+      const res = await fetch('/api/parse/document', {
         method: 'POST',
         body: formData
       });
+      if (!res.ok) throw new Error('Failed to parse JD document');
+      const data = await res.json();
+      setJobDescription(data.extracted_text);
+    } catch (err) {
+      alert('Error parsing JD file: ' + err.message);
+    } finally {
+      setJdParsing(false);
+    }
+  };
 
-      if (!res.ok) throw new Error('Orchestration failed');
+  const handleResumeFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setResumeFileName(file.name);
+    setResumeParsing(true);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/parse/document', {
+        method: 'POST',
+        body: formData
+      });
+      if (!res.ok) throw new Error('Failed to parse Resume document');
+      const data = await res.json();
+      setResumeText(data.extracted_text);
+    } catch (err) {
+      alert('Error parsing resume file: ' + err.message);
+    } finally {
+      setResumeParsing(false);
+    }
+  };
+
+  // Launch Live Meeting in new tab
+  const handleLaunchMeetingUrl = () => {
+    let url = meetingUrl.trim();
+    if (!url) {
+      alert('Please enter a valid meeting URL.');
+      return;
+    }
+    // Ensure protocol is present so it doesn't open as relative path on localhost
+    if (!/^https?:\/\//i.test(url)) {
+      url = 'https://' + url;
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+    setIsMeetingLaunched(true);
+  };
+
+  // Primary Action: Start Live AI Room or Submit External/Uploaded Interview
+  const handleProceed = async () => {
+    const token = localStorage.getItem('AUTH_TOKEN');
+
+    if (selectedAdapter === 'LIVE_AI') {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/interview/interactive/plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            job_role: jobRole,
+            job_description: jobDescription,
+            resume_text: resumeText,
+            question_count: 4,
+            api_key: apiKey
+          })
+        });
+
+        if (!res.ok) throw new Error('Could not generate dynamic interview plan');
+        const planData = await res.json();
+        setLoading(false);
+        onClose();
+        onStartLiveRoom(planData, { jobRole, jobDescription, resumeText });
+      } catch (err) {
+        console.error(err);
+        alert('Failed to start Live AI Room: ' + err.message);
+        setLoading(false);
+      }
+      return;
+    }
+
+    if (selectedAdapter === 'UPLOAD_TRANSCRIPT' && recordingFile) {
+      // Upload raw file
+      setLoading(true);
+      try {
+        const formData = new FormData();
+        formData.append('file', recordingFile);
+        formData.append('title', title);
+        formData.append('job_role', jobRole);
+        if (jobDescription) formData.append('job_description', jobDescription);
+        if (resumeText) formData.append('resume_text', resumeText);
+        formData.append('platform', 'Uploaded Recording File');
+        if (token) formData.append('token', token);
+
+        const res = await fetch('/api/interviews/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) throw new Error('File analysis failed');
+        const record = await res.json();
+        setLoading(false);
+        onCreated(record);
+      } catch (err) {
+        console.error(err);
+        alert('Upload failed: ' + err.message);
+        setLoading(false);
+      }
+      return;
+    }
+
+    // Google Meet / Zoom / Teams Gateway
+    setLoading(true);
+    try {
+      const transcriptContent = liveTranscriptNotes.trim() || `[00:00:15] Interviewer: Welcome to the ${jobRole} technical round.\n[00:00:30] Candidate: Hello, thank you for having me.`;
+      const urlWithToken = token ? `/api/interviews/workspace/create?token=${token}` : '/api/interviews/workspace/create';
+      const res = await fetch(urlWithToken, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          job_role: jobRole,
+          job_description: jobDescription,
+          resume_text: resumeText,
+          adapter_type: selectedAdapter,
+          meeting_url: meetingUrl,
+          transcript_text: transcriptContent,
+          api_key: apiKey,
+          user_email: userProfile?.email,
+          user_name: userProfile?.name
+        })
+      });
+
+      if (!res.ok) throw new Error('Analysis orchestration failed');
       const record = await res.json();
-
-      setTimeout(() => {
-        setOrchestratorStep(5);
-        setTimeout(() => {
-          onCreated(record);
-        }, 500);
-      }, 2600);
-
+      setLoading(false);
+      onCreated(record);
     } catch (err) {
       console.error(err);
-      alert('Orchestrator error. Please retry.');
-      setWizardStep(2);
+      alert('Orchestrator error: ' + err.message);
+      setLoading(false);
     }
   };
 
@@ -201,7 +268,7 @@ export default function CreateInterviewModal({ onClose, onCreated, apiKey, userP
     <div style={{
       position: 'fixed',
       top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(5, 8, 14, 0.88)',
+      background: 'rgba(5, 8, 14, 0.9)',
       backdropFilter: 'blur(18px)',
       display: 'flex',
       alignItems: 'center',
@@ -216,12 +283,11 @@ export default function CreateInterviewModal({ onClose, onCreated, apiKey, userP
         overflowY: 'auto',
         padding: '34px',
         position: 'relative',
-        borderRadius: '20px'
+        borderRadius: '24px'
       }}>
         {/* Close Button */}
         <button
           onClick={onClose}
-          disabled={wizardStep === 3}
           style={{
             position: 'absolute',
             top: '24px', right: '24px',
@@ -232,375 +298,403 @@ export default function CreateInterviewModal({ onClose, onCreated, apiKey, userP
           <X size={20} />
         </button>
 
-        {/* Wizard Progress Breadcrumb */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
-          {[
-            { num: 1, label: 'Workspace & Adapter' },
-            { num: 2, label: 'Live Capture Gateway' },
-            { num: 3, label: 'Agentic Orchestrator' }
-          ].map(s => {
-            const isDone = wizardStep > s.num;
-            const isCurrent = wizardStep === s.num;
-            return (
-              <div key={s.num} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{
-                  width: '24px', height: '24px', borderRadius: '50%',
-                  background: isCurrent ? 'var(--accent-cyan)' : isDone ? 'var(--accent-emerald)' : 'rgba(255,255,255,0.06)',
-                  color: isCurrent ? '#050B14' : '#FFFFFF',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', fontWeight: 800
-                }}>
-                  {isDone ? '✓' : s.num}
-                </span>
-                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: isCurrent ? 'var(--accent-cyan)' : isDone ? '#FFFFFF' : 'var(--text-muted)' }}>
-                  {s.label}
-                </span>
-                {s.num < 3 && <span style={{ color: 'var(--border-subtle)' }}>→</span>}
-              </div>
-            );
-          })}
+        {/* Title */}
+        <div style={{ marginBottom: '22px' }}>
+          <span className="badge badge-cyan" style={{ marginBottom: '6px' }}>Interview Setup & Ingestion</span>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#FFFFFF' }}>
+            Candidate Context & Interview Mode
+          </h2>
+          <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+            Upload your Job Description & Resume (or enter manually), then choose an interview format.
+          </p>
         </div>
 
-        {/* ======================================================== */}
-        {/* STAGE 1: WORKSPACE CONTEXT & MEETING ADAPTER SELECTION */}
-        {/* ======================================================== */}
-        {wizardStep === 1 && (
+        {/* Workspace Title & Target Role */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
           <div>
-            <div style={{ marginBottom: '22px' }}>
-              <span className="badge badge-cyan" style={{ marginBottom: '6px' }}>Target Architecture Stage 02 & 03</span>
-              <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>Interview Workspace & Meeting Integration</h2>
-              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)' }}>
-                Set up candidate context and connect the authorized meeting adapter (Google Meet, MS Teams, Zoom).
-              </p>
-            </div>
+            <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+              INTERVIEW TITLE
+            </label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g. Senior Distributed Systems Technical Round"
+              style={{
+                width: '100%', padding: '10px 14px', borderRadius: '10px',
+                background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                color: '#FFFFFF', fontSize: '0.85rem'
+              }}
+            />
+          </div>
 
-            {/* Quick Presets */}
-            <div style={{ marginBottom: '22px' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>
-                ⚡ Quick Presets (Click to Auto-Populate)
-              </span>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '10px' }}>
-                {PRESETS.map(p => (
+          <div>
+            <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+              TARGET JOB ROLE
+            </label>
+            <input
+              type="text"
+              value={jobRole}
+              onChange={(e) => setJobRole(e.target.value)}
+              placeholder="e.g. Senior Distributed Systems Engineer"
+              style={{
+                width: '100%', padding: '10px 14px', borderRadius: '10px',
+                background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                color: '#FFFFFF', fontSize: '0.85rem'
+              }}
+            />
+          </div>
+        </div>
+
+        {/* 1. Job Description & Skills (Upload or Type) */}
+        <div style={{
+          padding: '18px', borderRadius: '14px',
+          background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)',
+          marginBottom: '18px'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-cyan)' }}>
+              1. JOB DESCRIPTION & REQUIRED SKILLS
+            </label>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <button
+                type="button"
+                onClick={() => setJdMode('file')}
+                style={{
+                  padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600,
+                  background: jdMode === 'file' ? 'var(--accent-cyan)' : 'transparent',
+                  color: jdMode === 'file' ? '#050B14' : 'var(--text-muted)',
+                  border: '1px solid var(--border-subtle)', cursor: 'pointer'
+                }}
+              >
+                Upload JD File (PDF / DOCX)
+              </button>
+              <button
+                type="button"
+                onClick={() => setJdMode('text')}
+                style={{
+                  padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600,
+                  background: jdMode === 'text' ? 'var(--accent-cyan)' : 'transparent',
+                  color: jdMode === 'text' ? '#050B14' : 'var(--text-muted)',
+                  border: '1px solid var(--border-subtle)', cursor: 'pointer'
+                }}
+              >
+                Write / Paste Manually
+              </button>
+            </div>
+          </div>
+
+          {jdMode === 'file' ? (
+            <div style={{
+              border: '2px dashed var(--border-subtle)', borderRadius: '10px',
+              padding: '20px', textAlign: 'center', background: 'rgba(0,0,0,0.2)'
+            }}>
+              <UploadCloud size={28} color="var(--accent-cyan)" style={{ margin: '0 auto 8px auto' }} />
+              <p style={{ fontSize: '0.82rem', color: '#FFFFFF', marginBottom: '6px' }}>
+                {jdFileName ? `Uploaded: ${jdFileName}` : 'Select Job Description file (.pdf, .docx, .txt)'}
+              </p>
+              <input
+                type="file"
+                accept=".pdf,.docx,.doc,.txt"
+                onChange={handleJdFileUpload}
+                style={{ display: 'none' }}
+                id="jd-file-input"
+              />
+              <label htmlFor="jd-file-input" className="btn btn-secondary" style={{ display: 'inline-flex', cursor: 'pointer', padding: '6px 14px', fontSize: '0.78rem' }}>
+                {jdParsing ? 'Extracting text...' : 'Browse JD File'}
+              </label>
+              {jobDescription && (
+                <p style={{ fontSize: '0.74rem', color: 'var(--accent-emerald)', marginTop: '8px' }}>
+                  ✓ {jobDescription.length} characters extracted and staged.
+                </p>
+              )}
+            </div>
+          ) : (
+            <textarea
+              rows={3}
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              placeholder="Paste or write the Job Description, expected technical requirements, and responsibilities..."
+              style={{
+                width: '100%', padding: '10px 14px', borderRadius: '10px',
+                background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                color: '#FFFFFF', fontSize: '0.84rem'
+              }}
+            />
+          )}
+        </div>
+
+        {/* 2. Candidate Resume (Upload or Type) */}
+        <div style={{
+          padding: '18px', borderRadius: '14px',
+          background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)',
+          marginBottom: '22px'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-violet)' }}>
+              2. CANDIDATE RESUME & EXPERIENCE
+            </label>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <button
+                type="button"
+                onClick={() => setResumeMode('file')}
+                style={{
+                  padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600,
+                  background: resumeMode === 'file' ? 'var(--accent-violet)' : 'transparent',
+                  color: resumeMode === 'file' ? '#FFFFFF' : 'var(--text-muted)',
+                  border: '1px solid var(--border-subtle)', cursor: 'pointer'
+                }}
+              >
+                Upload Resume (PDF / DOCX)
+              </button>
+              <button
+                type="button"
+                onClick={() => setResumeMode('text')}
+                style={{
+                  padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600,
+                  background: resumeMode === 'text' ? 'var(--accent-violet)' : 'transparent',
+                  color: resumeMode === 'text' ? '#FFFFFF' : 'var(--text-muted)',
+                  border: '1px solid var(--border-subtle)', cursor: 'pointer'
+                }}
+              >
+                Write / Paste Manually
+              </button>
+            </div>
+          </div>
+
+          {resumeMode === 'file' ? (
+            <div style={{
+              border: '2px dashed var(--border-subtle)', borderRadius: '10px',
+              padding: '20px', textAlign: 'center', background: 'rgba(0,0,0,0.2)'
+            }}>
+              <FileText size={28} color="var(--accent-violet)" style={{ margin: '0 auto 8px auto' }} />
+              <p style={{ fontSize: '0.82rem', color: '#FFFFFF', marginBottom: '6px' }}>
+                {resumeFileName ? `Uploaded: ${resumeFileName}` : 'Select Candidate Resume file (.pdf, .docx, .txt)'}
+              </p>
+              <input
+                type="file"
+                accept=".pdf,.docx,.doc,.txt"
+                onChange={handleResumeFileUpload}
+                style={{ display: 'none' }}
+                id="resume-file-input"
+              />
+              <label htmlFor="resume-file-input" className="btn btn-secondary" style={{ display: 'inline-flex', cursor: 'pointer', padding: '6px 14px', fontSize: '0.78rem' }}>
+                {resumeParsing ? 'Extracting text...' : 'Browse Resume File'}
+              </label>
+              {resumeText && (
+                <p style={{ fontSize: '0.74rem', color: 'var(--accent-emerald)', marginTop: '8px' }}>
+                  ✓ {resumeText.length} characters extracted and staged.
+                </p>
+              )}
+            </div>
+          ) : (
+            <textarea
+              rows={3}
+              value={resumeText}
+              onChange={(e) => setResumeText(e.target.value)}
+              placeholder="Paste candidate background, previous roles, projects, and technologies..."
+              style={{
+                width: '100%', padding: '10px 14px', borderRadius: '10px',
+                background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                color: '#FFFFFF', fontSize: '0.84rem'
+              }}
+            />
+          )}
+        </div>
+
+        {/* 3. Choose Interview Execution Mode */}
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '10px' }}>
+            3. SELECT INTERVIEW FORMAT & EXECUTION
+          </label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px', marginBottom: '16px' }}>
+            {ADAPTERS.map(a => {
+              const Icon = a.icon;
+              const isSel = selectedAdapter === a.id;
+              return (
+                <div
+                  key={a.id}
+                  onClick={() => setSelectedAdapter(a.id)}
+                  style={{
+                    padding: '14px', borderRadius: '12px',
+                    background: isSel ? 'rgba(0, 240, 255, 0.09)' : 'rgba(255,255,255,0.02)',
+                    border: isSel ? '2px solid var(--accent-cyan)' : '1px solid var(--border-subtle)',
+                    cursor: 'pointer', textAlign: 'left'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                    <Icon size={18} color={a.color} />
+                    <strong style={{ fontSize: '0.85rem', color: '#FFFFFF' }}>{a.name}</strong>
+                  </div>
+                  <span className="badge badge-cyan" style={{ fontSize: '0.66rem', marginBottom: '6px' }}>{a.badge}</span>
+                  <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)', lineHeight: 1.3 }}>{a.description}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* External Meeting URL & Live Launcher */}
+          {['GOOGLE_MEET', 'ZOOM', 'MS_TEAMS'].includes(selectedAdapter) && (
+            <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', marginBottom: '14px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <label style={{ fontSize: '0.76rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                  ENTER {selectedAdapter === 'GOOGLE_MEET' ? 'GOOGLE MEET' : selectedAdapter === 'ZOOM' ? 'ZOOM' : 'MS TEAMS'} URL
+                </label>
+                
+                {/* Dynamic 1-Click Instant Meeting Creator */}
+                {selectedAdapter === 'GOOGLE_MEET' && (
                   <button
-                    key={p.id}
                     type="button"
-                    onClick={() => applyPreset(p)}
+                    onClick={() => {
+                      setMeetingUrl('https://meet.google.com/new');
+                      window.open('https://meet.google.com/new', '_blank', 'noopener,noreferrer');
+                      setIsMeetingLaunched(true);
+                    }}
                     style={{
-                      padding: '10px 14px', borderRadius: '10px',
-                      background: presetScenario === p.id ? 'rgba(0, 240, 255, 0.12)' : 'rgba(255,255,255,0.03)',
-                      border: presetScenario === p.id ? '1px solid var(--accent-cyan)' : '1px solid var(--border-subtle)',
-                      color: '#FFFFFF', textAlign: 'left', cursor: 'pointer'
+                      background: 'none', border: 'none', color: '#34D399',
+                      fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline'
                     }}
                   >
-                    <strong style={{ fontSize: '0.85rem', color: 'var(--accent-cyan)', display: 'block' }}>{p.name}</strong>
-                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{p.role}</span>
+                    + Create Instant Google Meet Call
                   </button>
-                ))}
+                )}
+
+                {selectedAdapter === 'ZOOM' && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMeetingUrl('https://zoom.us/start/videomeeting');
+                      window.open('https://zoom.us/start/videomeeting', '_blank', 'noopener,noreferrer');
+                      setIsMeetingLaunched(true);
+                    }}
+                    style={{
+                      background: 'none', border: 'none', color: '#38BDF8',
+                      fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline'
+                    }}
+                  >
+                    + Start Instant Zoom Meeting
+                  </button>
+                )}
+
+                {selectedAdapter === 'MS_TEAMS' && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMeetingUrl('https://teams.live.com/meet/');
+                      window.open('https://teams.live.com/meet/', '_blank', 'noopener,noreferrer');
+                      setIsMeetingLaunched(true);
+                    }}
+                    style={{
+                      background: 'none', border: 'none', color: '#818CF8',
+                      fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline'
+                    }}
+                  >
+                    + Create Instant MS Teams Call
+                  </button>
+                )}
               </div>
-            </div>
-
-            {/* Workspace Inputs */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
-                  WORKSPACE TITLE
-                </label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  style={{
-                    width: '100%', padding: '10px 14px', borderRadius: '10px',
-                    background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
-                    color: '#FFFFFF', fontSize: '0.85rem'
-                  }}
-                />
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
-                  TARGET JOB ROLE
-                </label>
-                <input
-                  type="text"
-                  value={jobRole}
-                  onChange={(e) => setJobRole(e.target.value)}
-                  style={{
-                    width: '100%', padding: '10px 14px', borderRadius: '10px',
-                    background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
-                    color: '#FFFFFF', fontSize: '0.85rem'
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
-                JOB DESCRIPTION & EXPECTED SKILLS
-              </label>
-              <textarea
-                rows={2}
-                value={jobDescription}
-                onChange={(e) => setJobDescription(e.target.value)}
-                style={{
-                  width: '100%', padding: '10px 14px', borderRadius: '10px',
-                  background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
-                  color: '#FFFFFF', fontSize: '0.85rem'
-                }}
-              />
-            </div>
-
-            {/* Meeting Integration Layer Adapter Selector */}
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '8px' }}>
-                MEETING INTEGRATION LAYER (SELECT ADAPTER)
-              </label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '10px', marginBottom: '14px' }}>
-                {ADAPTERS.map(a => {
-                  const Icon = a.icon;
-                  const isSel = selectedAdapter === a.id;
-                  return (
-                    <div
-                      key={a.id}
-                      onClick={() => {
-                        setSelectedAdapter(a.id);
-                        setMeetingUrl(a.defaultUrl);
-                      }}
-                      style={{
-                        padding: '12px', borderRadius: '12px',
-                        background: isSel ? 'rgba(0, 240, 255, 0.1)' : 'rgba(255,255,255,0.02)',
-                        border: isSel ? '2px solid var(--accent-cyan)' : '1px solid var(--border-subtle)',
-                        cursor: 'pointer', textAlign: 'center'
-                      }}
-                    >
-                      <Icon size={20} color={a.color} style={{ margin: '0 auto 6px auto' }} />
-                      <strong style={{ fontSize: '0.8rem', display: 'block', color: '#FFFFFF' }}>{a.name}</strong>
-                      <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>{a.badge}</span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Meeting URL */}
-              <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
-                  MEETING URL / IDENTIFIER
-                </label>
+              
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
                 <input
                   type="text"
                   value={meetingUrl}
                   onChange={(e) => setMeetingUrl(e.target.value)}
-                  placeholder="https://meet.google.com/..."
+                  placeholder={
+                    selectedAdapter === 'GOOGLE_MEET' 
+                      ? 'https://meet.google.com/...' 
+                      : selectedAdapter === 'ZOOM' 
+                        ? 'https://zoom.us/j/...' 
+                        : 'https://teams.microsoft.com/l/meetup-join/...'
+                  }
                   style={{
-                    width: '100%', padding: '10px 14px', borderRadius: '10px',
+                    flex: 1, padding: '10px 14px', borderRadius: '10px',
                     background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
-                    color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem'
+                    color: selectedAdapter === 'GOOGLE_MEET' ? '#34D399' : selectedAdapter === 'ZOOM' ? '#38BDF8' : '#818CF8',
+                    fontFamily: 'var(--font-mono)', fontSize: '0.85rem'
                   }}
                 />
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleLaunchMeetingUrl}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
+                >
+                  <ExternalLink size={16} /> Open Meeting in New Tab
+                </button>
               </div>
-            </div>
 
-            {/* Authorization & Consent */}
-            <div style={{ padding: '12px 16px', background: 'rgba(16, 185, 129, 0.08)', border: '1px solid var(--border-emerald)', borderRadius: '10px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <input
-                type="checkbox"
-                id="consent"
-                checked={consentAuthorized}
-                onChange={(e) => setConsentAuthorized(e.target.checked)}
-                style={{ width: '16px', height: '16px', accentColor: 'var(--accent-emerald)', cursor: 'pointer' }}
-              />
-              <label htmlFor="consent" style={{ fontSize: '0.8rem', color: 'var(--text-primary)', cursor: 'pointer' }}>
-                <strong>Explicit Platform Authorization:</strong> Only ingest interview data authorized by participants. Compliance with Google Meet / Teams / Zoom OAuth scopes verified.
-              </label>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-              <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
-              <button className="btn btn-primary" onClick={handleConnectMeeting} disabled={connecting}>
-                <Zap size={16} /> {connecting ? 'Connecting Adapter...' : 'Connect to Live Capture Gateway'}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ======================================================== */}
-        {/* STAGE 2: LIVE CAPTURE GATEWAY & TRANSCRIPT STREAM PROCESSOR */}
-        {/* ======================================================== */}
-        {wizardStep === 2 && captureSession && (
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                  <span className="badge badge-verified">
-                    <Activity size={13} /> Live Capture Gateway Active
-                  </span>
-                  <span className="badge badge-violet">{captureSession.adapter_config.platform_name}</span>
+              {/* Guidance Info Box */}
+              <div style={{
+                padding: '10px 12px', borderRadius: '8px',
+                background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-subtle)',
+                marginBottom: '12px', fontSize: '0.74rem', color: 'var(--text-secondary)', lineHeight: 1.4
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-cyan)', marginBottom: '4px', fontWeight: 600 }}>
+                  <ShieldCheck size={14} /> 100% Private Ingestion
                 </div>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>Transcript Stream Processor</h2>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                  Ingesting audio stream, tracking participant events, measuring audio levels, and diarizing speaker turns.
-                </p>
+                Launch your {selectedAdapter === 'GOOGLE_MEET' ? 'Google Meet' : selectedAdapter === 'ZOOM' ? 'Zoom' : 'MS Teams'} meeting, then paste dialogue snippets/captions below or upload the post-meeting recording/transcript. Only your account ({userProfile?.email || 'Logged In User'}) will have access to this data.
               </div>
 
-              <div style={{ textAlign: 'right' }}>
-                <span className="mono" style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--accent-cyan)' }}>
-                  00:06:30
-                </span>
-                <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', display: 'block' }}>Session Duration</span>
-              </div>
-            </div>
-
-            {/* Audio Waveform Simulator */}
-            <div style={{
-              padding: '16px 20px', borderRadius: '12px',
-              background: 'rgba(0,0,0,0.5)', border: '1px solid var(--border-subtle)',
-              marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Mic size={18} color="var(--accent-cyan)" className="pulse-glow" />
-                <span style={{ fontSize: '0.82rem', color: '#FFFFFF', fontWeight: 600 }}>
-                  Audio Input RMS Level: <strong style={{ color: 'var(--accent-emerald)' }}>-12 dB (Optimal)</strong>
-                </span>
-              </div>
-              <div style={{ display: 'flex', gap: '3px', alignItems: 'center', height: '24px' }}>
-                {[30, 60, 90, 45, 80, 100, 70, 40, 65, 85, 95, 50, 75, 90, 35, 60, 80].map((h, i) => (
-                  <div
-                    key={i}
+              {isMeetingLaunched && (
+                <div style={{ marginTop: '12px' }}>
+                  <label style={{ display: 'block', fontSize: '0.76rem', fontWeight: 600, color: 'var(--accent-emerald)', marginBottom: '4px' }}>
+                    ● LIVE INTERVIEW INGEST (PASTE DIALOGUE OR LIVE NOTES)
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={liveTranscriptNotes}
+                    onChange={(e) => setLiveTranscriptNotes(e.target.value)}
+                    placeholder="[00:01:00] Interviewer: Could you explain your caching approach? \n[00:01:20] Candidate: We used write-through Redis caching..."
                     style={{
-                      width: '4px', height: `${h}%`,
-                      background: 'linear-gradient(to top, var(--accent-cyan), var(--accent-emerald))',
-                      borderRadius: '2px'
+                      width: '100%', padding: '10px 14px', borderRadius: '10px',
+                      background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                      color: '#FFFFFF', fontSize: '0.82rem'
                     }}
                   />
-                ))}
-              </div>
-            </div>
-
-            {/* Participant Event Stream & Incoming Transcript */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '18px', marginBottom: '24px' }}>
-              {/* Participant Events */}
-              <div className="glass-panel" style={{ padding: '18px', maxHeight: '280px', overflowY: 'auto' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block', marginBottom: '10px' }}>
-                  Participant Event Log
-                </span>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {captureSession.participant_events.map((e, idx) => (
-                    <div key={idx} style={{ fontSize: '0.78rem', padding: '8px 10px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', borderLeft: '3px solid var(--accent-cyan)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                        <strong style={{ color: 'var(--accent-cyan)' }}>{e.event_type}</strong>
-                        <span className="mono" style={{ color: 'var(--text-muted)' }}>{e.timestamp}</span>
-                      </div>
-                      <span style={{ color: 'var(--text-primary)' }}>{e.participant_name}</span>
-                      {e.detail && <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '2px' }}>{e.detail}</p>}
-                    </div>
-                  ))}
                 </div>
-              </div>
-
-              {/* Streaming Transcript Ticker */}
-              <div className="glass-panel" style={{ padding: '18px', maxHeight: '280px', overflowY: 'auto' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-cyan)', textTransform: 'uppercase', display: 'block', marginBottom: '10px' }}>
-                  Live Transcript Stream ({captureSession.stream_chunks.length} Diarized Turns)
-                </span>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {captureSession.stream_chunks.map((c) => {
-                    const isInterviewer = c.speaker === 'interviewer';
-                    return (
-                      <div key={c.chunk_id} style={{
-                        padding: '10px 12px', borderRadius: '8px',
-                        background: isInterviewer ? 'rgba(0, 240, 255, 0.05)' : 'rgba(255,255,255,0.03)',
-                        borderLeft: isInterviewer ? '3px solid var(--accent-cyan)' : '3px solid var(--accent-violet)'
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-                          <span className="mono" style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>[{c.timestamp}]</span>
-                          <strong style={{ fontSize: '0.78rem', color: isInterviewer ? 'var(--accent-cyan)' : '#C4B5FD', textTransform: 'capitalize' }}>
-                            {c.speaker}
-                          </strong>
-                          {c.is_question && <span className="badge badge-cyan" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>Q</span>}
-                        </div>
-                        <p style={{ fontSize: '0.82rem', color: 'var(--text-primary)', lineHeight: 1.4 }}>
-                          {c.text}
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              )}
             </div>
+          )}
 
-            {/* Action Bar */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <button className="btn btn-secondary" onClick={() => setWizardStep(1)}>
-                ← Back to Adapters
-              </button>
-              <button className="btn btn-primary" onClick={handleRunOrchestrator}>
-                <Sparkles size={16} /> Pipe into Interview Orchestrator
-              </button>
+          {/* Recording File Upload */}
+          {selectedAdapter === 'UPLOAD_TRANSCRIPT' && (
+            <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', marginBottom: '14px' }}>
+              <label style={{ display: 'block', fontSize: '0.76rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+                SELECT INTERVIEW RECORDING / TRANSCRIPT FILE
+              </label>
+              <input
+                type="file"
+                accept=".vtt,.srt,.json,.txt,.mp3,.wav,.mp4"
+                onChange={(e) => setRecordingFile(e.target.files?.[0])}
+                style={{
+                  width: '100%', padding: '10px', borderRadius: '10px',
+                  background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                  color: '#FFFFFF', fontSize: '0.82rem'
+                }}
+              />
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        {/* ======================================================== */}
-        {/* STAGE 3: INTERVIEW ORCHESTRATOR & AGENT PIPELINE */}
-        {/* ======================================================== */}
-        {wizardStep === 3 && (
-          <div style={{ padding: '36px 20px', textAlign: 'center' }}>
-            <div style={{
-              width: '76px', height: '76px', borderRadius: '50%',
-              background: 'linear-gradient(135deg, rgba(0,240,255,0.2), rgba(139,92,246,0.2))',
-              border: '2px solid var(--accent-cyan)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              margin: '0 auto 24px auto',
-              boxShadow: '0 0 30px rgba(0, 240, 255, 0.4)'
-            }} className="pulse-glow">
-              <Cpu size={38} color="var(--accent-cyan)" />
-            </div>
-
-            <h2 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: '8px' }}>
-              Interview Orchestrator Execution
-            </h2>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '32px' }}>
-              Dispatching specialized agents, verifying evidence against timestamps, and generating dual memory branches.
-            </p>
-
-            <div style={{ maxWidth: '540px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '14px', textAlign: 'left' }}>
-              {[
-                { step: 1, name: 'Transcript Normalizer', desc: 'Standardizing speaker turns and timestamps from Live Capture Gateway' },
-                { step: 2, name: 'Technical & Communication Agents', desc: 'Evaluating expected concepts, code correctness, and observable verbal signals' },
-                { step: 3, name: 'Behavioral Agent (STAR)', desc: 'Measuring personal ownership, quantifiable metrics, and business outcomes' },
-                { step: 4, name: 'Evidence Verification Agent', desc: 'Fact-checking claims against transcript timestamps (Accept / Modify / Reject)' },
-                { step: 5, name: 'Verified Assessment & Memory Persistence', desc: 'Synthesizing 6-dimension scorecard & staging Knowledge vs Performance Re-Test' }
-              ].map((item) => {
-                const isDone = orchestratorStep > item.step;
-                const isCurrent = orchestratorStep === item.step;
-                return (
-                  <div key={item.step} className="glass-panel" style={{
-                    padding: '14px 18px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '14px',
-                    border: isCurrent ? '1px solid var(--accent-cyan)' : '1px solid var(--border-subtle)',
-                    background: isCurrent ? 'rgba(0, 240, 255, 0.08)' : 'rgba(255,255,255,0.02)'
-                  }}>
-                    {isDone ? (
-                      <CheckCircle2 size={20} color="var(--accent-emerald)" />
-                    ) : isCurrent ? (
-                      <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--accent-cyan)', borderTopColor: 'transparent' }} className="spin-slow" />
-                    ) : (
-                      <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '1px solid var(--text-muted)' }} />
-                    )}
-                    <div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 600, color: isCurrent ? 'var(--accent-cyan)' : isDone ? '#FFFFFF' : 'var(--text-muted)' }}>
-                        {item.name}
-                      </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{item.desc}</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        {/* Action Buttons */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+          <button className="btn btn-secondary" onClick={onClose} disabled={loading}>
+            Cancel
+          </button>
+          <button className="btn btn-primary" onClick={handleProceed} disabled={loading || jdParsing || resumeParsing}>
+            {loading ? (
+              'Initializing AI Engine...'
+            ) : selectedAdapter === 'LIVE_AI' ? (
+              <>
+                <Sparkles size={16} /> Start Live Interactive Room
+              </>
+            ) : (
+              <>
+                <Zap size={16} /> Run Multi-Agent Evaluation
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

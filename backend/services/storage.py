@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from typing import Dict, List, Optional
 from ..models.schemas import (
     InterviewRecord,
@@ -16,7 +17,9 @@ from ..models.schemas import (
     EvidenceCitation,
     ReTestQuestion
 )
+from .mongodb import mongo_manager
 
+logger = logging.getLogger("InterviewLens.Storage")
 STORAGE_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "interviews_store.json")
 
 class InterviewStorage:
@@ -31,6 +34,22 @@ class InterviewStorage:
 
     def _init_default_data(self):
         os.makedirs(os.path.dirname(STORAGE_FILE), exist_ok=True)
+        
+        # 1. Try loading from MongoDB if connected
+        if mongo_manager.is_connected:
+            col = mongo_manager.get_collection("interviews")
+            if col is not None:
+                docs = list(col.find({}, {"_id": 0}))
+                if docs:
+                    for item in docs:
+                        try:
+                            rec = InterviewRecord(**item)
+                            self.interviews[rec.id] = rec
+                        except Exception as e:
+                            logger.error(f"Error parsing mongo record: {e}")
+                    return
+
+        # 2. Try loading from disk storage
         if os.path.exists(STORAGE_FILE):
             try:
                 with open(STORAGE_FILE, "r", encoding="utf-8") as f:
@@ -38,6 +57,13 @@ class InterviewStorage:
                     for item in raw:
                         rec = InterviewRecord(**item)
                         self.interviews[rec.id] = rec
+                
+                # Sync into MongoDB if MongoDB was empty
+                if mongo_manager.is_connected:
+                    col = mongo_manager.get_collection("interviews")
+                    if col is not None:
+                        for rec in self.interviews.values():
+                            col.update_one({"id": rec.id}, {"$set": rec.model_dump()}, upsert=True)
                 return
             except Exception:
                 pass
@@ -56,14 +82,44 @@ class InterviewStorage:
 
         self.save_to_disk()
 
-    def get_all(self) -> List[InterviewRecord]:
-        return sorted(list(self.interviews.values()), key=lambda x: x.created_at, reverse=True)
+        if mongo_manager.is_connected:
+            col = mongo_manager.get_collection("interviews")
+            if col is not None:
+                for rec in self.interviews.values():
+                    col.update_one({"id": rec.id}, {"$set": rec.model_dump()}, upsert=True)
+
+    def get_all(self, user_email: Optional[str] = None) -> List[InterviewRecord]:
+        if mongo_manager.is_connected:
+            col = mongo_manager.get_collection("interviews")
+            if col is not None:
+                query = {}
+                if user_email:
+                    # Match user's email or candidate_email
+                    query = {"$or": [{"user_email": user_email}, {"candidate_email": user_email}]}
+                docs = list(col.find(query, {"_id": 0}).sort("created_at", -1))
+                return [InterviewRecord(**d) for d in docs]
+        
+        all_recs = sorted(list(self.interviews.values()), key=lambda x: x.created_at, reverse=True)
+        if user_email:
+            # Filter strictly by user_email or candidate_email
+            return [r for r in all_recs if r.user_email == user_email or r.candidate_email == user_email]
+        return all_recs
 
     def get_by_id(self, interview_id: str) -> Optional[InterviewRecord]:
+        if mongo_manager.is_connected:
+            col = mongo_manager.get_collection("interviews")
+            if col is not None:
+                doc = col.find_one({"id": interview_id}, {"_id": 0})
+                if doc:
+                    return InterviewRecord(**doc)
         return self.interviews.get(interview_id)
 
     def save(self, record: InterviewRecord):
         self.interviews[record.id] = record
+        if mongo_manager.is_connected:
+            col = mongo_manager.get_collection("interviews")
+            if col is not None:
+                col.update_one({"id": record.id}, {"$set": record.model_dump()}, upsert=True)
         self.save_to_disk()
 
     def update_expert_review(self, interview_id: str, review: ExpertReview) -> Optional[InterviewRecord]:
@@ -218,6 +274,9 @@ class InterviewStorage:
         return InterviewRecord(
             id="int_seed_1",
             title="Senior Distributed Systems Engineer (Fintech)",
+            candidate_name="Alex Chen",
+            candidate_email="alex.chen@example.com",
+            user_email="alex.chen@example.com",
             job_role="Senior Distributed Systems Engineer",
             job_description="Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL.",
             platform="Google Meet Ingestion",
@@ -245,6 +304,9 @@ class InterviewStorage:
         return InterviewRecord(
             id="int_seed_2",
             title="Frontend React & Next.js Staff Engineer",
+            candidate_name="Sarah Miller",
+            candidate_email="candidate.demo@interviewlens.ai",
+            user_email="candidate.demo@interviewlens.ai",
             job_role="Staff Frontend Engineer",
             platform="Zoom Transcript Upload",
             status="COMPLETED",
@@ -265,6 +327,9 @@ class InterviewStorage:
         return InterviewRecord(
             id="int_seed_3",
             title="Principal Cloud Architect (AWS/GCP)",
+            candidate_name="Alex Chen",
+            candidate_email="alex.chen@example.com",
+            user_email="alex.chen@example.com",
             job_role="Principal Cloud Architect",
             platform="Microsoft Teams Graph",
             status="COMPLETED",

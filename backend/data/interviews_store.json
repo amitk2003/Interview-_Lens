@@ -6,6 +6,8 @@
     "job_role": "Senior Distributed Systems Engineer",
     "job_description": "Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL.",
     "resume_text": null,
+    "meeting_url": null,
+    "adapter_type": "GOOGLE_MEET",
     "platform": "Google Meet Ingestion",
     "status": "REVIEW_REQUIRED",
     "created_at": "2026-08-29T14:38:19.069904",
@@ -17,64 +19,83 @@
       "job_description": "Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL, and distributed concurrency controls.",
       "resume_text": "5+ years backend engineering, distributed caching, event streams.",
       "platform": "Google Meet Ingestion",
+      "adapter_type": "GOOGLE_MEET",
+      "meeting_url": null,
       "segments": [
         {
           "speaker": "interviewer",
           "timestamp": "00:00:15",
           "text": "Welcome Alex. Could you start by introducing yourself and a recent distributed system you architected?",
           "is_question": true,
-          "confidence": 1.0
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
         },
         {
           "speaker": "candidate",
           "timestamp": "00:00:32",
           "text": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic PostgreSQL setup to an event-driven architecture using Kafka and Redis caching.",
           "is_question": null,
-          "confidence": 1.0
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
         },
         {
           "speaker": "interviewer",
           "timestamp": "00:02:10",
           "text": "Interesting. How did you structure the caching layer with Redis to avoid stale reads?",
           "is_question": true,
-          "confidence": 1.0
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
         },
         {
           "speaker": "candidate",
           "timestamp": "00:02:25",
           "text": "We implemented a write-through cache pattern with explicit TTL invalidation. When updates occurred, we published an event to Kafka, and worker consumers invalidated corresponding Redis cache keys across cluster nodes.",
           "is_question": null,
-          "confidence": 1.0
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
         },
         {
           "speaker": "interviewer",
           "timestamp": "00:04:40",
           "text": "What happens when two concurrent transactions try to reserve the same inventory item at the exact same millisecond?",
           "is_question": true,
-          "confidence": 1.0
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
         },
         {
           "speaker": "candidate",
           "timestamp": "00:05:00",
           "text": "Uh, like, basically we would just check if the stock is greater than zero in the database, and if so, decrement it. Um, you know, we didn't see many collisions in testing.",
           "is_question": null,
-          "confidence": 1.0
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
         },
         {
           "speaker": "interviewer",
           "timestamp": "00:06:15",
           "text": "Can you elaborate on how you would prevent race conditions without row lock contention?",
           "is_question": true,
-          "confidence": 1.0
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
         },
         {
           "speaker": "candidate",
           "timestamp": "00:06:30",
           "text": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
           "is_question": null,
-          "confidence": 1.0
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
         }
-      ]
+      ],
+      "participant_events": []
     },
     "scores": {
       "technical_knowledge": 8.2,
@@ -328,7 +349,18 @@
         ]
       }
     ],
-    "retest_results": null,
+    "retest_results": [
+      {
+        "question_id": "q_concurrency_01",
+        "topic": "Distributed Concurrency & Race Condition Prevention",
+        "interview_score": 4.5,
+        "retest_score": 5.0,
+        "score_delta": 0.5,
+        "gap_type": "KNOWLEDGE_GAP",
+        "diagnosis": "Persistent conceptual gap (re-test: 5.0/10 vs interview: 4.5/10). The candidate has a foundational knowledge deficiency in Distributed Concurrency & Race Condition Prevention regardless of interview conditions.",
+        "recommendation": "Action: Dedicated concept study required. Read documentation and build a hands-on proof-of-concept for Distributed Concurrency & Race Condition Prevention."
+      }
+    ],
     "executive_summary": "Candidate Alex scored 7.6/10 overall with exceptional write-through caching expertise, but exhibited a clear knowledge vs performance diagnostic point on distributed concurrency."
   },
   {
@@ -338,6 +370,8 @@
     "job_role": "Staff Frontend Engineer",
     "job_description": null,
     "resume_text": null,
+    "meeting_url": null,
+    "adapter_type": "GOOGLE_MEET",
     "platform": "Zoom Transcript Upload",
     "status": "COMPLETED",
     "created_at": "2026-08-29T14:38:19.069904",
@@ -368,6 +402,8 @@
     "job_role": "Principal Cloud Architect",
     "job_description": null,
     "resume_text": null,
+    "meeting_url": null,
+    "adapter_type": "GOOGLE_MEET",
     "platform": "Microsoft Teams Graph",
     "status": "COMPLETED",
     "created_at": "2026-08-29T14:38:19.069904",
@@ -390,5 +426,843 @@
     "retest_questions": null,
     "retest_results": null,
     "executive_summary": "Exceptional system architecture and multi-region failover design scoring 8.5/10."
+  },
+  {
+    "id": "sess_4f789b5b",
+    "title": "AI & Inference Infrastructure Architect",
+    "candidate_name": "Alex Chen",
+    "job_role": "Lead ML Systems Engineer",
+    "job_description": "High-throughput LLM serving, Triton Inference Server, vLLM continuous batching, GPU memory management.",
+    "resume_text": "MLOps, CUDA optimization, model quantization.",
+    "meeting_url": null,
+    "adapter_type": "GOOGLE_MEET",
+    "platform": "Google Meet Adapter",
+    "status": "REVIEW_REQUIRED",
+    "created_at": "2026-08-30T12:47:18.118223",
+    "raw_transcript": null,
+    "normalized_transcript": {
+      "interview_id": "sess_4f789b5b",
+      "title": "AI & Inference Infrastructure Architect",
+      "job_role": "Lead ML Systems Engineer",
+      "job_description": "High-throughput LLM serving, Triton Inference Server, vLLM continuous batching, GPU memory management.",
+      "resume_text": "MLOps, CUDA optimization, model quantization.",
+      "platform": "Google Meet Adapter",
+      "adapter_type": "GOOGLE_MEET",
+      "meeting_url": "https://zoom.us/j/ml-infra-round3",
+      "segments": [
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:00:15",
+          "text": "Welcome Alex. Could you start by introducing yourself and a recent distributed system you architected?",
+          "is_question": true,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:00:32",
+          "text": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic PostgreSQL setup to an event-driven architecture using Kafka and Redis caching.",
+          "is_question": false,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:02:10",
+          "text": "Interesting. How did you structure the caching layer with Redis to avoid stale reads?",
+          "is_question": true,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:02:25",
+          "text": "We implemented a write-through cache pattern with explicit TTL invalidation. When updates occurred, we published an event to Kafka, and worker consumers invalidated corresponding Redis cache keys across cluster nodes.",
+          "is_question": false,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:04:40",
+          "text": "What happens when two concurrent transactions try to reserve the same inventory item at the exact same millisecond?",
+          "is_question": true,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:05:00",
+          "text": "Uh, like, basically we would just check if the stock is greater than zero in the database, and if so, decrement it. Um, you know, we didn't see many collisions in testing.",
+          "is_question": false,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:06:15",
+          "text": "Can you elaborate on how you would prevent race conditions without row lock contention?",
+          "is_question": true,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:06:30",
+          "text": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+          "is_question": false,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        }
+      ],
+      "participant_events": [
+        {
+          "timestamp": "00:00:01",
+          "event_type": "PARTICIPANT_JOIN",
+          "participant_name": "Interviewer",
+          "participant_role": "interviewer",
+          "detail": "Connected via Google Meet Adapter (https://zoom.us/j/ml-infra-round3)"
+        },
+        {
+          "timestamp": "00:00:05",
+          "event_type": "PARTICIPANT_JOIN",
+          "participant_name": "Candidate (Alex Chen)",
+          "participant_role": "candidate",
+          "detail": "Audio input stream verified"
+        },
+        {
+          "timestamp": "00:00:15",
+          "event_type": "PARTICIPANT_JOIN",
+          "participant_name": "Interviewer (Lead Architect)",
+          "participant_role": "interviewer",
+          "detail": null
+        },
+        {
+          "timestamp": "00:02:10",
+          "event_type": "CLARIFICATION_PROMPT",
+          "participant_name": "Interviewer",
+          "participant_role": "interviewer",
+          "detail": "Deep dive into Redis invalidation"
+        },
+        {
+          "timestamp": "00:04:40",
+          "event_type": "LONG_PAUSE",
+          "participant_name": "Candidate",
+          "participant_role": "candidate",
+          "detail": "4.8s silence before answering"
+        }
+      ]
+    },
+    "scores": {
+      "technical_knowledge": 7.0,
+      "communication": 7.9,
+      "answer_structure": 7.6,
+      "problem_solving": 6.8,
+      "behavioral": 7.3,
+      "question_understanding": 7.3,
+      "overall": 7.2
+    },
+    "technical_analysis": {
+      "score": 7.0,
+      "question_understanding_score": 7.3,
+      "problem_solving_score": 6.8,
+      "expected_concepts": [
+        "Databases & Caching",
+        "System Architecture",
+        "Concurrency & Performance",
+        "Testing & Reliability"
+      ],
+      "demonstrated_concepts": [
+        "Databases & Caching (database, sql, postgres)",
+        "System Architecture (kafka, queue)"
+      ],
+      "missing_concepts": [
+        "Concurrency & Performance",
+        "Testing & Reliability"
+      ],
+      "strengths": [
+        {
+          "id": "tech_s1",
+          "category": "System Design & Problem Formulation",
+          "title": "Detailed technical explanation and architectural breakdown",
+          "description": "Candidate demonstrated good depth while explaining core components and flow.",
+          "severity": "positive",
+          "score_impact": 1.2,
+          "evidence": [
+            {
+              "timestamp": "00:00:32",
+              "quote": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic PostgreSQL setup to an...",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:00:32]. Verbatim quote verified."
+        }
+      ],
+      "weaknesses": [
+        {
+          "id": "tech_w1",
+          "category": "Deep Dive & Edge Case Coverage",
+          "title": "Brief answer on edge cases and failure modes",
+          "description": "Candidate provided an abbreviated response when prompted for failure handling and recovery mechanisms.",
+          "severity": "needs_improvement",
+          "score_impact": -1.0,
+          "evidence": [
+            {
+              "timestamp": "00:06:30",
+              "quote": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:30]. Verbatim quote verified."
+        }
+      ],
+      "struggled_questions": [
+        {
+          "question_id": "q_tech_1",
+          "topic": "Distributed Edge Cases & Fault Tolerance",
+          "original_question": "Welcome Alex. Could you start by introducing yourself and a recent distributed system you architected?",
+          "interview_score": 5.0,
+          "interview_evidence": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+          "retest_prompt": "Explain how you would design a fault-tolerant distributed system with automatic failover and zero data loss.",
+          "ideal_answer_points": [
+            "Multi-AZ replication with active-standby / leader election",
+            "Circuit breaker pattern and graceful degradation",
+            "Write-Ahead Logging (WAL) and consensus (Raft/Paxos)",
+            "Data idempotency and automated retry with exponential backoff"
+          ]
+        }
+      ],
+      "summary": "Candidate demonstrated solid technical foundation scoring 7.0/10 with strong coverage in Databases & Caching (database, sql, postgres), System Architecture (kafka, queue)."
+    },
+    "communication_analysis": {
+      "score": 7.9,
+      "structure_score": 7.6,
+      "filler_words_detected": 6,
+      "filler_word_breakdown": {
+        "um": 3,
+        "like": 1,
+        "you know": 1,
+        "basically": 1,
+        "actually": 0,
+        "sort of / kind of": 0
+      },
+      "long_pauses_count": 1,
+      "clarification_requests_count": 0,
+      "interviewer_followup_count": 1,
+      "findings": [
+        {
+          "id": "comm_structure",
+          "category": "Clarity & Explanation Flow",
+          "title": "Structured conversational pacing",
+          "description": "Candidate maintained coherent flow across 4 speech turns with 0 proactive clarification requests.",
+          "severity": "positive",
+          "score_impact": 0.8,
+          "evidence": [
+            {
+              "timestamp": "00:00:32",
+              "quote": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic Po",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:00:32]. Verbatim quote verified."
+        }
+      ],
+      "summary": "Candidate achieved a communication score of 7.9/10 with 6 total filler words and strong conversational engagement."
+    },
+    "behavioral_analysis": {
+      "score": 7.3,
+      "star_coverage": {
+        "situation": 85.0,
+        "task": 80.0,
+        "action": 85.0,
+        "result": 55.0
+      },
+      "ownership_score": 3.0,
+      "specificity_score": 7.0,
+      "findings": [
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (2 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (2 personal action markers vs 7 team mentions).",
+          "severity": "neutral",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:06:30",
+              "quote": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:30]. Verbatim quote verified."
+        }
+      ],
+      "summary": "Candidate demonstrated solid STAR foundation with clear personal responsibility, with room to add quantifiable impact metrics."
+    },
+    "verification_result": {
+      "total_claims_checked": 4,
+      "verified_count": 4,
+      "modified_count": 0,
+      "rejected_count": 0,
+      "verification_rate_pct": 100.0,
+      "verified_findings": [
+        {
+          "id": "tech_s1",
+          "category": "System Design & Problem Formulation",
+          "title": "Detailed technical explanation and architectural breakdown",
+          "description": "Candidate demonstrated good depth while explaining core components and flow.",
+          "severity": "positive",
+          "score_impact": 1.2,
+          "evidence": [
+            {
+              "timestamp": "00:00:32",
+              "quote": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic PostgreSQL setup to an...",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:00:32]. Verbatim quote verified."
+        },
+        {
+          "id": "tech_w1",
+          "category": "Deep Dive & Edge Case Coverage",
+          "title": "Brief answer on edge cases and failure modes",
+          "description": "Candidate provided an abbreviated response when prompted for failure handling and recovery mechanisms.",
+          "severity": "needs_improvement",
+          "score_impact": -1.0,
+          "evidence": [
+            {
+              "timestamp": "00:06:30",
+              "quote": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:30]. Verbatim quote verified."
+        },
+        {
+          "id": "comm_structure",
+          "category": "Clarity & Explanation Flow",
+          "title": "Structured conversational pacing",
+          "description": "Candidate maintained coherent flow across 4 speech turns with 0 proactive clarification requests.",
+          "severity": "positive",
+          "score_impact": 0.8,
+          "evidence": [
+            {
+              "timestamp": "00:00:32",
+              "quote": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic Po",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:00:32]. Verbatim quote verified."
+        },
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (2 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (2 personal action markers vs 7 team mentions).",
+          "severity": "neutral",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:06:30",
+              "quote": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:30]. Verbatim quote verified."
+        }
+      ],
+      "audit_trail": [
+        {
+          "finding_id": "tech_s1",
+          "title": "Detailed technical explanation and architectural breakdown",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:00:32.",
+          "evidence_snippet": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per "
+        },
+        {
+          "finding_id": "tech_w1",
+          "title": "Brief answer on edge cases and failure modes",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:06:30.",
+          "evidence_snippet": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes."
+        },
+        {
+          "finding_id": "comm_structure",
+          "title": "Structured conversational pacing",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:00:32.",
+          "evidence_snippet": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per "
+        },
+        {
+          "finding_id": "behav_ownership",
+          "title": "Healthy ownership balance (2 direct personal actions cited)",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:06:30.",
+          "evidence_snippet": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes."
+        }
+      ]
+    },
+    "expert_review": null,
+    "retest_questions": [
+      {
+        "question_id": "q_tech_1",
+        "topic": "Distributed Edge Cases & Fault Tolerance",
+        "original_question": "Welcome Alex. Could you start by introducing yourself and a recent distributed system you architected?",
+        "interview_score": 5.0,
+        "interview_evidence": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+        "retest_prompt": "Explain how you would design a fault-tolerant distributed system with automatic failover and zero data loss.",
+        "ideal_answer_points": [
+          "Multi-AZ replication with active-standby / leader election",
+          "Circuit breaker pattern and graceful degradation",
+          "Write-Ahead Logging (WAL) and consensus (Raft/Paxos)",
+          "Data idempotency and automated retry with exponential backoff"
+        ]
+      }
+    ],
+    "retest_results": null,
+    "executive_summary": "Candidate evaluated for Lead ML Systems Engineer scoring 7.2/10 overall. Demonstrated solid technical grasp (7.0/10) with verified strengths in Databases & Caching (database, sql, postgres), System Architecture (kafka, queue). Observable communication scored 7.9/10 with 6 filler words detected. Evidence Verifier validated 4/4 claims with 100% transcript grounding."
+  },
+  {
+    "id": "sess_e7daaf1f",
+    "title": "AI Engineer First Round of Interview",
+    "candidate_name": "Alex Chen",
+    "job_role": "AI Engineer",
+    "job_description": "llm,RAG,basics of ML, Agents,MCP,RAGAS,python ,SQL",
+    "resume_text": "5+ years backend engineering, distributed event streams, microservices architecture, and caching strategies.",
+    "meeting_url": null,
+    "adapter_type": "GOOGLE_MEET",
+    "platform": "Authorized Transcript Upload Adapter",
+    "status": "REVIEW_REQUIRED",
+    "created_at": "2026-08-30T13:09:14.272982",
+    "raw_transcript": null,
+    "normalized_transcript": {
+      "interview_id": "sess_e7daaf1f",
+      "title": "AI Engineer First Round of Interview",
+      "job_role": "AI Engineer",
+      "job_description": "llm,RAG,basics of ML, Agents,MCP,RAGAS,python ,SQL",
+      "resume_text": "5+ years backend engineering, distributed event streams, microservices architecture, and caching strategies.",
+      "platform": "Authorized Transcript Upload Adapter",
+      "adapter_type": "UPLOAD_TRANSCRIPT",
+      "meeting_url": "transcript_diarized.vtt",
+      "segments": [
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:00:15",
+          "text": "Welcome Alex. Could you start by introducing yourself and a recent distributed system you architected?",
+          "is_question": true,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:00:32",
+          "text": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic PostgreSQL setup to an event-driven architecture using Kafka and Redis caching.",
+          "is_question": false,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:02:10",
+          "text": "Interesting. How did you structure the caching layer with Redis to avoid stale reads?",
+          "is_question": true,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:02:25",
+          "text": "We implemented a write-through cache pattern with explicit TTL invalidation. When updates occurred, we published an event to Kafka, and worker consumers invalidated corresponding Redis cache keys across cluster nodes.",
+          "is_question": false,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:04:40",
+          "text": "What happens when two concurrent transactions try to reserve the same inventory item at the exact same millisecond?",
+          "is_question": true,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:05:00",
+          "text": "Uh, like, basically we would just check if the stock is greater than zero in the database, and if so, decrement it. Um, you know, we didn't see many collisions in testing.",
+          "is_question": false,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:06:15",
+          "text": "Can you elaborate on how you would prevent race conditions without row lock contention?",
+          "is_question": true,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:06:30",
+          "text": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+          "is_question": false,
+          "confidence": 0.98,
+          "participant_id": null,
+          "audio_offset_ms": null
+        }
+      ],
+      "participant_events": [
+        {
+          "timestamp": "00:00:01",
+          "event_type": "PARTICIPANT_JOIN",
+          "participant_name": "Interviewer",
+          "participant_role": "interviewer",
+          "detail": "Connected via Authorized Transcript Upload Adapter (transcript_diarized.vtt)"
+        },
+        {
+          "timestamp": "00:00:05",
+          "event_type": "PARTICIPANT_JOIN",
+          "participant_name": "Candidate (Alex Chen)",
+          "participant_role": "candidate",
+          "detail": "Audio input stream verified"
+        },
+        {
+          "timestamp": "00:00:15",
+          "event_type": "PARTICIPANT_JOIN",
+          "participant_name": "Interviewer (Lead Architect)",
+          "participant_role": "interviewer",
+          "detail": null
+        },
+        {
+          "timestamp": "00:02:10",
+          "event_type": "CLARIFICATION_PROMPT",
+          "participant_name": "Interviewer",
+          "participant_role": "interviewer",
+          "detail": "Deep dive into Redis invalidation"
+        },
+        {
+          "timestamp": "00:04:40",
+          "event_type": "LONG_PAUSE",
+          "participant_name": "Candidate",
+          "participant_role": "candidate",
+          "detail": "4.8s silence before answering"
+        }
+      ]
+    },
+    "scores": {
+      "technical_knowledge": 7.0,
+      "communication": 7.9,
+      "answer_structure": 7.6,
+      "problem_solving": 6.8,
+      "behavioral": 7.3,
+      "question_understanding": 7.3,
+      "overall": 7.2
+    },
+    "technical_analysis": {
+      "score": 7.0,
+      "question_understanding_score": 7.3,
+      "problem_solving_score": 6.8,
+      "expected_concepts": [
+        "Databases & Caching",
+        "System Architecture",
+        "Concurrency & Performance",
+        "Testing & Reliability"
+      ],
+      "demonstrated_concepts": [
+        "Databases & Caching (database, sql, postgres)",
+        "System Architecture (kafka, queue)"
+      ],
+      "missing_concepts": [
+        "Concurrency & Performance",
+        "Testing & Reliability"
+      ],
+      "strengths": [
+        {
+          "id": "tech_s1",
+          "category": "System Design & Problem Formulation",
+          "title": "Detailed technical explanation and architectural breakdown",
+          "description": "Candidate demonstrated good depth while explaining core components and flow.",
+          "severity": "positive",
+          "score_impact": 1.2,
+          "evidence": [
+            {
+              "timestamp": "00:00:32",
+              "quote": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic PostgreSQL setup to an...",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:00:32]. Verbatim quote verified."
+        }
+      ],
+      "weaknesses": [
+        {
+          "id": "tech_w1",
+          "category": "Deep Dive & Edge Case Coverage",
+          "title": "Brief answer on edge cases and failure modes",
+          "description": "Candidate provided an abbreviated response when prompted for failure handling and recovery mechanisms.",
+          "severity": "needs_improvement",
+          "score_impact": -1.0,
+          "evidence": [
+            {
+              "timestamp": "00:06:30",
+              "quote": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:30]. Verbatim quote verified."
+        }
+      ],
+      "struggled_questions": [
+        {
+          "question_id": "q_tech_1",
+          "topic": "Distributed Edge Cases & Fault Tolerance",
+          "original_question": "Welcome Alex. Could you start by introducing yourself and a recent distributed system you architected?",
+          "interview_score": 5.0,
+          "interview_evidence": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+          "retest_prompt": "Explain how you would design a fault-tolerant distributed system with automatic failover and zero data loss.",
+          "ideal_answer_points": [
+            "Multi-AZ replication with active-standby / leader election",
+            "Circuit breaker pattern and graceful degradation",
+            "Write-Ahead Logging (WAL) and consensus (Raft/Paxos)",
+            "Data idempotency and automated retry with exponential backoff"
+          ]
+        }
+      ],
+      "summary": "Candidate demonstrated solid technical foundation scoring 7.0/10 with strong coverage in Databases & Caching (database, sql, postgres), System Architecture (kafka, queue)."
+    },
+    "communication_analysis": {
+      "score": 7.9,
+      "structure_score": 7.6,
+      "filler_words_detected": 6,
+      "filler_word_breakdown": {
+        "um": 3,
+        "like": 1,
+        "you know": 1,
+        "basically": 1,
+        "actually": 0,
+        "sort of / kind of": 0
+      },
+      "long_pauses_count": 1,
+      "clarification_requests_count": 0,
+      "interviewer_followup_count": 1,
+      "findings": [
+        {
+          "id": "comm_structure",
+          "category": "Clarity & Explanation Flow",
+          "title": "Structured conversational pacing",
+          "description": "Candidate maintained coherent flow across 4 speech turns with 0 proactive clarification requests.",
+          "severity": "positive",
+          "score_impact": 0.8,
+          "evidence": [
+            {
+              "timestamp": "00:00:32",
+              "quote": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic Po",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:00:32]. Verbatim quote verified."
+        }
+      ],
+      "summary": "Candidate achieved a communication score of 7.9/10 with 6 total filler words and strong conversational engagement."
+    },
+    "behavioral_analysis": {
+      "score": 7.3,
+      "star_coverage": {
+        "situation": 85.0,
+        "task": 80.0,
+        "action": 85.0,
+        "result": 55.0
+      },
+      "ownership_score": 3.0,
+      "specificity_score": 7.0,
+      "findings": [
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (2 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (2 personal action markers vs 7 team mentions).",
+          "severity": "neutral",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:06:30",
+              "quote": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:30]. Verbatim quote verified."
+        }
+      ],
+      "summary": "Candidate demonstrated solid STAR foundation with clear personal responsibility, with room to add quantifiable impact metrics."
+    },
+    "verification_result": {
+      "total_claims_checked": 4,
+      "verified_count": 4,
+      "modified_count": 0,
+      "rejected_count": 0,
+      "verification_rate_pct": 100.0,
+      "verified_findings": [
+        {
+          "id": "tech_s1",
+          "category": "System Design & Problem Formulation",
+          "title": "Detailed technical explanation and architectural breakdown",
+          "description": "Candidate demonstrated good depth while explaining core components and flow.",
+          "severity": "positive",
+          "score_impact": 1.2,
+          "evidence": [
+            {
+              "timestamp": "00:00:32",
+              "quote": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic PostgreSQL setup to an...",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:00:32]. Verbatim quote verified."
+        },
+        {
+          "id": "tech_w1",
+          "category": "Deep Dive & Edge Case Coverage",
+          "title": "Brief answer on edge cases and failure modes",
+          "description": "Candidate provided an abbreviated response when prompted for failure handling and recovery mechanisms.",
+          "severity": "needs_improvement",
+          "score_impact": -1.0,
+          "evidence": [
+            {
+              "timestamp": "00:06:30",
+              "quote": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:30]. Verbatim quote verified."
+        },
+        {
+          "id": "comm_structure",
+          "category": "Clarity & Explanation Flow",
+          "title": "Structured conversational pacing",
+          "description": "Candidate maintained coherent flow across 4 speech turns with 0 proactive clarification requests.",
+          "severity": "positive",
+          "score_impact": 0.8,
+          "evidence": [
+            {
+              "timestamp": "00:00:32",
+              "quote": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per second. We migrated from a monolithic Po",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:00:32]. Verbatim quote verified."
+        },
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (2 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (2 personal action markers vs 7 team mentions).",
+          "severity": "neutral",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:06:30",
+              "quote": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:30]. Verbatim quote verified."
+        }
+      ],
+      "audit_trail": [
+        {
+          "finding_id": "tech_s1",
+          "title": "Detailed technical explanation and architectural breakdown",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:00:32.",
+          "evidence_snippet": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per "
+        },
+        {
+          "finding_id": "tech_w1",
+          "title": "Brief answer on edge cases and failure modes",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:06:30.",
+          "evidence_snippet": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes."
+        },
+        {
+          "finding_id": "comm_structure",
+          "title": "Structured conversational pacing",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:00:32.",
+          "evidence_snippet": "Thanks! In my last role at Fintech Corp, I led the redesign of our order processing engine handling 15,000 requests per "
+        },
+        {
+          "finding_id": "behav_ownership",
+          "title": "Healthy ownership balance (2 direct personal actions cited)",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:06:30.",
+          "evidence_snippet": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes."
+        }
+      ]
+    },
+    "expert_review": null,
+    "retest_questions": [
+      {
+        "question_id": "q_tech_1",
+        "topic": "Distributed Edge Cases & Fault Tolerance",
+        "original_question": "Welcome Alex. Could you start by introducing yourself and a recent distributed system you architected?",
+        "interview_score": 5.0,
+        "interview_evidence": "Um, maybe we could retry if the write fails or use a queue to serialize all inventory writes.",
+        "retest_prompt": "Explain how you would design a fault-tolerant distributed system with automatic failover and zero data loss.",
+        "ideal_answer_points": [
+          "Multi-AZ replication with active-standby / leader election",
+          "Circuit breaker pattern and graceful degradation",
+          "Write-Ahead Logging (WAL) and consensus (Raft/Paxos)",
+          "Data idempotency and automated retry with exponential backoff"
+        ]
+      }
+    ],
+    "retest_results": null,
+    "executive_summary": "Candidate evaluated for AI Engineer scoring 7.2/10 overall. Demonstrated solid technical grasp (7.0/10) with verified strengths in Databases & Caching (database, sql, postgres), System Architecture (kafka, queue). Observable communication scored 7.9/10 with 6 filler words detected. Evidence Verifier validated 4/4 claims with 100% transcript grounding."
   }
 ]

@@ -7,10 +7,12 @@ import {
   Cpu, 
   Key, 
   CheckCircle2, 
-  Sparkles,
-  Zap,
-  User,
-  ShieldCheck
+  Sparkles, 
+  Zap, 
+  User, 
+  ShieldCheck,
+  LogIn,
+  LogOut
 } from 'lucide-react';
 
 export default function Navbar({ 
@@ -21,7 +23,10 @@ export default function Navbar({
   apiKey, 
   setApiKey,
   userProfile,
-  onOpenProfile
+  onOpenProfile,
+  isAuthenticated,
+  onOpenAuth,
+  onLogout
 }) {
   const [showKeyModal, setShowKeyModal] = useState(false);
   const [tempKey, setTempKey] = useState(apiKey || '');
@@ -110,36 +115,59 @@ export default function Navbar({
 
         {/* Actions & Status */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          {/* User Profile Pill */}
-          <div
-            onClick={onOpenProfile}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '6px 12px',
-              borderRadius: '9999px',
-              background: 'rgba(255, 255, 255, 0.04)',
-              border: '1px solid var(--border-subtle)',
-              fontSize: '0.78rem',
-              cursor: 'pointer',
-              color: '#FFFFFF'
-            }}
-            title="Click to view/edit User Profile & Saved Resume"
-          >
-            <div style={{
-              width: '20px', height: '20px', borderRadius: '50%',
-              background: 'var(--accent-cyan)', color: '#050B14',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 800, fontSize: '0.68rem'
-            }}>
-              {userProfile?.name ? userProfile.name[0] : 'A'}
+          {/* User Profile Pill or Login Button */}
+          {isAuthenticated ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
+                onClick={onOpenProfile}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '6px 12px',
+                  borderRadius: '9999px',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  border: '1px solid var(--border-subtle)',
+                  fontSize: '0.78rem',
+                  cursor: 'pointer',
+                  color: '#FFFFFF'
+                }}
+                title="Click to view/edit User Profile & Saved Resume"
+              >
+                <div style={{
+                  width: '20px', height: '20px', borderRadius: '50%',
+                  background: 'var(--accent-cyan)', color: '#050B14',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontWeight: 800, fontSize: '0.68rem'
+                }}>
+                  {userProfile?.name ? userProfile.name[0] : 'A'}
+                </div>
+                <span>{userProfile?.name || 'Alex Chen'}</span>
+                <span className="badge badge-verified" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>
+                  {userProfile?.auth_provider || 'Google'}
+                </span>
+              </div>
+              <button
+                onClick={onLogout}
+                style={{
+                  background: 'none', border: 'none', color: 'var(--text-muted)',
+                  cursor: 'pointer', padding: '6px'
+                }}
+                title="Sign Out"
+              >
+                <LogOut size={16} />
+              </button>
             </div>
-            <span>{userProfile?.name || 'Alex Chen'}</span>
-            <span className="badge badge-verified" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>
-              {userProfile?.auth_provider || 'Google'}
-            </span>
-          </div>
+          ) : (
+            <button
+              className="btn btn-secondary"
+              onClick={onOpenAuth}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', padding: '6px 14px' }}
+            >
+              <LogIn size={15} color="var(--accent-cyan)" />
+              Sign In / Register
+            </button>
+          )}
 
           {/* Engine Status */}
           <div 

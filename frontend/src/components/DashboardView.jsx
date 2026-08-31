@@ -13,7 +13,7 @@ import {
   Video
 } from 'lucide-react';
 
-export default function DashboardView({ interviews, onSelectInterview, onOpenCreate }) {
+export default function DashboardView({ interviews, userProfile, onSelectInterview, onOpenCreate }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('ALL');
 
@@ -34,6 +34,25 @@ export default function DashboardView({ interviews, onSelectInterview, onOpenCre
 
   return (
     <div style={{ padding: '32px 28px', maxWidth: '1380px', margin: '0 auto' }}>
+      {/* Privacy Guarantee Pill */}
+      <div style={{
+        padding: '8px 16px', borderRadius: '12px',
+        background: 'rgba(16, 185, 129, 0.08)',
+        border: '1px solid rgba(16, 185, 129, 0.25)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: '20px', fontSize: '0.78rem', color: '#FFFFFF'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <ShieldCheck size={16} color="var(--accent-emerald)" />
+          <span>
+            <strong>Private Workspace:</strong> Your transcripts and evaluations are isolated to your account ({userProfile?.email || 'Guest Profile'}). Other users have zero access.
+          </span>
+        </div>
+        <span style={{ fontSize: '0.72rem', color: 'var(--accent-emerald)', fontWeight: 600 }}>
+          🔒 End-to-End User Isolation Active
+        </span>
+      </div>
+
       {/* Hero Banner */}
       <div className="glass-panel glass-panel-glow" style={{
         padding: '36px 40px',
@@ -48,9 +67,13 @@ export default function DashboardView({ interviews, onSelectInterview, onOpenCre
       }}>
         <div style={{ maxWidth: '780px', zIndex: 2 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-            <span className="badge badge-cyan">Architected for micro1 Hackathon</span>
+            <span className="badge badge-cyan">
+              {userProfile ? `Welcome, ${userProfile.name}` : 'Evidence-First Agentic Loop'}
+            </span>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>•</span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--accent-emerald)', fontWeight: 600 }}>Evidence-First Agentic Loop</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--accent-emerald)', fontWeight: 600 }}>
+              {userProfile?.target_role || 'Target Role Assessment'}
+            </span>
           </div>
           <h1 style={{ fontSize: '2.2rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '14px' }}>
             Transform Real Interview Transcripts into <span style={{ color: 'var(--accent-cyan)' }}>Verified Intelligence</span>

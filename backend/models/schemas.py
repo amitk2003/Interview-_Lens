@@ -9,7 +9,7 @@ class UserProfile(BaseModel):
     id: str = "usr_001"
     name: str = "Alex Chen"
     email: str = "alex.chen@example.com"
-    auth_provider: Literal["Google", "Microsoft", "GitHub"] = "Google"
+    auth_provider: Literal["Google", "Microsoft", "GitHub", "Email", "Demo"] = "Google"
     target_role: str = "Senior Distributed Systems Engineer"
     skills: List[str] = ["Python", "FastAPI", "Kafka", "Redis", "Distributed Systems", "PostgreSQL", "System Design"]
     resume_summary: str = "5+ years backend engineering, distributed event streams, microservices architecture, and caching strategies."
@@ -204,6 +204,9 @@ class InterviewRecord(BaseModel):
     id: str
     title: str
     candidate_name: str = "Alex Chen"
+    candidate_email: Optional[str] = None
+    user_email: Optional[str] = None
+    user_id: Optional[str] = None
     job_role: str = "Senior Distributed Systems Engineer"
     job_description: Optional[str] = None
     resume_text: Optional[str] = None
@@ -237,6 +240,8 @@ class WorkspaceCreateRequest(BaseModel):
     consent_authorized: bool = True
     transcript_text: Optional[str] = None
     api_key: Optional[str] = None
+    user_email: Optional[str] = None
+    user_name: Optional[str] = None
 
 class LiveConnectRequest(BaseModel):
     adapter_type: Literal["GOOGLE_MEET", "MS_TEAMS", "ZOOM", "UPLOAD_RECORDING", "UPLOAD_TRANSCRIPT"] = "GOOGLE_MEET"
@@ -246,6 +251,7 @@ class LiveConnectRequest(BaseModel):
     job_description: Optional[str] = None
     resume_text: Optional[str] = None
     preset_scenario: Optional[str] = "fintech_distributed"
+    user_email: Optional[str] = None
 
 class AnalyzeRequest(BaseModel):
     title: Optional[str] = "Technical Interview"
@@ -255,6 +261,8 @@ class AnalyzeRequest(BaseModel):
     transcript_text: str
     platform: Optional[str] = "Upload"
     api_key: Optional[str] = None
+    user_email: Optional[str] = None
+    user_name: Optional[str] = None
 
 class BaselineComparisonResult(BaseModel):
     eval_case_id: str
@@ -262,3 +270,51 @@ class BaselineComparisonResult(BaseModel):
     baseline_output: Dict[str, Any]
     multi_agent_output: Dict[str, Any]
     metrics_comparison: Dict[str, Any]
+
+# ==========================================
+# 7. AUTH & DOCUMENT PARSE SCHEMAS
+# ==========================================
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+class RegisterRequest(BaseModel):
+    name: str
+    email: str
+    password: str
+    target_role: Optional[str] = "Software Engineer"
+
+class OAuthLoginRequest(BaseModel):
+    provider: str = "Google"
+    name: Optional[str] = None
+    email: Optional[str] = None
+
+class AuthResponse(BaseModel):
+    token: str
+    user: UserProfile
+
+class DocumentParseResponse(BaseModel):
+    filename: str
+    extracted_text: str
+    char_count: int
+    word_count: int
+
+class InteractiveStartRequest(BaseModel):
+    job_role: str = "Software Engineer"
+    job_description: Optional[str] = None
+    resume_text: Optional[str] = None
+    question_count: int = 4
+    api_key: Optional[str] = None
+
+class InteractiveQuestionItem(BaseModel):
+    index: int
+    category: str
+    question: str
+    focus_skills: List[str] = []
+    expected_criteria: List[str] = []
+
+class InteractivePlanResponse(BaseModel):
+    session_id: str
+    job_role: str
+    questions: List[InteractiveQuestionItem]
+

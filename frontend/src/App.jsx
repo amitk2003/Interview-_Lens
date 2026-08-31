@@ -7,6 +7,8 @@ import CrossInterviewView from './components/CrossInterviewView.jsx';
 import BenchmarkView from './components/BenchmarkView.jsx';
 import ArchitectureView from './components/ArchitectureView.jsx';
 import UserProfileModal from './components/UserProfileModal.jsx';
+import AuthModal from './components/AuthModal.jsx';
+import LiveInterviewRoom from './components/LiveInterviewRoom.jsx';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -14,14 +16,22 @@ export default function App() {
   const [selectedInterviewId, setSelectedInterviewId] = useState(null);
   const [healthData, setHealthData] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('AUTH_TOKEN'));
+  
+  // Modals & Sub-views
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [activeLiveRoom, setActiveLiveRoom] = useState(null); // { plan, context }
+
   const [apiKey, setApiKey] = useState(localStorage.getItem('GROQ_API_KEY') || '');
   const [loading, setLoading] = useState(true);
 
   const fetchInterviews = async () => {
     try {
-      const res = await fetch('/api/interviews');
+      const token = localStorage.getItem('AUTH_TOKEN');
+      const url = token ? `/api/interviews?token=${token}` : '/api/interviews';
+      const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
         setInterviews(data);
@@ -45,7 +55,9 @@ export default function App() {
 
   const fetchUserProfile = async () => {
     try {
-      const res = await fetch('/api/user/profile');
+      const token = localStorage.getItem('AUTH_TOKEN');
+      const url = token ? `/api/auth/me?token=${token}` : '/api/user/profile';
+      const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
         setUserProfile(data);
@@ -59,10 +71,44 @@ export default function App() {
     Promise.all([fetchInterviews(), fetchHealth(), fetchUserProfile()]).finally(() => {
       setLoading(false);
     });
-  }, []);
+  }, [isAuthenticated]);
 
   const handleSelectInterview = (id) => {
     setSelectedInterviewId(id);
+    setActiveTab('report');
+  };
+
+  const handleOpenCreate = () => {
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+    } else {
+      setShowCreateModal(true);
+    }
+  };
+
+  const handleAuthenticated = (user) => {
+    setUserProfile(user);
+    setIsAuthenticated(true);
+    setShowAuthModal(false);
+    fetchInterviews();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('AUTH_TOKEN');
+    setIsAuthenticated(false);
+    setUserProfile(null);
+    fetchInterviews();
+  };
+
+  const handleStartLiveRoom = (planData, context) => {
+    setShowCreateModal(false);
+    setActiveLiveRoom({ plan: planData, context });
+  };
+
+  const handleLiveRoomComplete = (newRecord) => {
+    setInterviews([newRecord, ...interviews]);
+    setActiveLiveRoom(null);
+    setSelectedInterviewId(newRecord.id);
     setActiveTab('report');
   };
 
@@ -89,8 +135,11 @@ export default function App() {
         }}
         healthData={healthData}
         userProfile={userProfile}
-        onOpenCreate={() => setShowCreateModal(true)}
+        isAuthenticated={isAuthenticated}
+        onOpenCreate={handleOpenCreate}
         onOpenProfile={() => setShowProfileModal(true)}
+        onOpenAuth={() => setShowAuthModal(true)}
+        onLogout={handleLogout}
         apiKey={apiKey}
         setApiKey={setApiKey}
       />
@@ -108,7 +157,7 @@ export default function App() {
                 interviews={interviews}
                 userProfile={userProfile}
                 onSelectInterview={handleSelectInterview}
-                onOpenCreate={() => setShowCreateModal(true)}
+                onOpenCreate={handleOpenCreate}
               />
             )}
 
@@ -138,17 +187,40 @@ export default function App() {
         )}
       </main>
 
-      {/* Workspace Integration Wizard Modal */}
+      {/* Authentication Modal */}
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onAuthenticated={handleAuthenticated}
+        />
+      )}
+
+      {/* Workspace Setup & Ingestion Wizard Modal */}
       {showCreateModal && (
         <CreateInterviewModal
           onClose={() => setShowCreateModal(false)}
           onCreated={handleCreatedInterview}
+          onStartLiveRoom={handleStartLiveRoom}
           apiKey={apiKey}
           userProfile={userProfile}
         />
       )}
 
-      {/* User Profile & Auth Modal */}
+      {/* Live Interactive AI Interview Room */}
+      {activeLiveRoom && (
+        <LiveInterviewRoom
+          interviewPlan={activeLiveRoom.plan}
+          jobRole={activeLiveRoom.context.jobRole}
+          jobDescription={activeLiveRoom.context.jobDescription}
+          resumeText={activeLiveRoom.context.resumeText}
+          apiKey={apiKey}
+          onClose={() => setActiveLiveRoom(null)}
+          onComplete={handleLiveRoomComplete}
+        />
+      )}
+
+      {/* User Profile & Resume Summary Modal */}
       {showProfileModal && (
         <UserProfileModal
           user={userProfile}

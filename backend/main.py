@@ -21,7 +21,14 @@ from .models.schemas import (
     ReTestSubmission,
     ReTestEvaluation,
     CrossInterviewInsights,
-    BaselineComparisonResult
+    BaselineComparisonResult,
+    LoginRequest,
+    RegisterRequest,
+    OAuthLoginRequest,
+    AuthResponse,
+    DocumentParseResponse,
+    InteractiveStartRequest,
+    InteractivePlanResponse
 )
 from .services.normalizer import TranscriptNormalizer
 from .services.meeting_adapters import LiveCaptureGateway
@@ -29,6 +36,9 @@ from .services.storage import InterviewStorage
 from .services.llm_client import LLMClient
 from .services.knowledge_gap_analyzer import KnowledgeGapAnalyzer
 from .services.baseline_comparator import BaselineComparator
+from .services.file_parser import FileParser
+from .services.auth_service import AuthService
+from .services.interactive_interview import InteractiveInterviewService
 from .agents.orchestrator import InterviewOrchestrator
 from .agents.cross_interview_agent import CrossInterviewAgent
 
@@ -58,7 +68,7 @@ def root():
         "app": "InterviewLens AI Engine",
         "version": "1.0.0",
         "status": "online",
-        "supported_sources": ["Google Meet", "Microsoft Teams", "Zoom", "VTT/SRT/JSON/TXT Upload"],
+        "supported_sources": ["Google Meet", "Microsoft Teams", "Zoom", "Live Interactive AI Room", "VTT/SRT/JSON/TXT/PDF Upload"],
         "pipeline": [
             "Transcript Normalization",
             "Technical Agent",
@@ -82,18 +92,99 @@ def health():
         "total_interviews_indexed": len(storage.get_all())
     }
 
-# Current User Profile
-current_user = UserProfile()
+# ==========================================
+# AUTHENTICATION & USER SESSIONS
+# ==========================================
+@app.post("/api/auth/register", response_model=AuthResponse)
+def auth_register(payload: RegisterRequest):
+    try:
+        res = AuthService.register(
+            name=payload.name,
+            email=payload.email,
+            password=payload.password,
+            target_role=payload.target_role
+        )
+        return res
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
+@app.post("/api/auth/login", response_model=AuthResponse)
+def auth_login(payload: LoginRequest):
+    try:
+        res = AuthService.login(payload.email, payload.password)
+        return res
+    except ValueError as e:
+        raise HTTPException(status_code=401, detail=str(e))
+
+@app.post("/api/auth/oauth", response_model=AuthResponse)
+def auth_oauth_or_demo(payload: OAuthLoginRequest):
+    res = AuthService.oauth_or_demo_login(
+        provider=payload.provider,
+        name=payload.name,
+        email=payload.email
+    )
+    return res
+
+@app.get("/api/auth/me", response_model=UserProfile)
+def auth_me(token: Optional[str] = None):
+    user = AuthService.get_user_by_token(token)
+    if not user:
+        # Fallback to default user
+        return AuthService._to_profile(AuthService._users["alex.chen@example.com"])
+    return user
+
+# Current User Profile
 @app.get("/api/user/profile", response_model=UserProfile)
-def get_user_profile():
-    return current_user
+def get_user_profile(token: Optional[str] = None):
+    user = AuthService.get_user_by_token(token)
+    if user:
+        return user
+    return AuthService._to_profile(AuthService._users["alex.chen@example.com"])
 
 @app.post("/api/user/profile", response_model=UserProfile)
 def update_user_profile(payload: UserProfile):
-    global current_user
-    current_user = payload
-    return current_user
+    try:
+        return AuthService.update_profile(payload.email, payload.model_dump())
+    except Exception:
+        return payload
+
+# ==========================================
+# DOCUMENT PARSING (JD & RESUME PDF/DOCX/TXT)
+# ==========================================
+@app.post("/api/parse/document", response_model=DocumentParseResponse)
+async def parse_document(file: UploadFile = File(...)):
+    try:
+        content_bytes = await file.read()
+        extracted = FileParser.extract_text(file.filename, content_bytes)
+        return DocumentParseResponse(
+            filename=file.filename,
+            extracted_text=extracted,
+            char_count=len(extracted),
+            word_count=len(extracted.split())
+        )
+    except Exception as e:
+        logger.error(f"File extraction error: {e}")
+        raise HTTPException(status_code=400, detail=f"Failed to extract text: {str(e)}")
+
+# ==========================================
+# INTERACTIVE LIVE INTERVIEW PLANNER
+# ==========================================
+@app.post("/api/interview/interactive/plan", response_model=InteractivePlanResponse)
+async def generate_interactive_plan(payload: InteractiveStartRequest):
+    llm = LLMClient(payload.api_key)
+    session_id = f"live_{str(uuid.uuid4())[:8]}"
+    questions = await InteractiveInterviewService.generate_interview_plan(
+        llm=llm,
+        job_role=payload.job_role,
+        job_description=payload.job_description,
+        resume_text=payload.resume_text,
+        question_count=payload.question_count
+    )
+    return InteractivePlanResponse(
+        session_id=session_id,
+        job_role=payload.job_role,
+        questions=questions
+    )
 
 # Meeting Integration Layer & Live Capture Gateway
 @app.post("/api/meetings/connect", response_model=LiveCaptureSession)
@@ -127,33 +218,65 @@ async def finish_meeting_and_analyze(
     title: str = Form("Technical Interview"),
     job_role: str = Form("Senior Distributed Systems Engineer"),
     job_description: Optional[str] = Form(None),
-    resume_text: Optional[str] = Form(None)
+    resume_text: Optional[str] = Form(None),
+    raw_transcript: Optional[str] = Form(None),
+    token: Optional[str] = Form(None)
 ):
-    normalized = LiveCaptureGateway.convert_to_normalized_transcript(
-        session_id=session_id,
-        title=title,
-        job_role=job_role,
-        job_description=job_description,
-        resume_text=resume_text
-    )
+    user = AuthService.get_user_by_token(token)
+    candidate_name = user.name if user else "Interview Candidate"
+    candidate_email = user.email if user else None
+
+    if raw_transcript and raw_transcript.strip():
+        # Candidate provided real transcript from Live AI or recording
+        normalized = TranscriptNormalizer.normalize(
+            raw_content=raw_transcript,
+            title=title,
+            job_role=job_role,
+            job_description=job_description,
+            resume_text=resume_text,
+            platform="Interactive Live AI Room"
+        )
+    else:
+        normalized = LiveCaptureGateway.convert_to_normalized_transcript(
+            session_id=session_id,
+            title=title,
+            job_role=job_role,
+            job_description=job_description,
+            resume_text=resume_text
+        )
     orchestrator = InterviewOrchestrator()
     record = await orchestrator.orchestrate_analysis(normalized, interview_id=session_id)
+    record.candidate_name = candidate_name
+    record.candidate_email = candidate_email
+    record.user_email = candidate_email
+    record.user_id = user.id if user else None
     storage.save(record)
     return record
 
 @app.get("/api/interviews", response_model=List[InterviewRecord])
-def list_interviews():
-    return storage.get_all()
+def list_interviews(token: Optional[str] = None):
+    user = AuthService.get_user_by_token(token)
+    if user:
+        # Authenticated user: Return strictly their own interviews
+        return storage.get_all(user_email=user.email)
+    
+    # Unauthenticated / Visitor: Return single sample benchmark interview for preview
+    all_recs = storage.get_all()
+    return all_recs[:1] if all_recs else []
 
 @app.get("/api/interviews/{interview_id}", response_model=InterviewRecord)
-def get_interview(interview_id: str):
+def get_interview(interview_id: str, token: Optional[str] = None):
     rec = storage.get_by_id(interview_id)
     if not rec:
         raise HTTPException(status_code=404, detail="Interview record not found")
     return rec
 
 @app.post("/api/interviews/workspace/create", response_model=InterviewRecord)
-async def create_workspace_interview(payload: WorkspaceCreateRequest):
+async def create_workspace_interview(payload: WorkspaceCreateRequest, token: Optional[str] = None):
+    user = AuthService.get_user_by_token(token)
+    user_email = payload.user_email or (user.email if user else None)
+    user_name = payload.user_name or (user.name if user else "Interview Candidate")
+
     platform_map = {
         "GOOGLE_MEET": "Google Meet Adapter",
         "MS_TEAMS": "Microsoft Teams Adapter",
@@ -178,13 +301,21 @@ async def create_workspace_interview(payload: WorkspaceCreateRequest):
     record.meeting_url = payload.meeting_url
     record.adapter_type = payload.adapter_type
     record.raw_transcript = payload.transcript_text
+    record.candidate_name = user_name
+    record.candidate_email = user_email
+    record.user_email = user_email
+    record.user_id = user.id if user else None
     storage.save(record)
     return record
 
 @app.post("/api/interviews/analyze", response_model=InterviewRecord)
-async def analyze_interview(payload: AnalyzeRequest):
+async def analyze_interview(payload: AnalyzeRequest, token: Optional[str] = None):
     if not payload.transcript_text or not payload.transcript_text.strip():
         raise HTTPException(status_code=400, detail="Transcript text is required")
+
+    user = AuthService.get_user_by_token(token)
+    user_email = payload.user_email or (user.email if user else None)
+    user_name = payload.user_name or (user.name if user else "Interview Candidate")
 
     # 1. Normalize Transcript
     normalized = TranscriptNormalizer.normalize(
@@ -201,6 +332,10 @@ async def analyze_interview(payload: AnalyzeRequest):
     interview_id = f"int_{str(uuid.uuid4())[:8]}"
     record = await orchestrator.orchestrate_analysis(normalized, interview_id=interview_id)
     record.raw_transcript = payload.transcript_text
+    record.candidate_name = user_name
+    record.candidate_email = user_email
+    record.user_email = user_email
+    record.user_id = user.id if user else None
 
     # 3. Persist to storage
     storage.save(record)
@@ -213,8 +348,13 @@ async def upload_interview_file(
     job_role: str = Form("Software Engineer"),
     job_description: Optional[str] = Form(None),
     resume_text: Optional[str] = Form(None),
-    platform: Optional[str] = Form("File Upload")
+    platform: Optional[str] = Form("File Upload"),
+    token: Optional[str] = Form(None)
 ):
+    user = AuthService.get_user_by_token(token)
+    user_email = user.email if user else None
+    user_name = user.name if user else "Interview Candidate"
+
     content_bytes = await file.read()
     content_str = content_bytes.decode("utf-8", errors="replace")
 
@@ -231,6 +371,10 @@ async def upload_interview_file(
     interview_id = f"int_{str(uuid.uuid4())[:8]}"
     record = await orchestrator.orchestrate_analysis(normalized, interview_id=interview_id)
     record.raw_transcript = content_str
+    record.candidate_name = user_name
+    record.candidate_email = user_email
+    record.user_email = user_email
+    record.user_id = user.id if user else None
     storage.save(record)
     return record
 
@@ -268,8 +412,10 @@ async def submit_retest(interview_id: str, submission: ReTestSubmission):
     return evaluation
 
 @app.get("/api/insights/cross-interview", response_model=CrossInterviewInsights)
-def get_cross_interview_insights():
-    interviews = storage.get_all()
+def get_cross_interview_insights(token: Optional[str] = None):
+    user = AuthService.get_user_by_token(token)
+    user_email = user.email if user else None
+    interviews = storage.get_all(user_email=user_email)
     insights = CrossInterviewAgent.analyze_history(interviews)
     return insights
 

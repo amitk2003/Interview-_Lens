@@ -2,9 +2,9 @@
   {
     "id": "int_seed_1",
     "title": "Senior Distributed Systems Engineer (Fintech)",
-    "candidate_name": "Candidate",
-    "candidate_email": null,
-    "user_email": null,
+    "candidate_name": "Interview Candidate",
+    "candidate_email": "user.1788169464213@google.com",
+    "user_email": "user.1788169464213@google.com",
     "user_id": null,
     "job_role": "Senior Distributed Systems Engineer",
     "job_description": "Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL.",
@@ -369,9 +369,9 @@
   {
     "id": "int_seed_2",
     "title": "Frontend React & Next.js Staff Engineer",
-    "candidate_name": "Candidate",
-    "candidate_email": null,
-    "user_email": null,
+    "candidate_name": "Interview Candidate",
+    "candidate_email": "user.1788169464213@google.com",
+    "user_email": "user.1788169464213@google.com",
     "user_id": null,
     "job_role": "Staff Frontend Engineer",
     "job_description": null,
@@ -404,9 +404,9 @@
   {
     "id": "int_seed_3",
     "title": "Principal Cloud Architect (AWS/GCP)",
-    "candidate_name": "Candidate",
-    "candidate_email": null,
-    "user_email": null,
+    "candidate_name": "Interview Candidate",
+    "candidate_email": "user.1788169464213@google.com",
+    "user_email": "user.1788169464213@google.com",
     "user_id": null,
     "job_role": "Principal Cloud Architect",
     "job_description": null,
@@ -439,9 +439,9 @@
   {
     "id": "sess_4f789b5b",
     "title": "AI & Inference Infrastructure Architect",
-    "candidate_name": "Alex Chen",
-    "candidate_email": null,
-    "user_email": null,
+    "candidate_name": "Interview Candidate",
+    "candidate_email": "user.1788169464213@google.com",
+    "user_email": "user.1788169464213@google.com",
     "user_id": null,
     "job_role": "Lead ML Systems Engineer",
     "job_description": "High-throughput LLM serving, Triton Inference Server, vLLM continuous batching, GPU memory management.",
@@ -861,9 +861,9 @@
   {
     "id": "sess_e7daaf1f",
     "title": "AI Engineer First Round of Interview",
-    "candidate_name": "Alex Chen",
-    "candidate_email": null,
-    "user_email": null,
+    "candidate_name": "Interview Candidate",
+    "candidate_email": "user.1788169464213@google.com",
+    "user_email": "user.1788169464213@google.com",
     "user_id": null,
     "job_role": "AI Engineer",
     "job_description": "llm,RAG,basics of ML, Agents,MCP,RAGAS,python ,SQL",
@@ -1284,8 +1284,8 @@
     "id": "int_c7e09422",
     "title": "Technical interview",
     "candidate_name": "Interview Candidate",
-    "candidate_email": null,
-    "user_email": null,
+    "candidate_email": "user.1788169464213@google.com",
+    "user_email": "user.1788169464213@google.com",
     "user_id": null,
     "job_role": "AI Engineer",
     "job_description": "Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL, and distributed concurrency controls.",
@@ -1614,5 +1614,569 @@
     ],
     "retest_results": null,
     "executive_summary": "Candidate evaluated for AI Engineer scoring 7.1/10 overall. Demonstrated solid technical grasp (6.5/10) with verified strengths in Graph Database, RAG. Observable communication scored 8.5/10 with 0 filler words detected. Evidence Verifier validated 2/3 claims with 100% transcript grounding."
+  },
+  {
+    "id": "live_f92bbee4",
+    "title": "AI engineer Live Technical Assessment",
+    "candidate_name": "Interview Candidate",
+    "candidate_email": "user.1788169464213@google.com",
+    "user_email": "user.1788169464213@google.com",
+    "user_id": null,
+    "job_role": "AI engineer",
+    "job_description": "RAG pipeline, graph DB",
+    "resume_text": "Amit Kumar\r\nAI Engineer|AI Automation Engineer|AI native builder Intern\r\n+91 8669223920|amitk200703@gmail.com|LinkedIn|Github|leetcode|portfolio\r\nProfile Summary\r\nAI Engineer focused on building production-orientedGenerative AI, agentic workflows, and RAG systems\r\nusing Python. Experienced in developingmulti-agent automation, custom ReAct agents, multimodal AI\r\npipelines, hybrid GraphRAG systems, and FastAPI-based AI services with Docker, vector databases, Redis, and\r\nLLM integrations.\r\nEducation\r\nIndian Institute of Information Technology, Sri CityAndhra Pradesh, India\r\nB.Tech in Electronics and Communication EngineeringCGPA: 7.81/10|Graduated: August 2026\r\nTechnical Skills\r\n\u2022Programming:Python, C++, JavaScript (ES6+)\r\n\u2022Generative AI:LLMs, Retrieval-Augmented Generation (RAG), Prompt Engineering, AI Agents, LangChain\r\n\u2022Machine Learning :PyTorch, NLP, Tokenization, Embeddings, Semantic Search, Transformer Models\r\n\u2022Backend Development:FastAPI, REST APIs, Authentication (JWT), Node.js, Express.js\r\n\u2022Databases:Redis, Vector Databases (ChromaDB) , Neo4j(Graph database)PostgreSQL, MySQL, MongoDB,\r\n\u2022Cloud & MLOps:Docker, AWS (EC2, S3), Linux, Git/GitHub, CI/CD\r\n\u2022Core CS:Data Structures & Algorithms, Object-Oriented Programming (OOP), DBMS, OS, CN\r\nExperience\r\nAI/ML Research Intern \u2014 Defence Research and Development Organisation (DRDO)May \u2013 July 2025\r\nVisakhapatnam, Andhra Pradesh |Kaggle|Report\r\n\u2022Developedreal-time underwater object detection pipelineson8,000+ sonar imagesusingYOLOv8,\r\nFaster R-CNN, and YOLOv11-s.\r\n\u2022Achieved97.8% precision, 96.4% recall, and 97.8% mAP@0.5withYOLOv11-s, outperforming baseline\r\nmodels on sonar data.\r\n\u2022Built scalablepreprocessing, annotation, and augmentation pipelinesfor noisy grayscale sonar imagery.\r\n\u2022Developed modularPyTorch training, evaluation, and inference pipelineswith automatedmAP, Precision,\r\nRecall, and F1benchmarking for low-latency deployment.\r\nProjects\r\nFinFlow AIPython|LangChain|Multi-LLM|Redis|FastAPI|Docker|Code|Live\r\n\u2022Developed a multi-agent system with 10 specialized agents to handle trial balance checks, revenue recognition rules,\r\nand intercompany eliminations across operating entities.\r\n\u2022Implemented an automated API fallback handler across multiple LLM providers to handle rate limits andprevent\r\njob failures during run execution.\r\n\u2022Built custom evaluation prompts and agents to detect debit/credit mismatches, stale accruals, and transaction\r\nerrors,reducing manual audit reviews by 75%.\r\n\u2022Integrated a shared memory layer using Redis to pass context between agents,cutting redundant token con-\r\nsumption by 30%across execution pipelines.\r\nGraphRAG \u2014 Enterprise Knowledge SystemPython|React|FastAPI|Neo4j|ChromaDB|Groq|Code\r\n\u2022Built aproduction-ready RAG systemwith FastAPI, React, Docker, and automated document ingestion for\r\nscalable AI-powered knowledge retrieval.\r\n\u2022Engineered ahybrid GraphRAG pipelinecombining Neo4j, ChromaDB, BM25, and Groq for context-aware\r\nretrieval, multi-hop reasoning, and reliable LLM responses.\r\n\u2022AutomatedAI evaluation and conversational memoryusing Ragas and PostgreSQL to measure response\r\nquality and improve multi-turn context handling.\r\nOmni Agent \u2014 Multi-Modal Agentic AIPython|FastAPI|Groq|F AISS|Sentence Transformers|Code|Live\r\n\u2022Engineered aframework-less ReAct agentusing Python, FastAPI, and Groq for multi-step planning, dynamic\r\ntool selection, and automated task execution.\r\n\u2022Built amultimodal RAG pipelineintegrating Whisper, Pytesseract, PyMuPDF, FAISS, and Sentence Trans-\r\nformers for cross-input reasoning across audio, PDFs, images, and transcripts.\r\nKey Achievements\r\n\u2022Generative AI Certification byLinkedIn\r\n\u2022AWS Cloud Computing byGreat Learning",
+    "meeting_url": null,
+    "adapter_type": "GOOGLE_MEET",
+    "platform": "Interactive Live AI Room",
+    "status": "REVIEW_REQUIRED",
+    "created_at": "2026-08-31T09:06:26.517425",
+    "raw_transcript": null,
+    "normalized_transcript": {
+      "interview_id": null,
+      "title": "AI engineer Live Technical Assessment",
+      "job_role": "AI engineer",
+      "job_description": "RAG pipeline, graph DB",
+      "resume_text": "Amit Kumar\r\nAI Engineer|AI Automation Engineer|AI native builder Intern\r\n+91 8669223920|amitk200703@gmail.com|LinkedIn|Github|leetcode|portfolio\r\nProfile Summary\r\nAI Engineer focused on building production-orientedGenerative AI, agentic workflows, and RAG systems\r\nusing Python. Experienced in developingmulti-agent automation, custom ReAct agents, multimodal AI\r\npipelines, hybrid GraphRAG systems, and FastAPI-based AI services with Docker, vector databases, Redis, and\r\nLLM integrations.\r\nEducation\r\nIndian Institute of Information Technology, Sri CityAndhra Pradesh, India\r\nB.Tech in Electronics and Communication EngineeringCGPA: 7.81/10|Graduated: August 2026\r\nTechnical Skills\r\n\u2022Programming:Python, C++, JavaScript (ES6+)\r\n\u2022Generative AI:LLMs, Retrieval-Augmented Generation (RAG), Prompt Engineering, AI Agents, LangChain\r\n\u2022Machine Learning :PyTorch, NLP, Tokenization, Embeddings, Semantic Search, Transformer Models\r\n\u2022Backend Development:FastAPI, REST APIs, Authentication (JWT), Node.js, Express.js\r\n\u2022Databases:Redis, Vector Databases (ChromaDB) , Neo4j(Graph database)PostgreSQL, MySQL, MongoDB,\r\n\u2022Cloud & MLOps:Docker, AWS (EC2, S3), Linux, Git/GitHub, CI/CD\r\n\u2022Core CS:Data Structures & Algorithms, Object-Oriented Programming (OOP), DBMS, OS, CN\r\nExperience\r\nAI/ML Research Intern \u2014 Defence Research and Development Organisation (DRDO)May \u2013 July 2025\r\nVisakhapatnam, Andhra Pradesh |Kaggle|Report\r\n\u2022Developedreal-time underwater object detection pipelineson8,000+ sonar imagesusingYOLOv8,\r\nFaster R-CNN, and YOLOv11-s.\r\n\u2022Achieved97.8% precision, 96.4% recall, and 97.8% mAP@0.5withYOLOv11-s, outperforming baseline\r\nmodels on sonar data.\r\n\u2022Built scalablepreprocessing, annotation, and augmentation pipelinesfor noisy grayscale sonar imagery.\r\n\u2022Developed modularPyTorch training, evaluation, and inference pipelineswith automatedmAP, Precision,\r\nRecall, and F1benchmarking for low-latency deployment.\r\nProjects\r\nFinFlow AIPython|LangChain|Multi-LLM|Redis|FastAPI|Docker|Code|Live\r\n\u2022Developed a multi-agent system with 10 specialized agents to handle trial balance checks, revenue recognition rules,\r\nand intercompany eliminations across operating entities.\r\n\u2022Implemented an automated API fallback handler across multiple LLM providers to handle rate limits andprevent\r\njob failures during run execution.\r\n\u2022Built custom evaluation prompts and agents to detect debit/credit mismatches, stale accruals, and transaction\r\nerrors,reducing manual audit reviews by 75%.\r\n\u2022Integrated a shared memory layer using Redis to pass context between agents,cutting redundant token con-\r\nsumption by 30%across execution pipelines.\r\nGraphRAG \u2014 Enterprise Knowledge SystemPython|React|FastAPI|Neo4j|ChromaDB|Groq|Code\r\n\u2022Built aproduction-ready RAG systemwith FastAPI, React, Docker, and automated document ingestion for\r\nscalable AI-powered knowledge retrieval.\r\n\u2022Engineered ahybrid GraphRAG pipelinecombining Neo4j, ChromaDB, BM25, and Groq for context-aware\r\nretrieval, multi-hop reasoning, and reliable LLM responses.\r\n\u2022AutomatedAI evaluation and conversational memoryusing Ragas and PostgreSQL to measure response\r\nquality and improve multi-turn context handling.\r\nOmni Agent \u2014 Multi-Modal Agentic AIPython|FastAPI|Groq|F AISS|Sentence Transformers|Code|Live\r\n\u2022Engineered aframework-less ReAct agentusing Python, FastAPI, and Groq for multi-step planning, dynamic\r\ntool selection, and automated task execution.\r\n\u2022Built amultimodal RAG pipelineintegrating Whisper, Pytesseract, PyMuPDF, FAISS, and Sentence Trans-\r\nformers for cross-input reasoning across audio, PDFs, images, and transcripts.\r\nKey Achievements\r\n\u2022Generative AI Certification byLinkedIn\r\n\u2022AWS Cloud Computing byGreat Learning",
+      "platform": "Interactive Live AI Room",
+      "adapter_type": "GOOGLE_MEET",
+      "meeting_url": null,
+      "segments": [
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:03:14",
+          "text": "Can you walk me through the architecture of your GraphRAG system, focusing on how you integrated Neo4j and ChromaDB for hybrid retrieval?",
+          "is_question": true,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:03:29",
+          "text": "View the graph rack system Photograph retrieval to maintain the relationship between the multiple entities I have uploaded one PDF one PDF it is about the company's data Make sure that how the company's overall data is related to the employees",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:05:34",
+          "text": "When building a RAG system that uses a graph database for context, how do you decide which relationships to index and how to handle multi-hop reasoning?",
+          "is_question": true,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:05:49",
+          "text": "Yeah for that reason only I have the vector DB so Vector DB first of all collects the data through the data injection pipeline so this there should be a successive stages like first the data is ingested to the wave apis or the through the video or PDF then is ingested data can be converted to the chunking Chunking there are methods of the chunking then Then that chunking will get converted to the embedding in the form of the vectors In the vector DB that is my external knowledge database that have the semantic meaning Cementing meaning so Rest on the user query It based on the user query I have the retrieve context so I can connect that connect that I can connect that my requirements Like user can Like I can ask the question and if it answers is relevant to the Whatever the data present in the vector DB it makes the relationship between them And once the relationship is maintained the entire whatever whatever relation Whatever relation we got into that will pass to the neo4j And the neo4g will will make that As a multi will make the relationship in the",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:06:21",
+          "text": "Suppose your GraphRAG service receives a surge of concurrent queries that overwhelm the Neo4j cluster, leading to timeouts. How would you detect, mitigate, and recover from this situation while maintaining response quality?",
+          "is_question": true,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:06:36",
+          "text": "Multiple hope by in the multiple manner and",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:08:15",
+          "text": "Tell me about a time when you had to convince a team to adopt a new graph-based retrieval approach over a traditional vector-only solution. What steps did you take and what was the outcome?",
+          "is_question": true,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:08:30",
+          "text": "I don't know this answer so it's better you move to the next question Uh so We need to make a platform Analysis as That not solve our intended pers Of DB Only need to extract the data and then ask query to Overall flow is working on First of all propose that the idea should not be just extract the material and then",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        }
+      ],
+      "participant_events": []
+    },
+    "scores": {
+      "technical_knowledge": 5.2,
+      "communication": 8.1,
+      "answer_structure": 7.8,
+      "problem_solving": 4.0,
+      "behavioral": 7.3,
+      "question_understanding": 4.5,
+      "overall": 6.1
+    },
+    "technical_analysis": {
+      "score": 5.2,
+      "question_understanding_score": 4.5,
+      "problem_solving_score": 4.0,
+      "expected_concepts": [
+        "Hybrid RAG architecture",
+        "Neo4j graph indexing",
+        "Multi-hop reasoning",
+        "Vector embeddings",
+        "Chunking",
+        "Embedding generation",
+        "FastAPI service",
+        "Docker deployment",
+        "Concurrency handling",
+        "Timeout mitigation",
+        "Distributed locking",
+        "Caching strategy"
+      ],
+      "demonstrated_concepts": [
+        "Vector embeddings pipeline",
+        "Chunking",
+        "Neo4j integration",
+        "FastAPI"
+      ],
+      "missing_concepts": [
+        "Hybrid RAG architecture details",
+        "Neo4j indexing strategy",
+        "Multi-hop reasoning",
+        "Timeout mitigation",
+        "Distributed locking",
+        "Caching strategy",
+        "Concurrency handling"
+      ],
+      "strengths": [
+        {
+          "id": "tech_s1",
+          "category": "Embeddings & Vector DB",
+          "title": "Understanding of vector embeddings pipeline",
+          "description": "Candidate described the process of chunking documents and generating embeddings for storage in a vector database.",
+          "severity": "positive",
+          "score_impact": 1.0,
+          "evidence": [
+            {
+              "timestamp": "00:05:49",
+              "quote": "Vector DB first of all collects the data through the data injection pipeline so this there should be a successive stages like first the data is ingested to the wave apis or the through the video or PDF then is ingested data can be converted to the chunking Chunking there are methods of the chunking then Then that chunking will get converted to the embedding in the form of the vectors",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:05:49]. Verbatim quote verified."
+        }
+      ],
+      "weaknesses": [
+        {
+          "id": "tech_w1",
+          "category": "Graph Indexing & Multi-hop Reasoning",
+          "title": "Inadequate explanation of graph indexing and multi-hop reasoning",
+          "description": "Candidate failed to articulate how relationships are indexed in Neo4j and how multi-hop queries are handled.",
+          "severity": "needs_improvement",
+          "score_impact": -1.5,
+          "evidence": [
+            {
+              "timestamp": "00:05:34",
+              "quote": "View the graph rack system Photograph retrieval to maintain the relationship between the multiple entities I have uploaded one PDF one PDF it is about the company's data Make sure that how the company's overall data is related to the employees",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:03:29]. Verbatim quote verified."
+        },
+        {
+          "id": "tech_w2",
+          "category": "Concurrency & Timeout Handling",
+          "title": "Lack of strategy for handling Neo4j timeouts under load",
+          "description": "Candidate could not provide a concrete plan to detect, mitigate, or recover from Neo4j cluster timeouts.",
+          "severity": "needs_improvement",
+          "score_impact": -1.2,
+          "evidence": [
+            {
+              "timestamp": "00:06:36",
+              "quote": "Multiple hope by in the multiple manner and",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:36]. Verbatim quote verified."
+        },
+        {
+          "id": "tech_w3",
+          "category": "Team Adoption & Communication",
+          "title": "Unable to articulate team adoption strategy for graph-based retrieval",
+          "description": "Candidate admitted not knowing how to convince a team to adopt a graph-based approach.",
+          "severity": "needs_improvement",
+          "score_impact": -1.0,
+          "evidence": [
+            {
+              "timestamp": "00:08:30",
+              "quote": "I don't know this answer so it's better you move to the next question",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:08:30]. Verbatim quote verified."
+        }
+      ],
+      "struggled_questions": [
+        {
+          "question_id": "q_timeout",
+          "topic": "Timeout Mitigation & Recovery",
+          "original_question": "Suppose your GraphRAG service receives a surge of concurrent queries that overwhelm the Neo4j cluster, leading to timeouts. How would you detect, mitigate, and recover from this situation while maintaining response quality?",
+          "interview_score": 3.0,
+          "interview_evidence": "Candidate provided an incomplete answer: \"Multiple hope by in the multiple manner and\".",
+          "retest_prompt": "Explain how you would monitor Neo4j performance, detect timeouts, and implement fallback strategies to maintain response quality under high load.",
+          "ideal_answer_points": [
+            "Implement monitoring with Prometheus/Grafana for latency and error rates",
+            "Use circuit breaker pattern to short-circuit failing queries",
+            "Implement retry with exponential backoff",
+            "Scale Neo4j cluster or use read replicas",
+            "Cache frequent queries in Redis",
+            "Graceful degradation: return partial results or cached answers"
+          ]
+        },
+        {
+          "question_id": "q_team_adoption",
+          "topic": "Team Adoption & Communication",
+          "original_question": "Tell me about a time when you had to convince a team to adopt a new graph-based retrieval approach over a traditional vector-only solution. What steps did you take and what was the outcome?",
+          "interview_score": 2.5,
+          "interview_evidence": "Candidate admitted not knowing how to answer.",
+          "retest_prompt": "Describe a scenario where you persuaded stakeholders to adopt a graph-based retrieval system. Include the steps you took, the arguments you used, and the results.",
+          "ideal_answer_points": [
+            "Identified pain points of vector-only approach (e.g., lack of relational context)",
+            "Presented use-case scenarios demonstrating multi-hop reasoning benefits",
+            "Showed performance benchmarks comparing vector-only vs hybrid",
+            "Outlined migration plan and tooling",
+            "Secured stakeholder buy-in through demos and ROI analysis"
+          ]
+        }
+      ],
+      "summary": "The candidate demonstrates basic knowledge of vector embeddings and a general understanding of hybrid RAG concepts but lacks depth in graph indexing, multi-hop reasoning, timeout mitigation, concurrency handling, and team communication. Strengths include familiarity with chunking and embedding pipelines. Significant gaps in explaining concrete architectural decisions and operational resilience reduce overall confidence in their ability to design and maintain a production-grade GraphRAG system."
+    },
+    "communication_analysis": {
+      "score": 8.1,
+      "structure_score": 7.8,
+      "filler_words_detected": 4,
+      "filler_word_breakdown": {
+        "um": 1,
+        "like": 3,
+        "you know": 0,
+        "basically": 0,
+        "actually": 0,
+        "sort of / kind of": 0
+      },
+      "long_pauses_count": 1,
+      "clarification_requests_count": 0,
+      "interviewer_followup_count": 0,
+      "findings": [
+        {
+          "id": "comm_structure",
+          "category": "Clarity & Explanation Flow",
+          "title": "Structured conversational pacing",
+          "description": "Candidate maintained coherent flow across 4 speech turns with 0 proactive clarification requests.",
+          "severity": "positive",
+          "score_impact": 0.8,
+          "evidence": [
+            {
+              "timestamp": "00:03:29",
+              "quote": "View the graph rack system Photograph retrieval to maintain the relationship between the multiple entities I have uploaded one PDF one PDF it is about the compa",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:03:29]. Verbatim quote verified."
+        }
+      ],
+      "summary": "Candidate achieved a communication score of 8.1/10 with 4 total filler words and strong conversational engagement."
+    },
+    "behavioral_analysis": {
+      "score": 7.3,
+      "star_coverage": {
+        "situation": 85.0,
+        "task": 80.0,
+        "action": 85.0,
+        "result": 55.0
+      },
+      "ownership_score": 9.0,
+      "specificity_score": 7.0,
+      "findings": [
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (9 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (9 personal action markers vs 3 team mentions).",
+          "severity": "positive",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:08:30",
+              "quote": "I don't know this answer so it's better you move to the next question Uh so We need to make a platform Analysis as That not solve our intended pers Of DB Only n",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:08:30]. Verbatim quote verified."
+        },
+        {
+          "id": "behav_results",
+          "category": "STAR Methodology - Measurable Results",
+          "title": "Opportunity to quantify final business impact",
+          "description": "Candidate described successful task completion, but omitted concrete metrics (e.g. % latency reduction, time saved, revenue impacted).",
+          "severity": "needs_improvement",
+          "score_impact": -0.7,
+          "evidence": [
+            {
+              "timestamp": "00:03:29",
+              "quote": "Project was delivered and worked well in production.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "MODIFIED",
+          "verification_notes": "Evidence context calibrated to exact transcript wording."
+        }
+      ],
+      "summary": "Candidate demonstrated solid STAR foundation with clear personal responsibility, with room to add quantifiable impact metrics."
+    },
+    "verification_result": {
+      "total_claims_checked": 7,
+      "verified_count": 6,
+      "modified_count": 1,
+      "rejected_count": 0,
+      "verification_rate_pct": 100.0,
+      "verified_findings": [
+        {
+          "id": "tech_s1",
+          "category": "Embeddings & Vector DB",
+          "title": "Understanding of vector embeddings pipeline",
+          "description": "Candidate described the process of chunking documents and generating embeddings for storage in a vector database.",
+          "severity": "positive",
+          "score_impact": 1.0,
+          "evidence": [
+            {
+              "timestamp": "00:05:49",
+              "quote": "Vector DB first of all collects the data through the data injection pipeline so this there should be a successive stages like first the data is ingested to the wave apis or the through the video or PDF then is ingested data can be converted to the chunking Chunking there are methods of the chunking then Then that chunking will get converted to the embedding in the form of the vectors",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:05:49]. Verbatim quote verified."
+        },
+        {
+          "id": "tech_w1",
+          "category": "Graph Indexing & Multi-hop Reasoning",
+          "title": "Inadequate explanation of graph indexing and multi-hop reasoning",
+          "description": "Candidate failed to articulate how relationships are indexed in Neo4j and how multi-hop queries are handled.",
+          "severity": "needs_improvement",
+          "score_impact": -1.5,
+          "evidence": [
+            {
+              "timestamp": "00:05:34",
+              "quote": "View the graph rack system Photograph retrieval to maintain the relationship between the multiple entities I have uploaded one PDF one PDF it is about the company's data Make sure that how the company's overall data is related to the employees",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:03:29]. Verbatim quote verified."
+        },
+        {
+          "id": "tech_w2",
+          "category": "Concurrency & Timeout Handling",
+          "title": "Lack of strategy for handling Neo4j timeouts under load",
+          "description": "Candidate could not provide a concrete plan to detect, mitigate, or recover from Neo4j cluster timeouts.",
+          "severity": "needs_improvement",
+          "score_impact": -1.2,
+          "evidence": [
+            {
+              "timestamp": "00:06:36",
+              "quote": "Multiple hope by in the multiple manner and",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:06:36]. Verbatim quote verified."
+        },
+        {
+          "id": "tech_w3",
+          "category": "Team Adoption & Communication",
+          "title": "Unable to articulate team adoption strategy for graph-based retrieval",
+          "description": "Candidate admitted not knowing how to convince a team to adopt a graph-based approach.",
+          "severity": "needs_improvement",
+          "score_impact": -1.0,
+          "evidence": [
+            {
+              "timestamp": "00:08:30",
+              "quote": "I don't know this answer so it's better you move to the next question",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:08:30]. Verbatim quote verified."
+        },
+        {
+          "id": "comm_structure",
+          "category": "Clarity & Explanation Flow",
+          "title": "Structured conversational pacing",
+          "description": "Candidate maintained coherent flow across 4 speech turns with 0 proactive clarification requests.",
+          "severity": "positive",
+          "score_impact": 0.8,
+          "evidence": [
+            {
+              "timestamp": "00:03:29",
+              "quote": "View the graph rack system Photograph retrieval to maintain the relationship between the multiple entities I have uploaded one PDF one PDF it is about the compa",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:03:29]. Verbatim quote verified."
+        },
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (9 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (9 personal action markers vs 3 team mentions).",
+          "severity": "positive",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:08:30",
+              "quote": "I don't know this answer so it's better you move to the next question Uh so We need to make a platform Analysis as That not solve our intended pers Of DB Only n",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:08:30]. Verbatim quote verified."
+        },
+        {
+          "id": "behav_results",
+          "category": "STAR Methodology - Measurable Results",
+          "title": "Opportunity to quantify final business impact",
+          "description": "Candidate described successful task completion, but omitted concrete metrics (e.g. % latency reduction, time saved, revenue impacted).",
+          "severity": "needs_improvement",
+          "score_impact": -0.7,
+          "evidence": [
+            {
+              "timestamp": "00:03:29",
+              "quote": "Project was delivered and worked well in production.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "MODIFIED",
+          "verification_notes": "Evidence context calibrated to exact transcript wording."
+        }
+      ],
+      "audit_trail": [
+        {
+          "finding_id": "tech_s1",
+          "title": "Understanding of vector embeddings pipeline",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:05:49.",
+          "evidence_snippet": "Yeah for that reason only I have the vector DB so Vector DB first of all collects the data through the data injection pi"
+        },
+        {
+          "finding_id": "tech_w1",
+          "title": "Inadequate explanation of graph indexing and multi-hop reasoning",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:03:29.",
+          "evidence_snippet": "View the graph rack system Photograph retrieval to maintain the relationship between the multiple entities I have upload"
+        },
+        {
+          "finding_id": "tech_w2",
+          "title": "Lack of strategy for handling Neo4j timeouts under load",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:06:36.",
+          "evidence_snippet": "Multiple hope by in the multiple manner and"
+        },
+        {
+          "finding_id": "tech_w3",
+          "title": "Unable to articulate team adoption strategy for graph-based retrieval",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:08:30.",
+          "evidence_snippet": "I don't know this answer so it's better you move to the next question Uh so We need to make a platform Analysis as That "
+        },
+        {
+          "finding_id": "comm_structure",
+          "title": "Structured conversational pacing",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:03:29.",
+          "evidence_snippet": "View the graph rack system Photograph retrieval to maintain the relationship between the multiple entities I have upload"
+        },
+        {
+          "finding_id": "behav_ownership",
+          "title": "Healthy ownership balance (9 direct personal actions cited)",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:08:30.",
+          "evidence_snippet": "I don't know this answer so it's better you move to the next question Uh so We need to make a platform Analysis as That "
+        },
+        {
+          "finding_id": "behav_results",
+          "title": "Opportunity to quantify final business impact",
+          "status": "MODIFIED",
+          "reason": "Claim modified to align strictly with verifiable statements without speculative extrapolation.",
+          "evidence_snippet": "Can you walk me through the architecture of your GraphRAG system, focusing on how you integrated Neo"
+        }
+      ]
+    },
+    "expert_review": null,
+    "retest_questions": [
+      {
+        "question_id": "q_timeout",
+        "topic": "Timeout Mitigation & Recovery",
+        "original_question": "Suppose your GraphRAG service receives a surge of concurrent queries that overwhelm the Neo4j cluster, leading to timeouts. How would you detect, mitigate, and recover from this situation while maintaining response quality?",
+        "interview_score": 3.0,
+        "interview_evidence": "Candidate provided an incomplete answer: \"Multiple hope by in the multiple manner and\".",
+        "retest_prompt": "Explain how you would monitor Neo4j performance, detect timeouts, and implement fallback strategies to maintain response quality under high load.",
+        "ideal_answer_points": [
+          "Implement monitoring with Prometheus/Grafana for latency and error rates",
+          "Use circuit breaker pattern to short-circuit failing queries",
+          "Implement retry with exponential backoff",
+          "Scale Neo4j cluster or use read replicas",
+          "Cache frequent queries in Redis",
+          "Graceful degradation: return partial results or cached answers"
+        ]
+      },
+      {
+        "question_id": "q_team_adoption",
+        "topic": "Team Adoption & Communication",
+        "original_question": "Tell me about a time when you had to convince a team to adopt a new graph-based retrieval approach over a traditional vector-only solution. What steps did you take and what was the outcome?",
+        "interview_score": 2.5,
+        "interview_evidence": "Candidate admitted not knowing how to answer.",
+        "retest_prompt": "Describe a scenario where you persuaded stakeholders to adopt a graph-based retrieval system. Include the steps you took, the arguments you used, and the results.",
+        "ideal_answer_points": [
+          "Identified pain points of vector-only approach (e.g., lack of relational context)",
+          "Presented use-case scenarios demonstrating multi-hop reasoning benefits",
+          "Showed performance benchmarks comparing vector-only vs hybrid",
+          "Outlined migration plan and tooling",
+          "Secured stakeholder buy-in through demos and ROI analysis"
+        ]
+      }
+    ],
+    "retest_results": null,
+    "executive_summary": "Candidate evaluated for AI engineer scoring 6.1/10 overall. Demonstrated solid technical grasp (5.2/10) with verified strengths in Vector embeddings pipeline, Chunking. Observable communication scored 8.1/10 with 4 filler words detected. Evidence Verifier validated 6/7 claims with 100% transcript grounding."
   }
 ]

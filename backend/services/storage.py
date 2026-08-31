@@ -88,22 +88,62 @@ class InterviewStorage:
                 for rec in self.interviews.values():
                     col.update_one({"id": rec.id}, {"$set": rec.model_dump()}, upsert=True)
 
-    def get_all(self, user_email: Optional[str] = None) -> List[InterviewRecord]:
+    def get_all(self, user_email: Optional[str] = None, include_unclaimed: bool = False) -> List[InterviewRecord]:
         if mongo_manager.is_connected:
             col = mongo_manager.get_collection("interviews")
             if col is not None:
                 query = {}
                 if user_email:
-                    # Match user's email or candidate_email
-                    query = {"$or": [{"user_email": user_email}, {"candidate_email": user_email}]}
+                    conditions = [{"user_email": user_email}, {"candidate_email": user_email}]
+                    if include_unclaimed:
+                        # Also include interviews with no owner (created before sign-in)
+                        conditions.append({"user_email": None})
+                        conditions.append({"user_email": ""})
+                        conditions.append({"user_email": {"$exists": False}})
+                    query = {"$or": conditions}
                 docs = list(col.find(query, {"_id": 0}).sort("created_at", -1))
                 return [InterviewRecord(**d) for d in docs]
         
         all_recs = sorted(list(self.interviews.values()), key=lambda x: x.created_at, reverse=True)
         if user_email:
-            # Filter strictly by user_email or candidate_email
-            return [r for r in all_recs if r.user_email == user_email or r.candidate_email == user_email]
+            result = []
+            for r in all_recs:
+                if r.user_email == user_email or r.candidate_email == user_email:
+                    result.append(r)
+                elif include_unclaimed and (not r.user_email or r.user_email == ""):
+                    result.append(r)
+            return result
         return all_recs
+
+    def claim_unclaimed_interviews(self, user_email: str, user_name: Optional[str] = None):
+        """Assign all interviews with no user_email to the given user (created before sign-in)."""
+        claimed_count = 0
+
+        # Claim in MongoDB
+        if mongo_manager.is_connected:
+            col = mongo_manager.get_collection("interviews")
+            if col is not None:
+                update_fields = {"user_email": user_email, "candidate_email": user_email}
+                if user_name:
+                    update_fields["candidate_name"] = user_name
+                result = col.update_many(
+                    {"$or": [{"user_email": None}, {"user_email": ""}, {"user_email": {"$exists": False}}]},
+                    {"$set": update_fields}
+                )
+                claimed_count = result.modified_count
+
+        # Claim in memory cache
+        for rec in self.interviews.values():
+            if not rec.user_email or rec.user_email == "":
+                rec.user_email = user_email
+                rec.candidate_email = user_email
+                if user_name:
+                    rec.candidate_name = user_name
+                claimed_count += 1
+
+        if claimed_count > 0:
+            self.save_to_disk()
+            logger.info(f"Claimed {claimed_count} unclaimed interview(s) for {user_email}")
 
     def get_by_id(self, interview_id: str) -> Optional[InterviewRecord]:
         if mongo_manager.is_connected:

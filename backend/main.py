@@ -112,6 +112,9 @@ def auth_register(payload: RegisterRequest):
 def auth_login(payload: LoginRequest):
     try:
         res = AuthService.login(payload.email, payload.password)
+        # Claim any unclaimed interviews (created before sign-in) for this user
+        user_email = payload.email.strip().lower()
+        storage.claim_unclaimed_interviews(user_email)
         return res
     except ValueError as e:
         raise HTTPException(status_code=401, detail=str(e))
@@ -123,6 +126,10 @@ def auth_oauth_or_demo(payload: OAuthLoginRequest):
         name=payload.name,
         email=payload.email
     )
+    # Claim any unclaimed interviews (created before sign-in) for this user
+    user_email = (payload.email or "").strip().lower()
+    if user_email:
+        storage.claim_unclaimed_interviews(user_email, payload.name or "Interview Candidate")
     return res
 
 @app.get("/api/auth/me", response_model=UserProfile)
@@ -257,10 +264,10 @@ async def finish_meeting_and_analyze(
 def list_interviews(token: Optional[str] = None):
     user = AuthService.get_user_by_token(token)
     if user:
-        # Authenticated user: Return strictly their own interviews
-        return storage.get_all(user_email=user.email)
+        # Authenticated user: Return their own interviews + any unclaimed interviews
+        return storage.get_all(user_email=user.email, include_unclaimed=True)
     
-    # Unauthenticated / Visitor: Return single sample benchmark interview for preview
+    # Unauthenticated / Visitor: Return all unclaimed interviews (created in current session)
     all_recs = storage.get_all()
     return all_recs[:1] if all_recs else []
 

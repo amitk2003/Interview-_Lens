@@ -1,10 +1,17 @@
 import os
+import ssl
 import logging
 from typing import Optional, Dict, Any, List
 from pymongo import MongoClient
 from pymongo.collection import Collection
 from pymongo.database import Database
 from dotenv import load_dotenv
+
+try:
+    import certifi
+    CA_CERT_PATH = certifi.where()
+except ImportError:
+    CA_CERT_PATH = None
 
 # Load .env from both project root and backend dir
 root_env = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
@@ -33,12 +40,20 @@ class MongoDBManager:
 
     def _init_connection(self):
         try:
-            # 5 second timeout for Atlas Cloud TLS handshake
-            self._client = MongoClient(
-                MONGODB_URI,
-                serverSelectionTimeoutMS=5000,
-                connectTimeoutMS=5000
-            )
+            # Build connection kwargs with TLS/SSL support for Atlas
+            connect_kwargs = {
+                "serverSelectionTimeoutMS": 5000,
+                "connectTimeoutMS": 5000,
+            }
+
+            # Add TLS CA certificate for Python 3.12+ / Atlas SRV connections
+            if "mongodb+srv" in MONGODB_URI or "mongodb.net" in MONGODB_URI:
+                connect_kwargs["tls"] = True
+                if CA_CERT_PATH:
+                    connect_kwargs["tlsCAFile"] = CA_CERT_PATH
+                    logger.info(f"Using certifi CA bundle: {CA_CERT_PATH}")
+
+            self._client = MongoClient(MONGODB_URI, **connect_kwargs)
             # Ping database
             self._client.admin.command('ping')
             self._db = self._client[MONGODB_DB_NAME]

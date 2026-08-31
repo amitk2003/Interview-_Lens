@@ -9,6 +9,7 @@ import ArchitectureView from './components/ArchitectureView.jsx';
 import UserProfileModal from './components/UserProfileModal.jsx';
 import AuthModal from './components/AuthModal.jsx';
 import LiveInterviewRoom from './components/LiveInterviewRoom.jsx';
+import { API_BASE } from './config.js';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -17,7 +18,7 @@ export default function App() {
   const [healthData, setHealthData] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('AUTH_TOKEN'));
-  
+
   // Modals & Sub-views
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -30,7 +31,7 @@ export default function App() {
   const fetchInterviews = async () => {
     try {
       const token = localStorage.getItem('AUTH_TOKEN');
-      const url = token ? `/api/interviews?token=${token}` : '/api/interviews';
+      const url = token ? `${API_BASE}/api/interviews?token=${token}` : `${API_BASE}/api/interviews`;
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
@@ -43,7 +44,7 @@ export default function App() {
 
   const fetchHealth = async () => {
     try {
-      const res = await fetch('/api/health');
+      const res = await fetch(`${API_BASE}/api/health`);
       if (res.ok) {
         const data = await res.json();
         setHealthData(data);
@@ -56,7 +57,7 @@ export default function App() {
   const fetchUserProfile = async () => {
     try {
       const token = localStorage.getItem('AUTH_TOKEN');
-      const url = token ? `/api/auth/me?token=${token}` : '/api/user/profile';
+      const url = token ? `${API_BASE}/api/auth/me?token=${token}` : `${API_BASE}/api/user/profile`;
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();

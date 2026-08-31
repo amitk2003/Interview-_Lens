@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  BarChart3, 
-  TrendingUp, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Compass, 
-  Target, 
+import { API_BASE } from '../config';
+import {
+  BarChart3,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle2,
+  Compass,
+  Target,
   Sparkles,
   ArrowRight,
   ShieldCheck
@@ -16,7 +17,7 @@ export default function CrossInterviewView() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/insights/cross-interview')
+    fetch(`${API_BASE}/api/insights/cross-interview`)
       .then(res => res.json())
       .then(data => {
         setInsights(data);

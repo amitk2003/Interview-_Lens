@@ -21,6 +21,7 @@ import {
   ExternalLink,
   Upload
 } from 'lucide-react';
+import { API_BASE } from '../config.js';
 
 const ADAPTERS = [
   {
@@ -116,7 +117,7 @@ export default function CreateInterviewModal({
     formData.append('file', file);
 
     try {
-      const res = await fetch('/api/parse/document', {
+      const res = await fetch(`${API_BASE}/api/parse/document`, {
         method: 'POST',
         body: formData
       });
@@ -140,7 +141,7 @@ export default function CreateInterviewModal({
     formData.append('file', file);
 
     try {
-      const res = await fetch('/api/parse/document', {
+      const res = await fetch(`${API_BASE}/api/parse/document`, {
         method: 'POST',
         body: formData
       });
@@ -176,7 +177,7 @@ export default function CreateInterviewModal({
     if (selectedAdapter === 'LIVE_AI') {
       setLoading(true);
       try {
-        const res = await fetch('/api/interview/interactive/plan', {
+        const res = await fetch(`${API_BASE}/api/interview/interactive/plan`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -214,7 +215,7 @@ export default function CreateInterviewModal({
         formData.append('platform', 'Uploaded Recording File');
         if (token) formData.append('token', token);
 
-        const res = await fetch('/api/interviews/upload', {
+        const res = await fetch(`${API_BASE}/api/interviews/upload`, {
           method: 'POST',
           body: formData
         });
@@ -235,7 +236,7 @@ export default function CreateInterviewModal({
     setLoading(true);
     try {
       const transcriptContent = liveTranscriptNotes.trim() || `[00:00:15] Interviewer: Welcome to the ${jobRole} technical round.\n[00:00:30] Candidate: Hello, thank you for having me.`;
-      const urlWithToken = token ? `/api/interviews/workspace/create?token=${token}` : '/api/interviews/workspace/create';
+      const urlWithToken = token ? `${API_BASE}/api/interviews/workspace/create?token=${token}` : `${API_BASE}/api/interviews/workspace/create`;
       const res = await fetch(urlWithToken, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

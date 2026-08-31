@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Zap, 
-  CheckCircle2, 
-  XCircle, 
-  TrendingUp, 
-  ShieldCheck, 
-  Layers, 
+import { API_BASE } from '../config';
+import {
+  Zap,
+  CheckCircle2,
+  XCircle,
+  TrendingUp,
+  ShieldCheck,
+  Layers,
   Sparkles,
   ArrowRight,
   RefreshCw
@@ -18,7 +19,7 @@ export default function BenchmarkView({ interviews }) {
 
   const runBenchmark = (id) => {
     setLoading(true);
-    fetch(`/api/benchmark/baseline-comparison?interview_id=${id || ''}`, { method: 'POST' })
+    fetch(`${API_BASE}/api/benchmark/baseline-comparison?interview_id=${id || ''}`, { method: 'POST' })
       .then(res => res.json())
       .then(data => {
         setComparison(data);

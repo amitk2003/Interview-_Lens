@@ -1,31 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  X, 
-  Mic, 
-  MicOff, 
-  Volume2, 
-  VolumeX, 
-  Send, 
-  CheckCircle2, 
-  Cpu, 
-  Sparkles, 
-  Clock, 
-  Play, 
-  Pause, 
+import {
+  X,
+  Mic,
+  MicOff,
+  Volume2,
+  VolumeX,
+  Send,
+  CheckCircle2,
+  Cpu,
+  Sparkles,
+  Clock,
+  Play,
+  Pause,
   ArrowRight,
   ShieldCheck,
   Award,
   AlertCircle
 } from 'lucide-react';
+import { API_BASE } from '../config';
 
-export default function LiveInterviewRoom({ 
-  interviewPlan, 
-  onClose, 
-  onComplete, 
-  jobRole, 
-  jobDescription, 
+export default function LiveInterviewRoom({
+  interviewPlan,
+  onClose,
+  onComplete,
+  jobRole,
+  jobDescription,
   resumeText,
-  apiKey 
+  apiKey
 }) {
   const questions = interviewPlan?.questions || [
     {
@@ -72,7 +73,7 @@ export default function LiveInterviewRoom({
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1.0;
     utterance.pitch = 1.0;
-    
+
     // Choose clean voice if available
     const voices = window.speechSynthesis.getVoices();
     const englishVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Samantha')));
@@ -196,7 +197,7 @@ export default function LiveInterviewRoom({
       formData.append('raw_transcript', transcriptFormatted);
 
       const sessionId = interviewPlan?.session_id || `live_${Date.now()}`;
-      const res = await fetch(`/api/meetings/${sessionId}/finish`, {
+      const res = await fetch(`${API_BASE}/api/meetings/${sessionId}/finish`, {
         method: 'POST',
         body: formData
       });
@@ -395,8 +396,8 @@ export default function LiveInterviewRoom({
             <button className="btn btn-secondary" onClick={onClose} disabled={isSubmitting}>
               Exit Room
             </button>
-            <button 
-              className="btn btn-primary" 
+            <button
+              className="btn btn-primary"
               onClick={handleNextQuestion}
               disabled={isSubmitting}
             >

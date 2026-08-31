@@ -12,6 +12,7 @@ import {
   User, 
   Briefcase 
 } from 'lucide-react';
+import { API_BASE } from '../config.js';
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -49,7 +50,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
         if (!name.trim() || !email.trim() || !password.trim()) {
           throw new Error('Please fill in all required fields.');
         }
-        const res = await fetch('/api/auth/register', {
+        const res = await fetch(`${API_BASE}/api/auth/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, password, target_role: targetRole })
@@ -63,7 +64,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
         if (!email.trim() || !password.trim()) {
           throw new Error('Please provide email and password.');
         }
-        const res = await fetch('/api/auth/login', {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
@@ -88,7 +89,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
       // Simulate OAuth by prompting for name/email or using defaults
       const oauthName = name.trim() || 'Interview Candidate';
       const oauthEmail = email.trim() || `user.${Date.now()}@${provider.toLowerCase()}.com`;
-      const res = await fetch('/api/auth/oauth', {
+      const res = await fetch(`${API_BASE}/api/auth/oauth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -113,7 +114,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/auth/oauth', {
+      const res = await fetch(`${API_BASE}/api/auth/oauth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

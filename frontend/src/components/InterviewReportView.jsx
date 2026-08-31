@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { 
-  ArrowLeft, 
-  ShieldCheck, 
-  CheckCircle2, 
-  AlertTriangle, 
-  XCircle, 
-  Clock, 
-  User, 
-  Cpu, 
-  MessageSquare, 
-  Award, 
-  HelpCircle, 
+import { API_BASE } from '../config';
+import {
+  ArrowLeft,
+  ShieldCheck,
+  CheckCircle2,
+  AlertTriangle,
+  XCircle,
+  Clock,
+  User,
+  Cpu,
+  MessageSquare,
+  Award,
+  HelpCircle,
   Sparkles,
   Zap,
   Quote,
@@ -23,7 +24,7 @@ import {
 export default function InterviewReportView({ interview, onBack, onUpdateInterview }) {
   const [activeTab, setActiveTab] = useState('scorecard'); // 'scorecard', 'evidence', 'retest', 'expert_review', 'transcript'
   const [evidenceFilter, setEvidenceFilter] = useState('ALL');
-  
+
   // Re-test state
   const [retestAnswers, setRetestAnswers] = useState({});
   const [retestSubmitting, setRetestSubmitting] = useState(false);
@@ -70,7 +71,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
 
     setRetestSubmitting(true);
     try {
-      const res = await fetch(`/api/interviews/${interview.id}/retest`, {
+      const res = await fetch(`${API_BASE}/api/interviews/${interview.id}/retest`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -105,7 +106,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
 
     setReviewSubmitting(true);
     try {
-      const res = await fetch(`/api/interviews/${interview.id}/review`, {
+      const res = await fetch(`${API_BASE}/api/interviews/${interview.id}/review`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -161,11 +162,11 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
 
           {/* Overall Score Dial */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
-            <div 
-              className="score-circle" 
-              style={{ 
+            <div
+              className="score-circle"
+              style={{
                 '--score-pct': Math.round((scores.overall / 10) * 100),
-                width: '84px', height: '84px' 
+                width: '84px', height: '84px'
               }}
             >
               <div className="score-circle-inner" style={{ width: '70px', height: '70px' }}>
@@ -433,7 +434,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
               <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Knowledge Gap vs Performance Gap Diagnostic Console</h3>
             </div>
             <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-              Did the candidate struggle due to an <strong>actual knowledge deficiency</strong>, or did they experience <strong>retrieval / communication freeze under interview pressure</strong>? 
+              Did the candidate struggle due to an <strong>actual knowledge deficiency</strong>, or did they experience <strong>retrieval / communication freeze under interview pressure</strong>?
               Answer the re-test below without time constraints. The system calculates the score delta and generates a personalized coaching action!
             </p>
           </div>

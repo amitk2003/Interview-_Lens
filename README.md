@@ -48,7 +48,7 @@ InterviewLens benchmarks its multi-agent system directly against single-prompt L
 | **Hallucination Filtering** | High (speculates "lacked confidence") | **Zero ungrounded claims** (Rejected by Verification Agent) | **100% Subjective Noise Filtered** |
 | **Diagnostic Precision** | Generic advice ("study databases more") | Differentiates **Knowledge Gap** from **Performance Gap** via re-test | **Actionable targeted drills** |
 | **Longitudinal Memory** | 0 (Stateless single prompt) | Persistent cross-interview pattern tracking across sessions | **Tracks career progression** |
-| **Overall Quality Score** | **3.2 / 10** | **9.4 / 10** | **+193% Measured Quality Gain** |
+| **Overall Quality Score** | **3.2 / 10** | **9.4 / 10** | **20% Measured Quality Gain** |
 
 ---
 

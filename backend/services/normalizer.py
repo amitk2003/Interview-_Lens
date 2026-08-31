@@ -171,13 +171,29 @@ class TranscriptNormalizer:
         # 02:15 - Candidate: I built a system...
         # Interviewer (00:05): Hello!
         # Interviewer: Hello
+        # Otter.ai format: Speaker Name  00:15
         ts_speaker_pattern = re.compile(
             r'^(?:\[?(\d{1,2}:\d{2}(?::\d{2})?)\]?\s*[-–]?\s*)?([A-Za-z0-9\s_\-\.]{2,30}?)(?:\s*\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?)?:\s*(.*)$'
+        )
+        otter_header_pattern = re.compile(
+            r'^([A-Za-z0-9\s_\-\.]{2,30}?)\s{2,}(\d{1,2}:\d{2}(?::\d{2})?)$'
         )
 
         simulated_seconds = 0
 
         for line in lines:
+            otter_match = otter_header_pattern.match(line)
+            if otter_match:
+                if current_text:
+                    segments.append(TranscriptSegment(
+                        speaker=TranscriptNormalizer._normalize_speaker(current_speaker),
+                        timestamp=current_time,
+                        text=" ".join(current_text)
+                    ))
+                    current_text = []
+                current_speaker = otter_match.group(1).strip()
+                current_time = TranscriptNormalizer._normalize_timestamp(otter_match.group(2).strip())
+                continue
             match = ts_speaker_pattern.match(line)
             if match:
                 # Flush previous segment

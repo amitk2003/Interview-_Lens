@@ -1,0 +1,17 @@
+Unknown 0:04
+Yes. So, hello. My name is Kumar Kumar. I have recently completed my graduation from Indian Institute of Information Technology, Sri City, and I have a strong, very strong interest in the software development and the AI engineering, over the last couple of years, over the last two years, I have made very strong projects and build a hands-on project in this in this field, and now I am exploring good opportunities where I can continue this case.
+
+Unknown 0:48
+Okay. So
+
+Unknown 0:51
+tell me about your best any best project you have done. Sure. So wait, what? Point for a minute. Yeah. So one of the best project I did Was the graph-based retrieval? So that is basically when you when you enter when you upload any documents, let's say 100-page document, then you can ask questions to the chatbot, so you can ask some questions related to the PDF, and then let's say in the PDF there are multiple relations are there. So if I go into the technicalities, then there is a rag which I have used as a primary for the primary purpose, but for extended extended purpose, I have used the Graph TV. So, so for using rag, I can I can ask the questions like, what is the what is the use of this PDF. What are the key points I need to means the basic questions and I can ask. But if I want to make the relationship between
+
+Unknown 2:30
+the
+
+Unknown 2:31
+two pages or three pages or one some bigger entity to the bigger entity to some other entity, then I need to use the graph database. So for that, I have used the graph database. So in the Google, there is a need of 4G, which is it mentioned the reason behind that. And whenever normally whenever the people Who give the interview? They they know from their side that the interview went well. So for that purpose only, I make that video sorry platform so that student can analyze their own interview as well as there are the agents which are present, which are present in the platform, they can evaluate their what, whatever they are speaking, whether there is a gap between the knowledge or the technical, or how the style of the communication that they are following, everything, every every gist can I? I can get it. I as a person can take the interview from different for different roles, and this cross-checked into the entire platform. Like, what are the shortcomings of mine? I can get to know everything, and there is one more feature is that mostly nowadays AI interview is very common for the technical rounds. So I have enabled live. It's AI assistant who will take your interview, and then he will give the analysis. And I also enabled to use the GME Zoom and Teams. My core purpose for this was to encrypt the transcription, but In the meeting, external boards or something is here.
+
+Unknown 4:52
+Hmm.

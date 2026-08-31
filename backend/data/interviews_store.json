@@ -3,6 +3,9 @@
     "id": "int_seed_1",
     "title": "Senior Distributed Systems Engineer (Fintech)",
     "candidate_name": "Candidate",
+    "candidate_email": null,
+    "user_email": null,
+    "user_id": null,
     "job_role": "Senior Distributed Systems Engineer",
     "job_description": "Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL.",
     "resume_text": null,
@@ -367,6 +370,9 @@
     "id": "int_seed_2",
     "title": "Frontend React & Next.js Staff Engineer",
     "candidate_name": "Candidate",
+    "candidate_email": null,
+    "user_email": null,
+    "user_id": null,
     "job_role": "Staff Frontend Engineer",
     "job_description": null,
     "resume_text": null,
@@ -399,6 +405,9 @@
     "id": "int_seed_3",
     "title": "Principal Cloud Architect (AWS/GCP)",
     "candidate_name": "Candidate",
+    "candidate_email": null,
+    "user_email": null,
+    "user_id": null,
     "job_role": "Principal Cloud Architect",
     "job_description": null,
     "resume_text": null,
@@ -431,6 +440,9 @@
     "id": "sess_4f789b5b",
     "title": "AI & Inference Infrastructure Architect",
     "candidate_name": "Alex Chen",
+    "candidate_email": null,
+    "user_email": null,
+    "user_id": null,
     "job_role": "Lead ML Systems Engineer",
     "job_description": "High-throughput LLM serving, Triton Inference Server, vLLM continuous batching, GPU memory management.",
     "resume_text": "MLOps, CUDA optimization, model quantization.",
@@ -850,6 +862,9 @@
     "id": "sess_e7daaf1f",
     "title": "AI Engineer First Round of Interview",
     "candidate_name": "Alex Chen",
+    "candidate_email": null,
+    "user_email": null,
+    "user_id": null,
     "job_role": "AI Engineer",
     "job_description": "llm,RAG,basics of ML, Agents,MCP,RAGAS,python ,SQL",
     "resume_text": "5+ years backend engineering, distributed event streams, microservices architecture, and caching strategies.",
@@ -1264,5 +1279,340 @@
     ],
     "retest_results": null,
     "executive_summary": "Candidate evaluated for AI Engineer scoring 7.2/10 overall. Demonstrated solid technical grasp (7.0/10) with verified strengths in Databases & Caching (database, sql, postgres), System Architecture (kafka, queue). Observable communication scored 7.9/10 with 6 filler words detected. Evidence Verifier validated 4/4 claims with 100% transcript grounding."
+  },
+  {
+    "id": "int_c7e09422",
+    "title": "Technical interview",
+    "candidate_name": "Interview Candidate",
+    "candidate_email": null,
+    "user_email": null,
+    "user_id": null,
+    "job_role": "AI Engineer",
+    "job_description": "Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL, and distributed concurrency controls.",
+    "resume_text": "Amit Kumar\r\nAI Engineer|AI Automation Engineer|AI native builder Intern\r\n+91 8669223920|amitk200703@gmail.com|LinkedIn|Github|leetcode|portfolio\r\nProfile Summary\r\nAI Engineer focused on building production-orientedGenerative AI, agentic workflows, and RAG systems\r\nusing Python. Experienced in developingmulti-agent automation, custom ReAct agents, multimodal AI\r\npipelines, hybrid GraphRAG systems, and FastAPI-based AI services with Docker, vector databases, Redis, and\r\nLLM integrations.\r\nEducation\r\nIndian Institute of Information Technology, Sri CityAndhra Pradesh, India\r\nB.Tech in Electronics and Communication EngineeringCGPA: 7.81/10|Graduated: August 2026\r\nTechnical Skills\r\n\u2022Programming:Python, C++, JavaScript (ES6+)\r\n\u2022Generative AI:LLMs, Retrieval-Augmented Generation (RAG), Prompt Engineering, AI Agents, LangChain\r\n\u2022Machine Learning :PyTorch, NLP, Tokenization, Embeddings, Semantic Search, Transformer Models\r\n\u2022Backend Development:FastAPI, REST APIs, Authentication (JWT), Node.js, Express.js\r\n\u2022Databases:Redis, Vector Databases (ChromaDB) , Neo4j(Graph database)PostgreSQL, MySQL, MongoDB,\r\n\u2022Cloud & MLOps:Docker, AWS (EC2, S3), Linux, Git/GitHub, CI/CD\r\n\u2022Core CS:Data Structures & Algorithms, Object-Oriented Programming (OOP), DBMS, OS, CN\r\nExperience\r\nAI/ML Research Intern \u2014 Defence Research and Development Organisation (DRDO)May \u2013 July 2025\r\nVisakhapatnam, Andhra Pradesh |Kaggle|Report\r\n\u2022Developedreal-time underwater object detection pipelineson8,000+ sonar imagesusingYOLOv8,\r\nFaster R-CNN, and YOLOv11-s.\r\n\u2022Achieved97.8% precision, 96.4% recall, and 97.8% mAP@0.5withYOLOv11-s, outperforming baseline\r\nmodels on sonar data.\r\n\u2022Built scalablepreprocessing, annotation, and augmentation pipelinesfor noisy grayscale sonar imagery.\r\n\u2022Developed modularPyTorch training, evaluation, and inference pipelineswith automatedmAP, Precision,\r\nRecall, and F1benchmarking for low-latency deployment.\r\nProjects\r\nFinFlow AIPython|LangChain|Multi-LLM|Redis|FastAPI|Docker|Code|Live\r\n\u2022Developed a multi-agent system with 10 specialized agents to handle trial balance checks, revenue recognition rules,\r\nand intercompany eliminations across operating entities.\r\n\u2022Implemented an automated API fallback handler across multiple LLM providers to handle rate limits andprevent\r\njob failures during run execution.\r\n\u2022Built custom evaluation prompts and agents to detect debit/credit mismatches, stale accruals, and transaction\r\nerrors,reducing manual audit reviews by 75%.\r\n\u2022Integrated a shared memory layer using Redis to pass context between agents,cutting redundant token con-\r\nsumption by 30%across execution pipelines.\r\nGraphRAG \u2014 Enterprise Knowledge SystemPython|React|FastAPI|Neo4j|ChromaDB|Groq|Code\r\n\u2022Built aproduction-ready RAG systemwith FastAPI, React, Docker, and automated document ingestion for\r\nscalable AI-powered knowledge retrieval.\r\n\u2022Engineered ahybrid GraphRAG pipelinecombining Neo4j, ChromaDB, BM25, and Groq for context-aware\r\nretrieval, multi-hop reasoning, and reliable LLM responses.\r\n\u2022AutomatedAI evaluation and conversational memoryusing Ragas and PostgreSQL to measure response\r\nquality and improve multi-turn context handling.\r\nOmni Agent \u2014 Multi-Modal Agentic AIPython|FastAPI|Groq|F AISS|Sentence Transformers|Code|Live\r\n\u2022Engineered aframework-less ReAct agentusing Python, FastAPI, and Groq for multi-step planning, dynamic\r\ntool selection, and automated task execution.\r\n\u2022Built amultimodal RAG pipelineintegrating Whisper, Pytesseract, PyMuPDF, FAISS, and Sentence Trans-\r\nformers for cross-input reasoning across audio, PDFs, images, and transcripts.\r\nKey Achievements\r\n\u2022Generative AI Certification byLinkedIn\r\n\u2022AWS Cloud Computing byGreat Learning",
+    "meeting_url": null,
+    "adapter_type": "GOOGLE_MEET",
+    "platform": "Uploaded Recording File",
+    "status": "REVIEW_REQUIRED",
+    "created_at": "2026-08-31T08:05:17.183183",
+    "raw_transcript": "Unknown 0:04\r\nYes. So, hello. My name is Kumar Kumar. I have recently completed my graduation from Indian Institute of Information Technology, Sri City, and I have a strong, very strong interest in the software development and the AI engineering, over the last couple of years, over the last two years, I have made very strong projects and build a hands-on project in this in this field, and now I am exploring good opportunities where I can continue this case.\r\n\r\nUnknown 0:48\r\nOkay. So\r\n\r\nUnknown 0:51\r\ntell me about your best any best project you have done. Sure. So wait, what? Point for a minute. Yeah. So one of the best project I did Was the graph-based retrieval? So that is basically when you when you enter when you upload any documents, let's say 100-page document, then you can ask questions to the chatbot, so you can ask some questions related to the PDF, and then let's say in the PDF there are multiple relations are there. So if I go into the technicalities, then there is a rag which I have used as a primary for the primary purpose, but for extended extended purpose, I have used the Graph TV. So, so for using rag, I can I can ask the questions like, what is the what is the use of this PDF. What are the key points I need to means the basic questions and I can ask. But if I want to make the relationship between\r\n\r\nUnknown 2:30\r\nthe\r\n\r\nUnknown 2:31\r\ntwo pages or three pages or one some bigger entity to the bigger entity to some other entity, then I need to use the graph database. So for that, I have used the graph database. So in the Google, there is a need of 4G, which is it mentioned the reason behind that. And whenever normally whenever the people Who give the interview? They they know from their side that the interview went well. So for that purpose only, I make that video sorry platform so that student can analyze their own interview as well as there are the agents which are present, which are present in the platform, they can evaluate their what, whatever they are speaking, whether there is a gap between the knowledge or the technical, or how the style of the communication that they are following, everything, every every gist can I? I can get it. I as a person can take the interview from different for different roles, and this cross-checked into the entire platform. Like, what are the shortcomings of mine? I can get to know everything, and there is one more feature is that mostly nowadays AI interview is very common for the technical rounds. So I have enabled live. It's AI assistant who will take your interview, and then he will give the analysis. And I also enabled to use the GME Zoom and Teams. My core purpose for this was to encrypt the transcription, but In the meeting, external boards or something is here.\r\n\r\nUnknown 4:52\r\nHmm.",
+    "normalized_transcript": {
+      "interview_id": null,
+      "title": "Technical interview",
+      "job_role": "AI Engineer",
+      "job_description": "Architecting high-throughput low-latency microservices with Kafka, Redis, PostgreSQL, and distributed concurrency controls.",
+      "resume_text": "Amit Kumar\r\nAI Engineer|AI Automation Engineer|AI native builder Intern\r\n+91 8669223920|amitk200703@gmail.com|LinkedIn|Github|leetcode|portfolio\r\nProfile Summary\r\nAI Engineer focused on building production-orientedGenerative AI, agentic workflows, and RAG systems\r\nusing Python. Experienced in developingmulti-agent automation, custom ReAct agents, multimodal AI\r\npipelines, hybrid GraphRAG systems, and FastAPI-based AI services with Docker, vector databases, Redis, and\r\nLLM integrations.\r\nEducation\r\nIndian Institute of Information Technology, Sri CityAndhra Pradesh, India\r\nB.Tech in Electronics and Communication EngineeringCGPA: 7.81/10|Graduated: August 2026\r\nTechnical Skills\r\n\u2022Programming:Python, C++, JavaScript (ES6+)\r\n\u2022Generative AI:LLMs, Retrieval-Augmented Generation (RAG), Prompt Engineering, AI Agents, LangChain\r\n\u2022Machine Learning :PyTorch, NLP, Tokenization, Embeddings, Semantic Search, Transformer Models\r\n\u2022Backend Development:FastAPI, REST APIs, Authentication (JWT), Node.js, Express.js\r\n\u2022Databases:Redis, Vector Databases (ChromaDB) , Neo4j(Graph database)PostgreSQL, MySQL, MongoDB,\r\n\u2022Cloud & MLOps:Docker, AWS (EC2, S3), Linux, Git/GitHub, CI/CD\r\n\u2022Core CS:Data Structures & Algorithms, Object-Oriented Programming (OOP), DBMS, OS, CN\r\nExperience\r\nAI/ML Research Intern \u2014 Defence Research and Development Organisation (DRDO)May \u2013 July 2025\r\nVisakhapatnam, Andhra Pradesh |Kaggle|Report\r\n\u2022Developedreal-time underwater object detection pipelineson8,000+ sonar imagesusingYOLOv8,\r\nFaster R-CNN, and YOLOv11-s.\r\n\u2022Achieved97.8% precision, 96.4% recall, and 97.8% mAP@0.5withYOLOv11-s, outperforming baseline\r\nmodels on sonar data.\r\n\u2022Built scalablepreprocessing, annotation, and augmentation pipelinesfor noisy grayscale sonar imagery.\r\n\u2022Developed modularPyTorch training, evaluation, and inference pipelineswith automatedmAP, Precision,\r\nRecall, and F1benchmarking for low-latency deployment.\r\nProjects\r\nFinFlow AIPython|LangChain|Multi-LLM|Redis|FastAPI|Docker|Code|Live\r\n\u2022Developed a multi-agent system with 10 specialized agents to handle trial balance checks, revenue recognition rules,\r\nand intercompany eliminations across operating entities.\r\n\u2022Implemented an automated API fallback handler across multiple LLM providers to handle rate limits andprevent\r\njob failures during run execution.\r\n\u2022Built custom evaluation prompts and agents to detect debit/credit mismatches, stale accruals, and transaction\r\nerrors,reducing manual audit reviews by 75%.\r\n\u2022Integrated a shared memory layer using Redis to pass context between agents,cutting redundant token con-\r\nsumption by 30%across execution pipelines.\r\nGraphRAG \u2014 Enterprise Knowledge SystemPython|React|FastAPI|Neo4j|ChromaDB|Groq|Code\r\n\u2022Built aproduction-ready RAG systemwith FastAPI, React, Docker, and automated document ingestion for\r\nscalable AI-powered knowledge retrieval.\r\n\u2022Engineered ahybrid GraphRAG pipelinecombining Neo4j, ChromaDB, BM25, and Groq for context-aware\r\nretrieval, multi-hop reasoning, and reliable LLM responses.\r\n\u2022AutomatedAI evaluation and conversational memoryusing Ragas and PostgreSQL to measure response\r\nquality and improve multi-turn context handling.\r\nOmni Agent \u2014 Multi-Modal Agentic AIPython|FastAPI|Groq|F AISS|Sentence Transformers|Code|Live\r\n\u2022Engineered aframework-less ReAct agentusing Python, FastAPI, and Groq for multi-step planning, dynamic\r\ntool selection, and automated task execution.\r\n\u2022Built amultimodal RAG pipelineintegrating Whisper, Pytesseract, PyMuPDF, FAISS, and Sentence Trans-\r\nformers for cross-input reasoning across audio, PDFs, images, and transcripts.\r\nKey Achievements\r\n\u2022Generative AI Certification byLinkedIn\r\n\u2022AWS Cloud Computing byGreat Learning",
+      "platform": "Uploaded Recording File",
+      "adapter_type": "GOOGLE_MEET",
+      "meeting_url": null,
+      "segments": [
+        {
+          "speaker": "Unknown 0",
+          "timestamp": "00:00:15",
+          "text": "04 Yes. So, hello. My name is Kumar Kumar. I have recently completed my graduation from Indian Institute of Information Technology, Sri City, and I have a strong, very strong interest in the software development and the AI engineering, over the last couple of years, over the last two years, I have made very strong projects and build a hands-on project in this in this field, and now I am exploring good opportunities where I can continue this case.",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "Unknown 0",
+          "timestamp": "00:00:30",
+          "text": "48 Okay. So",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "Unknown 0",
+          "timestamp": "00:00:45",
+          "text": "51 tell me about your best any best project you have done. Sure. So wait, what? Point for a minute. Yeah. So one of the best project I did Was the graph-based retrieval? So that is basically when you when you enter when you upload any documents, let's say 100-page document, then you can ask questions to the chatbot, so you can ask some questions related to the PDF, and then let's say in the PDF there are multiple relations are there. So if I go into the technicalities, then there is a rag which I have used as a primary for the primary purpose, but for extended extended purpose, I have used the Graph TV. So, so for using rag, I can I can ask the questions like, what is the what is the use of this PDF. What are the key points I need to means the basic questions and I can ask. But if I want to make the relationship between",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "Unknown 2",
+          "timestamp": "00:01:00",
+          "text": "30 the",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "Unknown 2",
+          "timestamp": "00:01:15",
+          "text": "31 two pages or three pages or one some bigger entity to the bigger entity to some other entity, then I need to use the graph database. So for that, I have used the graph database. So in the Google, there is a need of 4G, which is it mentioned the reason behind that. And whenever normally whenever the people Who give the interview? They they know from their side that the interview went well. So for that purpose only, I make that video sorry platform so that student can analyze their own interview as well as there are the agents which are present, which are present in the platform, they can evaluate their what, whatever they are speaking, whether there is a gap between the knowledge or the technical, or how the style of the communication that they are following, everything, every every gist can I? I can get it. I as a person can take the interview from different for different roles, and this cross-checked into the entire platform. Like, what are the shortcomings of mine? I can get to know everything, and there is one more feature is that mostly nowadays AI interview is very common for the technical rounds. So I have enabled live. It's AI assistant who will take your interview, and then he will give the analysis. And I also enabled to use the GME Zoom and Teams. My core purpose for this was to encrypt the transcription, but In the meeting, external boards or something is here.",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "Unknown 4",
+          "timestamp": "00:01:30",
+          "text": "52 Hmm.",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        }
+      ],
+      "participant_events": []
+    },
+    "scores": {
+      "technical_knowledge": 6.5,
+      "communication": 8.5,
+      "answer_structure": 8.2,
+      "problem_solving": 6.0,
+      "behavioral": 7.3,
+      "question_understanding": 7.0,
+      "overall": 7.1
+    },
+    "technical_analysis": {
+      "score": 6.5,
+      "question_understanding_score": 7.0,
+      "problem_solving_score": 6.0,
+      "expected_concepts": [
+        "Kafka",
+        "Redis",
+        "PostgreSQL",
+        "Distributed Concurrency Controls",
+        "Microservices Architecture",
+        "Event Streaming",
+        "Caching Strategy",
+        "Distributed Locking"
+      ],
+      "demonstrated_concepts": [
+        "Graph Database",
+        "RAG",
+        "FastAPI",
+        "AI Agentic Workflow"
+      ],
+      "missing_concepts": [
+        "Kafka",
+        "Redis",
+        "PostgreSQL",
+        "Distributed Concurrency Controls",
+        "Event Streaming",
+        "Caching Strategy",
+        "Distributed Locking"
+      ],
+      "strengths": [
+        {
+          "id": "tech_s1",
+          "category": "Architecture & System Design",
+          "title": "Graph-based Retrieval Architecture",
+          "description": "Candidate described using a graph database to capture relationships between document entities and integrating it with a RAG pipeline for contextual question answering.",
+          "severity": "positive",
+          "score_impact": 1.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:00",
+              "quote": "I have used the graph database. So for that, I have used the graph database. So in the Google, there is a need of 4G, which is it mentioned the reason behind that.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:01:15]. Verbatim quote verified."
+        }
+      ],
+      "weaknesses": [
+        {
+          "id": "tech_w1",
+          "category": "Concurrency & Distributed Locking",
+          "title": "No explanation of concurrency control",
+          "description": "Candidate did not discuss any mechanisms for handling concurrent writes or race conditions in a distributed environment.",
+          "severity": "needs_improvement",
+          "score_impact": -1.5,
+          "evidence": [
+            {
+              "timestamp": "00:01:30",
+              "quote": "Hmm.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:01:30]. Verbatim quote verified."
+        }
+      ],
+      "struggled_questions": [
+        {
+          "question_id": "q_concurrency",
+          "topic": "Distributed Locking & Concurrency",
+          "original_question": "How do you guarantee atomicity when two users attempt to reserve the same inventory item simultaneously?",
+          "interview_score": 4.5,
+          "interview_evidence": "Candidate did not explain concurrency control",
+          "retest_prompt": "Explain two ways to handle concurrent reservation requests in a distributed microservice architecture without race conditions.",
+          "ideal_answer_points": [
+            "Optimistic locking using a version column (OCC)",
+            "Pessimistic locking with SELECT FOR UPDATE",
+            "Distributed lock via Redis Redlock or ZooKeeper",
+            "Database unique constraint with idempotency key"
+          ]
+        }
+      ],
+      "summary": "Candidate demonstrates solid understanding of graph-based retrieval and RAG but lacks depth in distributed systems concepts such as Kafka, PostgreSQL, and concurrency controls."
+    },
+    "communication_analysis": {
+      "score": 8.5,
+      "structure_score": 8.2,
+      "filler_words_detected": 0,
+      "filler_word_breakdown": {
+        "um": 0,
+        "like": 0,
+        "you know": 0,
+        "basically": 0,
+        "actually": 0,
+        "sort of / kind of": 0
+      },
+      "long_pauses_count": 1,
+      "clarification_requests_count": 0,
+      "interviewer_followup_count": 0,
+      "findings": [],
+      "summary": "Candidate achieved a communication score of 8.5/10 with 0 total filler words and strong conversational engagement."
+    },
+    "behavioral_analysis": {
+      "score": 7.3,
+      "star_coverage": {
+        "situation": 85.0,
+        "task": 80.0,
+        "action": 85.0,
+        "result": 55.0
+      },
+      "ownership_score": 3.0,
+      "specificity_score": 7.0,
+      "findings": [
+        {
+          "id": "behav_results",
+          "category": "STAR Methodology - Measurable Results",
+          "title": "Opportunity to quantify final business impact",
+          "description": "Candidate described successful task completion, but omitted concrete metrics (e.g. % latency reduction, time saved, revenue impacted).",
+          "severity": "needs_improvement",
+          "score_impact": -0.7,
+          "evidence": [
+            {
+              "timestamp": "00:02:00",
+              "quote": "Project was delivered and worked well in production.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "MODIFIED",
+          "verification_notes": "Evidence context calibrated to exact transcript wording."
+        }
+      ],
+      "summary": "Candidate demonstrated solid STAR foundation with clear personal responsibility, with room to add quantifiable impact metrics."
+    },
+    "verification_result": {
+      "total_claims_checked": 3,
+      "verified_count": 2,
+      "modified_count": 1,
+      "rejected_count": 0,
+      "verification_rate_pct": 100.0,
+      "verified_findings": [
+        {
+          "id": "tech_s1",
+          "category": "Architecture & System Design",
+          "title": "Graph-based Retrieval Architecture",
+          "description": "Candidate described using a graph database to capture relationships between document entities and integrating it with a RAG pipeline for contextual question answering.",
+          "severity": "positive",
+          "score_impact": 1.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:00",
+              "quote": "I have used the graph database. So for that, I have used the graph database. So in the Google, there is a need of 4G, which is it mentioned the reason behind that.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:01:15]. Verbatim quote verified."
+        },
+        {
+          "id": "tech_w1",
+          "category": "Concurrency & Distributed Locking",
+          "title": "No explanation of concurrency control",
+          "description": "Candidate did not discuss any mechanisms for handling concurrent writes or race conditions in a distributed environment.",
+          "severity": "needs_improvement",
+          "score_impact": -1.5,
+          "evidence": [
+            {
+              "timestamp": "00:01:30",
+              "quote": "Hmm.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Ground truth confirmed at timestamp [00:01:30]. Verbatim quote verified."
+        },
+        {
+          "id": "behav_results",
+          "category": "STAR Methodology - Measurable Results",
+          "title": "Opportunity to quantify final business impact",
+          "description": "Candidate described successful task completion, but omitted concrete metrics (e.g. % latency reduction, time saved, revenue impacted).",
+          "severity": "needs_improvement",
+          "score_impact": -0.7,
+          "evidence": [
+            {
+              "timestamp": "00:02:00",
+              "quote": "Project was delivered and worked well in production.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "MODIFIED",
+          "verification_notes": "Evidence context calibrated to exact transcript wording."
+        }
+      ],
+      "audit_trail": [
+        {
+          "finding_id": "tech_s1",
+          "title": "Graph-based Retrieval Architecture",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:01:15.",
+          "evidence_snippet": "31 two pages or three pages or one some bigger entity to the bigger entity to some other entity, then I need to use the "
+        },
+        {
+          "finding_id": "tech_w1",
+          "title": "No explanation of concurrency control",
+          "status": "VERIFIED",
+          "reason": "Verbatim transcript alignment verified at 00:01:30.",
+          "evidence_snippet": "52 Hmm."
+        },
+        {
+          "finding_id": "behav_results",
+          "title": "Opportunity to quantify final business impact",
+          "status": "MODIFIED",
+          "reason": "Claim modified to align strictly with verifiable statements without speculative extrapolation.",
+          "evidence_snippet": "04 Yes. So, hello. My name is Kumar Kumar. I have recently completed my graduation from Indian Insti"
+        }
+      ]
+    },
+    "expert_review": null,
+    "retest_questions": [
+      {
+        "question_id": "q_concurrency",
+        "topic": "Distributed Locking & Concurrency",
+        "original_question": "How do you guarantee atomicity when two users attempt to reserve the same inventory item simultaneously?",
+        "interview_score": 4.5,
+        "interview_evidence": "Candidate did not explain concurrency control",
+        "retest_prompt": "Explain two ways to handle concurrent reservation requests in a distributed microservice architecture without race conditions.",
+        "ideal_answer_points": [
+          "Optimistic locking using a version column (OCC)",
+          "Pessimistic locking with SELECT FOR UPDATE",
+          "Distributed lock via Redis Redlock or ZooKeeper",
+          "Database unique constraint with idempotency key"
+        ]
+      }
+    ],
+    "retest_results": null,
+    "executive_summary": "Candidate evaluated for AI Engineer scoring 7.1/10 overall. Demonstrated solid technical grasp (6.5/10) with verified strengths in Graph Database, RAG. Observable communication scored 8.5/10 with 0 filler words detected. Evidence Verifier validated 2/3 claims with 100% transcript grounding."
   }
 ]

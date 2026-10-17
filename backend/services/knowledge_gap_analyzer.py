@@ -1,10 +1,10 @@
 from typing import List, Dict, Any
-from ..models.schemas import (
+from models.schemas import (
     ReTestQuestion,
     ReTestSubmission,
     ReTestEvaluation
 )
-from .llm_client import LLMClient
+from services.llm_client import LLMClient
 
 class KnowledgeGapAnalyzer:
     def __init__(self, llm_client: LLMClient):

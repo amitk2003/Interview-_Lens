@@ -1,8 +1,8 @@
 import uuid
 import logging
 from typing import List, Dict, Any, Optional
-from ..models.schemas import LiveCaptureChunk, ParticipantEvent, NormalizedTranscript, TranscriptSegment
-from ..services.llm_client import LLMClient
+from models.schemas import LiveCaptureChunk, ParticipantEvent, NormalizedTranscript, TranscriptSegment
+from services.llm_client import LLMClient
 
 logger = logging.getLogger("InterviewLens.Interactive")
 

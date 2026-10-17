@@ -1,12 +1,12 @@
 import re
 from typing import Dict, Any, List
-from ..models.schemas import (
+from models.schemas import (
     NormalizedTranscript,
     BehavioralAnalysisResult,
     FindingItem,
     EvidenceCitation
 )
-from ..services.llm_client import LLMClient
+from services.llm_client import LLMClient
 
 class BehavioralAgent:
     def __init__(self, llm_client: LLMClient):

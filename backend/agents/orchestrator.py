@@ -1,17 +1,17 @@
 import asyncio
 import uuid
 from typing import Dict, Any, Optional
-from ..models.schemas import (
+from models.schemas import (
     NormalizedTranscript,
     InterviewRecord,
     DimensionScores,
     ReTestQuestion
 )
-from ..services.llm_client import LLMClient
-from .technical_agent import TechnicalAgent
-from .communication_agent import CommunicationAgent
-from .behavioral_agent import BehavioralAgent
-from .verification_agent import VerificationAgent
+from services.llm_client import LLMClient
+from agents.technical_agent import TechnicalAgent
+from agents.communication_agent import CommunicationAgent
+from agents.behavioral_agent import BehavioralAgent
+from agents.verification_agent import VerificationAgent
 
 class InterviewOrchestrator:
     def __init__(self, override_api_key: Optional[str] = None):

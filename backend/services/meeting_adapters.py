@@ -2,7 +2,7 @@ import asyncio
 import uuid
 from typing import List, Dict, Any, Optional
 from datetime import datetime
-from ..models.schemas import (
+from models.schemas import (
     MeetingAdapterConfig,
     ParticipantEvent,
     LiveCaptureChunk,

@@ -2,7 +2,7 @@ import json
 import os
 import logging
 from typing import Dict, List, Optional
-from ..models.schemas import (
+from models.schemas import (
     InterviewRecord,
     ExpertReview,
     ReTestEvaluation,

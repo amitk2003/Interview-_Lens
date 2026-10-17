@@ -1,10 +1,10 @@
 from typing import List, Dict, Any
-from ..models.schemas import (
+from models.schemas import (
     NormalizedTranscript,
     FindingItem,
     VerificationResult
 )
-from ..services.llm_client import LLMClient
+from services.llm_client import LLMClient
 
 class VerificationAgent:
     """

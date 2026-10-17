@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
-from .models.schemas import (
+from models.schemas import (
     AnalyzeRequest,
     WorkspaceCreateRequest,
     LiveConnectRequest,
@@ -34,18 +34,18 @@ from .models.schemas import (
     ClaimVerificationRequest,
     BenchmarkSuiteReport
 )
-from .services.normalizer import TranscriptNormalizer
-from .services.meeting_adapters import LiveCaptureGateway
-from .services.storage import InterviewStorage
-from .services.llm_client import LLMClient
-from .services.knowledge_gap_analyzer import KnowledgeGapAnalyzer
-from .services.baseline_comparator import BaselineComparator
-from .services.file_parser import FileParser
-from .services.auth_service import AuthService
-from .services.interactive_interview import InteractiveInterviewService
-from .services.benchmark_suite import BenchmarkSuiteService
-from .agents.orchestrator import InterviewOrchestrator
-from .agents.cross_interview_agent import CrossInterviewAgent
+from  services.normalizer import TranscriptNormalizer
+from services.meeting_adapters import LiveCaptureGateway
+from services.storage import InterviewStorage
+from services.llm_client import LLMClient
+from services.knowledge_gap_analyzer import KnowledgeGapAnalyzer
+from services.baseline_comparator import BaselineComparator
+from services.file_parser import FileParser
+from services.auth_service import AuthService
+from services.interactive_interview import InteractiveInterviewService
+from services.benchmark_suite import BenchmarkSuiteService
+from agents.orchestrator import InterviewOrchestrator
+from agents.cross_interview_agent import CrossInterviewAgent
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)

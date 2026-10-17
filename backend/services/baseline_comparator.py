@@ -1,10 +1,10 @@
 from typing import Dict, Any, List
-from models.schemas import (
+from ..models.schemas import (
     NormalizedTranscript,
     InterviewRecord,
     BaselineComparisonResult
 )
-from services.llm_client import LLMClient
+from ..services.llm_client import LLMClient
 
 class BaselineComparator:
     """

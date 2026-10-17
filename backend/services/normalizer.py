@@ -1,7 +1,7 @@
 import re
 import json
 from typing import List, Dict, Any, Optional
-from models.schemas import TranscriptSegment, NormalizedTranscript
+from ..models.schemas import TranscriptSegment, NormalizedTranscript
 
 class TranscriptNormalizer:
     """

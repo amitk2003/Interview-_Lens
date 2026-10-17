@@ -1,16 +1,16 @@
 import uuid
 import datetime
 from typing import Dict, Any, List, Optional
-from models.schemas import (
+from ..models.schemas import (
     NormalizedTranscript,
     TranscriptSegment,
     BenchmarkTestCaseResult,
     BenchmarkSuiteReport
 )
-from services.llm_client import LLMClient
-from services.baseline_comparator import BaselineComparator
-from services.normalizer import TranscriptNormalizer
-from agents.orchestrator import InterviewOrchestrator
+from ..services.llm_client import LLMClient
+from ..services.baseline_comparator import BaselineComparator
+from ..services.normalizer import TranscriptNormalizer
+from ..agents.orchestrator import InterviewOrchestrator
 
 class BenchmarkSuiteService:
     """

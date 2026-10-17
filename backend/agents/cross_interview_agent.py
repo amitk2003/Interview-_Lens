@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from models.schemas import (
+from ..models.schemas import (
     InterviewRecord,
     CrossInterviewInsights,
     CrossInterviewPattern

@@ -2,7 +2,7 @@ import uuid
 import hashlib
 from typing import Dict, Optional, List
 from datetime import datetime
-from models.schemas import UserProfile
+from ..models.schemas import UserProfile
 
 class AuthService:
     """

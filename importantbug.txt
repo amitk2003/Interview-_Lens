@@ -1,0 +1,57 @@
+1. Fix: Google Meet URL Opening Bug
+Why did localhost:3000/meet.google.com/... happen?
+When a meeting URL like meet.google.com/izk-cpnu-jys was entered without https://, JavaScript's window.open() treated it as a relative website path instead of an external website, causing the browser to navigate to localhost:3000/meet.google.com/....
+
+What was updated in 
+
+CreateInterviewModal.jsx
+:
+Automatic Protocol Normalization: Any URL entered without https:// is prepended with https://.
+Instant Google Meet Shortcut: Added a + Create Instant Google Meet Call one-click button that launches https://meet.google.com/new in a new tab.
+2. Deep Technical Research: Automated Google Meet Capture
+A common question is: Can a web app automatically join and transcribe a Google Meet call just from a URL?
+
+🔒 Browser Security Constraint
+Because of Same-Origin Policy and WebRTC security isolation, a website in one tab (localhost:3000) cannot silently tap into the microphone or audio stream of another tab (meet.google.com) without explicit user permission or an authorized bridge.
+
+The 4 Ways Real-Time Google Meet Transcription Works:
+                                  ┌────────────────────────────────────────────────────────┐
+                                  │   Real-Time Ingestion Architecture Options             │
+                                  └────────────────────────────────────────────────────────┘
+                                                              │
+         ┌─────────────────────────┬──────────────────────────┼─────────────────────────┐
+         ▼                         ▼                          ▼                         ▼
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│  Option A:       │     │  Option B:       │     │  Option C:       │     │  Option D:       │
+│  Meeting Bot     │     │  Chrome Ext /    │     │  InterviewLens   │     │  Post-Meeting    │
+│  (Recall.ai /    │     │  Tab Audio API   │     │  Live AI Room    │     │  File Upload     │
+│  Daily Bots)     │     │                  │     │  (Built-in)      │     │  (.vtt/.mp3/txt) │
+└──────────────────┘     └──────────────────┘     └──────────────────┘     └──────────────────┘
+Option A: Headless Meeting Bot (e.g., Recall.ai API / Puppeteer Bot)
+When you enter a Google Meet URL, the backend sends a bot participant (e.g., "InterviewLens Capture Bot") to join the call.
+The bot records the audio stream, runs real-time speech-to-text (Whisper/Deepgram), and streams chunks into InterviewLens.
+Option B: Chrome Extension / Tab Audio Capture
+A lightweight browser extension with chrome.tabCapture captures the Google Meet audio and live closed-caption DOM directly on your machine.
+Option C: InterviewLens Built-in Interactive Live AI Room (Ready to use)
+If you want an end-to-end simulated mock interview, select the Interactive AI Interviewer Room option in InterviewLens. It asks role-specific questions with real-time voice speech recognition and analyzes your answers directly.
+Option D: Transcript / Recording Upload (Post-Meeting)
+Export Google Meet's transcript or recording (.vtt, .srt, .txt, .mp3, .wav) and upload it to run the multi-agent evaluation.
+3. Strict User Data Privacy & Workspace Isolation
+As requested, other users' interview data will no longer clutter your workspace:
+
+Token-Scoped Backend Queries (
+
+main.py
+, 
+
+storage.py
+):
+/api/interviews?token=<token> returns only interview records matching your logged-in account email.
+Alex Chen's sample benchmark interviews are bound strictly to alex.chen@example.com.
+Automatic User Attribution:
+Whenever you create or upload an interview, your user_email and candidate_name are attached to the record.
+Privacy Assurance Banner (
+
+DashboardView.jsx
+):
+Added a privacy badge to the dashboard confirming that all transcripts and evaluations are isolated to your account.

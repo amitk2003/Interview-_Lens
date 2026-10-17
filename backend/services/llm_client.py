@@ -41,26 +41,58 @@ class LLMClient:
 
     async def generate_json(self, system_prompt: str, user_prompt: str, response_schema_hint: Optional[str] = None) -> Dict[str, Any]:
         """
-        Sends structured prompt and enforces JSON output from LLM.
+        Sends structured prompt and enforces JSON output from LLM with automatic model failover.
         """
         if self.client_type == "groq":
-            try:
-                prompt_full = f"{user_prompt}\n\nIMPORTANT: Respond with ONLY a valid JSON object matching this structure: {response_schema_hint or ''}. Do not include markdown code block backticks or conversational text."
-                completion = self.groq_client.chat.completions.create(
-                    model=self.groq_model,
-                    messages=[
-                        {"role": "system", "content": system_prompt + " Output ONLY strict RFC-8259 JSON."},
-                        {"role": "user", "content": prompt_full}
-                    ],
-                    response_format={"type": "json_object"},
-                    temperature=0.2,
-                    max_tokens=4096
-                )
-                raw_text = completion.choices[0].message.content
-                return self._parse_json(raw_text)
-            except Exception as e:
-                logger.error(f"Groq API error: {e}. Falling back to simulation engine.")
-                return {}
+            candidate_models = [self.groq_model, "openai/gpt-oss-120b", "qwen/qwen3.8-27b"]
+            # Deduplicate while preserving order
+            models_to_try = []
+            for m in candidate_models:
+                if m and m not in models_to_try:
+                    models_to_try.append(m)
+
+            prompt_full = f"{user_prompt}\n\nIMPORTANT: Respond with ONLY a valid JSON object matching this structure: {response_schema_hint or ''}. Do not include markdown code block backticks or conversational text."
+
+            for model_name in models_to_try:
+                # Attempt 1: Strict JSON Object mode
+                try:
+                    completion = self.groq_client.chat.completions.create(
+                        model=model_name,
+                        messages=[
+                            {"role": "system", "content": system_prompt + " Output ONLY strict RFC-8259 JSON."},
+                            {"role": "user", "content": prompt_full}
+                        ],
+                        response_format={"type": "json_object"},
+                        temperature=0.2,
+                        max_tokens=4096
+                    )
+                    raw_text = completion.choices[0].message.content
+                    parsed = self._parse_json(raw_text)
+                    if parsed:
+                        return parsed
+                except Exception as e:
+                    logger.warning(f"Groq {model_name} strict json mode failed: {e}. Trying unformatted mode...")
+
+                # Attempt 2: Unformatted mode with regex extraction
+                try:
+                    completion = self.groq_client.chat.completions.create(
+                        model=model_name,
+                        messages=[
+                            {"role": "system", "content": system_prompt + " Output ONLY valid JSON."},
+                            {"role": "user", "content": prompt_full}
+                        ],
+                        temperature=0.2,
+                        max_tokens=4096
+                    )
+                    raw_text = completion.choices[0].message.content
+                    parsed = self._parse_json(raw_text)
+                    if parsed:
+                        return parsed
+                except Exception as e:
+                    logger.warning(f"Groq {model_name} fallback failed: {e}")
+
+            logger.error("All Groq model attempts exhausted. Falling back to simulation engine.")
+            return {}
 
         elif self.client_type == "openai":
             try:
@@ -96,6 +128,13 @@ class LLMClient:
         clean = clean.strip()
         try:
             return json.loads(clean)
-        except Exception as e:
-            logger.error(f"Failed to parse LLM JSON: {e}, text was: {clean[:200]}")
+        except Exception:
+            import re
+            match = re.search(r'(\{.*\})', clean, re.DOTALL)
+            if match:
+                try:
+                    return json.loads(match.group(1))
+                except Exception:
+                    pass
+            logger.error(f"Failed to parse LLM JSON: text was: {clean[:200]}")
             return {}

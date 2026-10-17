@@ -46,6 +46,13 @@ export default function LiveInterviewRoom({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(true);
 
+  // Dynamic Interviewer State
+  const [activeQuestionText, setActiveQuestionText] = useState(questions[0]?.question || '');
+  const [activeCategory, setActiveCategory] = useState(questions[0]?.category || 'Experience & Architecture');
+  const [isEvaluatingTurn, setIsEvaluatingTurn] = useState(false);
+  const [lastInterviewerTurn, setLastInterviewerTurn] = useState(null);
+  const [isInterviewComplete, setIsInterviewComplete] = useState(false);
+
   const recognitionRef = useRef(null);
   const timerRef = useRef(null);
 
@@ -74,7 +81,6 @@ export default function LiveInterviewRoom({
     utterance.rate = 1.0;
     utterance.pitch = 1.0;
 
-    // Choose clean voice if available
     const voices = window.speechSynthesis.getVoices();
     const englishVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Samantha')));
     if (englishVoice) utterance.voice = englishVoice;
@@ -88,13 +94,13 @@ export default function LiveInterviewRoom({
 
   // Speak first question on load
   useEffect(() => {
-    if (currentQ) {
-      speakQuestion(currentQ.question);
+    if (activeQuestionText) {
+      speakQuestion(activeQuestionText);
     }
     return () => {
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     };
-  }, [currentIdx]);
+  }, [activeQuestionText]);
 
   // Speech Recognition (Mic)
   useEffect(() => {
@@ -152,8 +158,13 @@ export default function LiveInterviewRoom({
     }
   };
 
-  // Submit Answer to Current Question
-  const handleNextQuestion = () => {
+  // Submit Answer & Dynamically Evaluate via AI Interviewer
+  const handleAnswerSubmit = async () => {
+    if (!candidateResponse.trim()) {
+      alert("Please provide an answer before submitting.");
+      return;
+    }
+
     if (isRecording && recognitionRef.current) {
       recognitionRef.current.stop();
       setIsRecording(false);
@@ -161,33 +172,83 @@ export default function LiveInterviewRoom({
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 
     const timestamp = formatTime(secondsElapsed);
-    const answerText = candidateResponse.trim() || "(Candidate answered with brief verbal clarification)";
+    const answerText = candidateResponse.trim();
 
-    const newEntries = [
-      { speaker: 'Interviewer', timestamp: `00:${timestamp}`, text: currentQ.question, is_question: true },
-      { speaker: 'Candidate', timestamp: `00:${formatTime(secondsElapsed + 15)}`, text: answerText, is_question: false }
-    ];
-
-    const updatedLog = [...transcriptLog, ...newEntries];
+    // Log the turn
+    const newCandidateEntry = {
+      speaker: 'Candidate',
+      timestamp: `00:${timestamp}`,
+      text: answerText,
+      is_question: false
+    };
+    const updatedLog = [...transcriptLog, newCandidateEntry];
     setTranscriptLog(updatedLog);
     setCandidateResponse('');
+    setIsEvaluatingTurn(true);
 
-    if (currentIdx < questions.length - 1) {
-      setCurrentIdx(currentIdx + 1);
-    } else {
-      // Finished all questions! Run evaluation
-      finishAndEvaluate(updatedLog);
+    try {
+      const res = await fetch(`${API_BASE}/api/interview/interactive/respond`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          job_role: jobRole,
+          job_description: jobDescription,
+          resume_text: resumeText,
+          current_question: activeQuestionText,
+          candidate_answer: answerText,
+          conversation_history: updatedLog.map(e => ({ speaker: e.speaker, text: e.text })),
+          current_question_index: currentIdx,
+          total_questions: questions.length,
+          plan_questions: questions,
+          api_key: apiKey
+        })
+      });
+
+      if (!res.ok) throw new Error('Dynamic interview evaluation failed');
+      const turnData = await res.json();
+      setLastInterviewerTurn(turnData);
+
+      // Append Interviewer response to conversation
+      const interviewerEntry = {
+        speaker: 'Interviewer',
+        timestamp: `00:${formatTime(secondsElapsed + 5)}`,
+        text: turnData.interviewer_speech,
+        is_question: true
+      };
+      const finalLog = [...updatedLog, interviewerEntry];
+      setTranscriptLog(finalLog);
+
+      // Update question text and topic
+      setActiveQuestionText(turnData.interviewer_speech);
+      if (turnData.current_topic) setActiveCategory(turnData.current_topic);
+      setCurrentIdx(turnData.next_question_index);
+
+      if (turnData.is_interview_complete) {
+        setIsInterviewComplete(true);
+      }
+    } catch (err) {
+      console.error(err);
+      // Graceful fallback
+      if (currentIdx < questions.length - 1) {
+        const nextQ = questions[currentIdx + 1];
+        setCurrentIdx(currentIdx + 1);
+        setActiveQuestionText(nextQ.question);
+        setActiveCategory(nextQ.category);
+      } else {
+        setIsInterviewComplete(true);
+      }
+    } finally {
+      setIsEvaluatingTurn(false);
     }
   };
 
   // Compile full transcript and pipe into Orchestrator
-  const finishAndEvaluate = async (finalTranscriptEntries) => {
+  const finishAndEvaluate = async () => {
     setIsSubmitting(true);
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 
     try {
-      // Build raw transcript text
-      const transcriptFormatted = finalTranscriptEntries.map(e => `[${e.timestamp}] ${e.speaker.toUpperCase()}: ${e.text}`).join('\n\n');
+      const transcriptFormatted = transcriptLog.map(e => `[${e.timestamp}] ${e.speaker.toUpperCase()}: ${e.text}`).join('\n\n');
 
       const formData = new FormData();
       formData.append('title', `${jobRole} Live Technical Assessment`);
@@ -286,7 +347,7 @@ export default function LiveInterviewRoom({
           marginBottom: '20px',
           position: 'relative'
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div style={{
                 width: '32px', height: '32px', borderRadius: '50%',
@@ -297,26 +358,38 @@ export default function LiveInterviewRoom({
                 AI
               </div>
               <div>
-                <strong style={{ fontSize: '0.9rem', color: '#FFFFFF' }}>AI Technical Interviewer</strong>
+                <strong style={{ fontSize: '0.9rem', color: '#FFFFFF' }}>AI Technical Interviewer (Live Adaptive)</strong>
                 <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>
-                  Question {currentIdx + 1} of {questions.length} • {currentQ.category}
+                  Topic {Math.min(currentIdx + 1, questions.length)} of {questions.length} • {activeCategory}
                 </span>
               </div>
             </div>
 
-            <button
-              onClick={() => speakQuestion(currentQ.question)}
-              style={{
-                background: isSpeakingAi ? 'rgba(0, 240, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '8px', padding: '6px 10px',
-                color: isSpeakingAi ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem'
-              }}
-            >
-              <Volume2 size={15} />
-              {isSpeakingAi ? 'Speaking...' : 'Replay Voice'}
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {lastInterviewerTurn?.is_followup && (
+                <span className="badge badge-cyan" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
+                  🎯 Deep-Dive Follow-up Probe
+                </span>
+              )}
+              {isInterviewComplete && (
+                <span className="badge badge-emerald" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
+                  ✓ Topics Covered
+                </span>
+              )}
+              <button
+                onClick={() => speakQuestion(activeQuestionText)}
+                style={{
+                  background: isSpeakingAi ? 'rgba(0, 240, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '8px', padding: '6px 10px',
+                  color: isSpeakingAi ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem'
+                }}
+              >
+                <Volume2 size={15} />
+                {isSpeakingAi ? 'Speaking...' : 'Replay Voice'}
+              </button>
+            </div>
           </div>
 
           <p style={{
@@ -326,10 +399,26 @@ export default function LiveInterviewRoom({
             lineHeight: 1.5,
             marginTop: '12px'
           }}>
-            "{currentQ.question}"
+            "{activeQuestionText}"
           </p>
 
-          {currentQ.focus_skills && currentQ.focus_skills.length > 0 && (
+          {/* Real-time Signals from Last Candidate Turn */}
+          {lastInterviewerTurn?.detected_signals && lastInterviewerTurn.detected_signals.length > 0 && (
+            <div style={{ display: 'flex', gap: '8px', marginTop: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Interviewer Signals Detected:</span>
+              {lastInterviewerTurn.detected_signals.map((sig, i) => (
+                <span
+                  key={i}
+                  className={`badge ${sig.type === 'strength' ? 'badge-emerald' : 'badge-amber'}`}
+                  style={{ fontSize: '0.7rem', padding: '3px 8px' }}
+                >
+                  {sig.tag}: {sig.detail}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {currentQ.focus_skills && currentQ.focus_skills.length > 0 && !lastInterviewerTurn && (
             <div style={{ display: 'flex', gap: '6px', marginTop: '12px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', alignSelf: 'center' }}>Target Concept:</span>
               {currentQ.focus_skills.map((skill, i) => (
@@ -347,12 +436,14 @@ export default function LiveInterviewRoom({
             <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
               YOUR ANSWER / REASONING
               {isRecording && <span style={{ color: 'var(--accent-emerald)', fontSize: '0.72rem' }}>● Recording from Microphone</span>}
+              {isEvaluatingTurn && <span style={{ color: 'var(--accent-cyan)', fontSize: '0.72rem' }}>⚡ Interviewer is actively analyzing your response...</span>}
             </label>
 
             {speechSupported && (
               <button
                 type="button"
                 onClick={toggleMic}
+                disabled={isEvaluatingTurn || isSubmitting}
                 style={{
                   padding: '6px 14px', borderRadius: '10px',
                   background: isRecording ? 'rgba(239, 68, 68, 0.2)' : 'rgba(0, 240, 255, 0.12)',
@@ -372,6 +463,7 @@ export default function LiveInterviewRoom({
             rows={5}
             value={candidateResponse}
             onChange={(e) => setCandidateResponse(e.target.value)}
+            disabled={isEvaluatingTurn || isSubmitting}
             placeholder={speechSupported ? "Speak through your microphone or type your detailed response here..." : "Type your detailed technical response here..."}
             style={{
               width: '100%',
@@ -387,32 +479,64 @@ export default function LiveInterviewRoom({
         </div>
 
         {/* Action Controls */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid var(--border-subtle)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid var(--border-subtle)', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-            Turn {currentIdx + 1} of {questions.length} • Real candidate responses will be evaluated by Technical, Behavioral & Verification agents.
+            {transcriptLog.length > 0 ? (
+              <span>Exchanges: {transcriptLog.length} turns recorded • Live dynamic follow-ups active</span>
+            ) : (
+              <span>Turn 1 • The interviewer adapts based specifically on your technical claims.</span>
+            )}
           </div>
 
           <div style={{ display: 'flex', gap: '10px' }}>
-            <button className="btn btn-secondary" onClick={onClose} disabled={isSubmitting}>
+            <button className="btn btn-secondary" onClick={onClose} disabled={isSubmitting || isEvaluatingTurn}>
               Exit Room
             </button>
-            <button
-              className="btn btn-primary"
-              onClick={handleNextQuestion}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                'Analyzing Interview...'
-              ) : currentIdx < questions.length - 1 ? (
-                <>
-                  Next Question <ArrowRight size={16} />
-                </>
-              ) : (
-                <>
-                  <Sparkles size={16} /> Finish & Submit for Analysis
-                </>
-              )}
-            </button>
+
+            {!isInterviewComplete ? (
+              <>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleAnswerSubmit}
+                  disabled={isSubmitting || isEvaluatingTurn || !candidateResponse.trim()}
+                >
+                  {isEvaluatingTurn ? (
+                    <>
+                      <div className="spin-slow" style={{ width: '14px', height: '14px', border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%', display: 'inline-block', marginRight: '6px' }} />
+                      Interviewer Evaluating...
+                    </>
+                  ) : (
+                    <>
+                      Submit Answer <ArrowRight size={16} />
+                    </>
+                  )}
+                </button>
+                {transcriptLog.length >= 2 && (
+                  <button
+                    className="btn btn-secondary"
+                    onClick={finishAndEvaluate}
+                    disabled={isSubmitting || isEvaluatingTurn}
+                    style={{ fontSize: '0.8rem' }}
+                  >
+                    Finish Now
+                  </button>
+                )}
+              </>
+            ) : (
+              <button
+                className="btn btn-primary"
+                onClick={finishAndEvaluate}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  'Generating Multi-Agent Evaluation...'
+                ) : (
+                  <>
+                    <Sparkles size={16} /> Finish & View Evaluation Report
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
       </div>

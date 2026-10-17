@@ -90,8 +90,11 @@ class FindingItem(BaseModel):
     severity: Literal["positive", "neutral", "needs_improvement", "critical"] = "neutral"
     score_impact: float = 0.0
     evidence: List[EvidenceCitation] = []
-    verification_status: Literal["VERIFIED", "MODIFIED", "REJECTED", "PENDING"] = "PENDING"
+    verification_status: Literal["VERIFIED", "MODIFIED", "REJECTED", "PENDING", "EXPERT_VERIFIED", "EXPERT_DISPUTED"] = "PENDING"
     verification_notes: Optional[str] = None
+    expert_comment: Optional[str] = None
+    expert_score_override: Optional[float] = None
+    verified_by: Optional[str] = None
 
 # ==========================================
 # 4. AGENTIC ANALYSIS & VERIFICATION SCHEMAS
@@ -132,6 +135,7 @@ class VerificationResult(BaseModel):
     verified_count: int = 0
     modified_count: int = 0
     rejected_count: int = 0
+    expert_verified_count: int = 0
     verification_rate_pct: float = 100.0
     verified_findings: List[FindingItem] = []
     audit_trail: List[Dict[str, Any]] = []
@@ -139,12 +143,17 @@ class VerificationResult(BaseModel):
 class ExpertReview(BaseModel):
     id: str
     interview_id: str
-    reviewer_name: str = "Expert Reviewer"
+    reviewer_name: str = "Industry Technical Lead"
+    reviewer_title: str = "Staff Distributed Systems Architect"
+    reviewer_company: Optional[str] = "Tier-1 Tech / FinTech"
     verdict: Literal["APPROVED", "MODIFIED", "REJECTED"] = "APPROVED"
     overall_rating: Optional[float] = None
     comments: str
     override_scores: Optional[Dict[str, float]] = None
     modified_findings: Optional[List[FindingItem]] = None
+    verified_claim_ids: List[str] = []
+    disputed_claim_ids: List[str] = []
+    audit_notes: Dict[str, str] = {}
     reviewed_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
 
 # ==========================================
@@ -317,4 +326,60 @@ class InteractivePlanResponse(BaseModel):
     session_id: str
     job_role: str
     questions: List[InteractiveQuestionItem]
+
+class InteractiveCandidateTurnRequest(BaseModel):
+    session_id: Optional[str] = None
+    job_role: str = "Software Engineer"
+    job_description: Optional[str] = None
+    resume_text: Optional[str] = None
+    current_question: str
+    candidate_answer: str
+    conversation_history: List[Dict[str, str]] = []
+    current_question_index: int = 0
+    total_questions: int = 4
+    plan_questions: List[Dict[str, Any]] = []
+    api_key: Optional[str] = None
+
+class InteractiveCandidateTurnResponse(BaseModel):
+    interviewer_speech: str
+    is_followup: bool
+    next_question_index: int
+    current_topic: str
+    detected_signals: List[Dict[str, Any]] = []
+    depth_score: float = 7.5
+    rubric_feedback: str
+    is_interview_complete: bool = False
+
+class ClaimVerificationRequest(BaseModel):
+    finding_id: str
+    action: Literal["VERIFY", "DISPUTE", "MODIFY"]
+    expert_name: str = "Industry Tech Lead"
+    expert_title: str = "Staff Systems Engineer"
+    expert_comment: Optional[str] = None
+    expert_score_override: Optional[float] = None
+
+class BenchmarkTestCaseResult(BaseModel):
+    case_id: str
+    title: str
+    scenario_type: str
+    candidate_profile: str
+    ground_truth_summary: str
+    single_step_baseline: Dict[str, Any]
+    multi_agent_system: Dict[str, Any]
+    verbatim_citations_baseline: int
+    verbatim_citations_multi_agent: int
+    hallucinations_in_baseline: int
+    hallucinations_in_multi_agent: int
+    expert_alignment_error_baseline: float
+    expert_alignment_error_multi_agent: float
+    baseline_case_score: float
+    multi_agent_case_score: float
+
+class BenchmarkSuiteReport(BaseModel):
+    suite_id: str
+    timestamp: str
+    total_cases_evaluated: int
+    test_cases: List[BenchmarkTestCaseResult]
+    aggregate_metrics: Dict[str, Any]
+    reproducibility_proof: str
 

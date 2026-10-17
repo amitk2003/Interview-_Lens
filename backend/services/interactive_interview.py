@@ -119,35 +119,145 @@ Return a JSON object with this EXACT structure:
         ]
 
     @classmethod
-    async def generate_followup_or_evaluation(
+    async def evaluate_candidate_turn(
         cls,
         llm: LLMClient,
+        job_role: str,
+        job_description: Optional[str],
+        resume_text: Optional[str],
         current_question: str,
         candidate_answer: str,
-        job_role: str
+        conversation_history: List[Dict[str, str]],
+        current_question_index: int,
+        total_questions: int,
+        plan_questions: List[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """
-        Generates real-time feedback & dynamic follow-up prompt if the candidate's answer was brief or needs clarification.
+        Acts as a real, senior technical interviewer:
+        1. Analyzes the candidate's actual response (depth, clarity, concrete facts vs buzzwords).
+        2. Dynamically decides whether to:
+           - Probe deeper with a tailored follow-up question directly quoting the candidate's words.
+           - Challenge a shallow answer or provide a hint if the candidate is stuck.
+           - Smoothly transition to the next topic in the interview plan.
         """
-        if len(candidate_answer.strip().split()) < 15:
-            return {
-                "needs_followup": True,
-                "followup_question": "Could you elaborate a bit more on the specific implementation details and trade-offs you considered?"
-            }
+        clean_answer = candidate_answer.strip()
+        history_snippet = "\n".join([
+            f"{turn.get('speaker', 'Unknown')}: {turn.get('text', '')}"
+            for turn in conversation_history[-4:]
+        ])
 
-        system_prompt = "You are an interviewer evaluating an in-flight interview response. Decide if you should ask a clarifying follow-up or proceed to the next question."
+        # Next question from plan if advancing
+        next_planned_idx = current_question_index + 1
+        has_next_plan = next_planned_idx < len(plan_questions)
+        next_planned_q = plan_questions[next_planned_idx]["question"] if has_next_plan else None
+        next_planned_topic = plan_questions[next_planned_idx].get("category", "Deep Dive") if has_next_plan else "Wrap-up"
+
+        system_prompt = (
+            "You are a Principal Software Engineer and hiring manager conducting a live, interactive technical interview. "
+            "You DO NOT act like an automated chatbot. You listen intently to what the candidate said and respond authentically.\n\n"
+            "INTERVIEWING PRINCIPLES:\n"
+            "1. NEVER ask a random, disconnected question. Always acknowledge what the candidate specifically stated.\n"
+            "2. If the candidate gave a specific technical answer, PROBE DEEPER into their implementation details, failure modes, scale limits, or edge cases.\n"
+            "3. If the candidate gave a shallow buzzword answer ('we used microservices and AWS'), call it out respectfully and ask for concrete mechanics.\n"
+            "4. If the candidate is stuck or asked for clarification, give a helpful technical nudge/hint.\n"
+            "5. If the candidate thoroughly covered the topic (or after 1 follow-up), smoothly bridge to the next planned question.\n"
+            "6. Keep your speech spoken-style, engaging, and under 3-4 sentences so the candidate does most of the talking."
+        )
+
         user_prompt = f"""
-ROLE: {job_role}
-QUESTION ASKED: {current_question}
-CANDIDATE ANSWER: {candidate_answer}
+TARGET ROLE: {job_role}
+JOB DESCRIPTION: {job_description or "Senior engineering role requiring architectural depth and production reliability."}
+CURRENT QUESTION: {current_question}
+CANDIDATE ANSWER: {clean_answer}
 
-Respond with JSON:
+RECENT CONVERSATION HISTORY:
+{history_snippet or "None"}
+
+NEXT TOPIC IN PLAN (if ready to advance):
+Category: {next_planned_topic}
+Question: {next_planned_q or "All planned topics complete."}
+
+QUESTION INDEX: {current_question_index} of {total_questions}
+
+Respond with strict JSON matching this schema:
 {{
-  "needs_followup": false,
-  "followup_question": ""
+  "decision": "PROBE_FOLLOWUP", // or "ADVANCE_NEXT" or "WRAP_UP"
+  "interviewer_speech": "Spoken interviewer response that acknowledges candidate answer and either asks the follow-up or introduces the next question",
+  "is_followup": true, // true if probing deeper on current topic, false if advancing
+  "current_topic": "Topic Name",
+  "detected_signals": [
+    {{"type": "strength", "tag": "Concrete metrics", "detail": "Cited 50k req/s"}},
+    {{"type": "critique", "tag": "Missing failure recovery", "detail": "Did not specify backpressure"}}
+  ],
+  "depth_score": 7.8, // 1.0 to 10.0 based on technical depth
+  "rubric_feedback": "One concise evaluator note on this turn"
 }}
 """
         res = await llm.generate_json(system_prompt, user_prompt)
-        if res and isinstance(res, dict):
-            return res
-        return {"needs_followup": False, "followup_question": ""}
+        if res and "interviewer_speech" in res and res.get("interviewer_speech"):
+            is_followup = res.get("is_followup", False)
+            if not is_followup:
+                new_idx = current_question_index + 1
+            else:
+                new_idx = current_question_index
+
+            is_complete = (new_idx >= total_questions) and not is_followup
+            return {
+                "interviewer_speech": res["interviewer_speech"],
+                "is_followup": is_followup,
+                "next_question_index": new_idx,
+                "current_topic": res.get("current_topic", "Technical Assessment"),
+                "detected_signals": res.get("detected_signals", []),
+                "depth_score": float(res.get("depth_score", 7.5)),
+                "rubric_feedback": res.get("rubric_feedback", "Evaluated against role standards."),
+                "is_interview_complete": is_complete
+            }
+
+        # Context-aware fallback heuristic if LLM is unavailable
+        words = clean_answer.lower().split()
+        is_short = len(words) < 20
+        has_tech_terms = any(term in clean_answer.lower() for term in ["kafka", "redis", "database", "postgres", "cache", "async", "latency", "scale", "docker", "lock"])
+
+        if is_short:
+            speech = f"You touched on the concept briefly. Could you drill into the specific implementation mechanics and trade-offs you faced when building that for {job_role}?"
+            return {
+                "interviewer_speech": speech,
+                "is_followup": True,
+                "next_question_index": current_question_index,
+                "current_topic": "Implementation Depth",
+                "detected_signals": [{"type": "critique", "tag": "Brief response", "detail": "Needs elaboration on technical choices"}],
+                "depth_score": 5.0,
+                "rubric_feedback": "Candidate gave brief overview; prompted for depth.",
+                "is_interview_complete": False
+            }
+        elif has_tech_terms and current_question_index % 2 == 0:
+            speech = f"That clarifies your choice of architecture. How did your design behave when network latency spiked or under sudden node failover?"
+            return {
+                "interviewer_speech": speech,
+                "is_followup": True,
+                "next_question_index": current_question_index,
+                "current_topic": "Fault Tolerance & Edge Cases",
+                "detected_signals": [{"type": "strength", "tag": "Tech stack cited", "detail": "Demonstrated technical vocabulary"}],
+                "depth_score": 7.5,
+                "rubric_feedback": "Followed up on fault tolerance.",
+                "is_interview_complete": False
+            }
+        else:
+            new_idx = current_question_index + 1
+            if has_next_plan and next_planned_q:
+                speech = f"Understood, that makes sense. Moving forward to our next area: {next_planned_q}"
+                is_done = False
+            else:
+                speech = "Excellent. That concludes our planned interview questions. I have enough context to generate your comprehensive technical and behavioral assessment."
+                is_done = True
+
+            return {
+                "interviewer_speech": speech,
+                "is_followup": False,
+                "next_question_index": new_idx,
+                "current_topic": next_planned_topic,
+                "detected_signals": [{"type": "strength", "tag": "Completed topic", "detail": "Sufficient context gathered"}],
+                "depth_score": 8.0,
+                "rubric_feedback": "Completed topic assessment; advanced.",
+                "is_interview_complete": is_done
+            }

@@ -30,9 +30,12 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
   const [retestSubmitting, setRetestSubmitting] = useState(false);
   const [activeRetestIndex, setActiveRetestIndex] = useState(0);
 
-  // Expert review state
+  // Human Industry Expert State
+  const [expertName, setExpertName] = useState(interview.expert_review?.reviewer_name || 'Alex Chen');
+  const [expertTitle, setExpertTitle] = useState(interview.expert_review?.reviewer_title || 'Staff Distributed Systems Architect');
   const [reviewVerdict, setReviewVerdict] = useState(interview.expert_review?.verdict || 'APPROVED');
   const [reviewComments, setReviewComments] = useState(interview.expert_review?.comments || '');
+  const [calibratedOverallScore, setCalibratedOverallScore] = useState(interview.scores?.overall || 7.5);
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
   const scores = interview.scores || {
@@ -50,6 +53,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
     verified_count: 0,
     modified_count: 0,
     rejected_count: 0,
+    expert_verified_count: 0,
     verification_rate_pct: 100,
     verified_findings: [],
     audit_trail: []
@@ -83,7 +87,6 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
       if (!res.ok) throw new Error('Re-test submission failed');
       const evalResult = await res.json();
 
-      // Refresh interview data locally
       const updated = { ...interview };
       if (!updated.retest_results) updated.retest_results = [];
       updated.retest_results = updated.retest_results.filter(r => r.question_id !== questionId);
@@ -98,35 +101,69 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
     }
   };
 
+  // Human Industry Expert Claim Verification
+  const handleVerifyClaim = async (findingId, action) => {
+    let comment = null;
+    if (action === 'DISPUTE') {
+      comment = prompt('Explain why this claim is disputed or hallucinated:', 'Transcript quote does not support this technical claim');
+      if (comment === null) return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/interviews/${interview.id}/claim/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          finding_id: findingId,
+          action: action,
+          expert_name: expertName,
+          expert_title: expertTitle,
+          expert_comment: comment
+        })
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        onUpdateInterview(updated);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to update claim verification status');
+    }
+  };
+
   const handleExpertReviewSubmit = async () => {
     if (!reviewComments.trim()) {
-      alert('Please enter reviewer notes or commentary.');
+      alert('Please enter expert reviewer notes or commentary.');
       return;
     }
 
     setReviewSubmitting(true);
     try {
-      const res = await fetch(`${API_BASE}/api/interviews/${interview.id}/review`, {
+      const res = await fetch(`${API_BASE}/api/interviews/${interview.id}/expert-sign-off`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           id: `rev_${Date.now()}`,
           interview_id: interview.id,
-          reviewer_name: 'Senior Interview Reviewer',
+          reviewer_name: expertName,
+          reviewer_title: expertTitle,
           verdict: reviewVerdict,
           comments: reviewComments,
-          overall_rating: scores.overall
+          overall_rating: parseFloat(calibratedOverallScore),
+          override_scores: {
+            overall: parseFloat(calibratedOverallScore)
+          }
         })
       });
 
-      if (!res.ok) throw new Error('Review submission failed');
+      if (!res.ok) throw new Error('Review sign-off failed');
       const updatedRec = await res.json();
       onUpdateInterview(updatedRec);
       setReviewSubmitting(false);
-      alert('Expert review finalized! Interview status updated to COMPLETED.');
+      alert('Industry Expert Sign-Off finalized! Scores calibrated and locked.');
     } catch (err) {
       console.error(err);
-      alert('Failed to submit expert review');
+      alert('Failed to submit expert review: ' + err.message);
       setReviewSubmitting(false);
     }
   };
@@ -412,12 +449,53 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
                     </div>
                   ))}
 
-                  {finding.verification_notes && (
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px', marginTop: '8px' }}>
+                  {/* Industry Expert Grounding & Audit Controls */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.05)', flexWrap: 'wrap', gap: '8px' }}>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <ShieldCheck size={14} color="var(--accent-emerald)" />
-                      <span>{finding.verification_notes}</span>
+                      <span>{finding.verification_notes || 'Verifiable transcript alignment.'}</span>
                     </div>
-                  )}
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {finding.verification_status !== 'EXPERT_VERIFIED' ? (
+                        <button
+                          onClick={() => handleVerifyClaim(finding.id, 'VERIFY')}
+                          style={{
+                            padding: '5px 12px', borderRadius: '6px',
+                            background: 'rgba(16, 185, 129, 0.15)',
+                            border: '1px solid var(--accent-emerald)',
+                            color: 'var(--accent-emerald)',
+                            fontSize: '0.74rem', fontWeight: 600, cursor: 'pointer'
+                          }}
+                        >
+                          ✓ Confirm by Expert
+                        </button>
+                      ) : (
+                        <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>
+                          ✓ Expert Verified
+                        </span>
+                      )}
+
+                      {finding.verification_status !== 'EXPERT_DISPUTED' ? (
+                        <button
+                          onClick={() => handleVerifyClaim(finding.id, 'DISPUTE')}
+                          style={{
+                            padding: '5px 12px', borderRadius: '6px',
+                            background: 'rgba(244, 63, 94, 0.12)',
+                            border: '1px solid var(--accent-rose)',
+                            color: 'var(--accent-rose)',
+                            fontSize: '0.74rem', fontWeight: 600, cursor: 'pointer'
+                          }}
+                        >
+                          ✕ Flag as Hallucination
+                        </button>
+                      ) : (
+                        <span className="badge badge-rose" style={{ fontSize: '0.72rem' }}>
+                          ✕ Expert Disputed
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -545,23 +623,102 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
       {/* TAB 4: HUMAN / EXPERT REVIEW */}
       {activeTab === 'expert_review' && (
         <div className="glass-panel" style={{ padding: '32px', borderRadius: '18px', maxWidth: '860px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-            <User size={22} color="var(--accent-cyan)" />
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800 }}>Human / Expert Reviewer Calibration</h3>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <User size={22} color="var(--accent-cyan)" />
+              <h3 style={{ fontSize: '1.3rem', fontWeight: 800 }}>Human Industry Expert Verification Console</h3>
+            </div>
+            {interview.expert_review && (
+              <span className="badge badge-emerald" style={{ padding: '4px 10px', fontSize: '0.75rem' }}>
+                ✓ Expert Sign-Off Completed
+              </span>
+            )}
           </div>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '24px' }}>
-            InterviewLens positions AI as an intelligence accelerator rather than an automated black-box hiring decider. Experienced interviewers review findings, adjust scores, and add qualified comments.
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '24px', lineHeight: 1.6 }}>
+            InterviewLens explicitly incorporates <strong>Human-in-the-Loop (HITL) industry verification</strong>. 
+            AI agents do not blindly assign scores. Experienced engineering leads review evidence citations, adjust scores for production realities, and stamp final hiring recommendations.
           </p>
 
+          {/* Expert Identity Credentials */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+                EXPERT REVIEWER NAME
+              </label>
+              <input
+                type="text"
+                value={expertName}
+                onChange={(e) => setExpertName(e.target.value)}
+                placeholder="e.g. Alex Chen"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '10px',
+                  background: 'rgba(0,0,0,0.4)',
+                  border: '1px solid var(--border-subtle)',
+                  color: '#FFFFFF',
+                  fontSize: '0.85rem'
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
+                INDUSTRY TITLE / EXPERTISE LEVEL
+              </label>
+              <input
+                type="text"
+                value={expertTitle}
+                onChange={(e) => setExpertTitle(e.target.value)}
+                placeholder="e.g. Staff Distributed Systems Architect"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '10px',
+                  background: 'rgba(0,0,0,0.4)',
+                  border: '1px solid var(--border-subtle)',
+                  color: '#FFFFFF',
+                  fontSize: '0.85rem'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Calibrated Human Score Override Slider */}
+          <div style={{ padding: '18px 20px', borderRadius: '14px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <div>
+                <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#FFFFFF' }}>Human Calibrated Overall Score</span>
+                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>
+                  Initial AI estimate: {interview.scores?.overall || 7.5}/10 • Expert adjustment prevents blind scoring
+                </span>
+              </div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--accent-cyan)' }}>
+                {calibratedOverallScore} <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>/ 10</span>
+              </div>
+            </div>
+
+            <input
+              type="range"
+              min="1.0"
+              max="10.0"
+              step="0.1"
+              value={calibratedOverallScore}
+              onChange={(e) => setCalibratedOverallScore(parseFloat(e.target.value))}
+              style={{ width: '100%', accentColor: 'var(--accent-cyan)' }}
+            />
+          </div>
+
+          {/* Verdict Selector */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '8px' }}>
-              EXPERT VERDICT
+              INDUSTRY HIRING VERDICT
             </label>
             <div style={{ display: 'flex', gap: '12px' }}>
               {[
-                { id: 'APPROVED', label: 'Approve AI Findings', color: 'var(--accent-emerald)' },
-                { id: 'MODIFIED', label: 'Modify Scores / Findings', color: 'var(--accent-amber)' },
-                { id: 'REJECTED', label: 'Reject Assessment', color: 'var(--accent-rose)' }
+                { id: 'APPROVED', label: 'Approve & Validate Findings', color: 'var(--accent-emerald)' },
+                { id: 'MODIFIED', label: 'Modify Scores (Adjust for Buzzwords)', color: 'var(--accent-amber)' },
+                { id: 'REJECTED', label: 'Reject Assessment (Hallucinations)', color: 'var(--accent-rose)' }
               ].map(v => (
                 <button
                   key={v.id}
@@ -576,7 +733,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
                     color: reviewVerdict === v.id ? v.color : 'var(--text-secondary)',
                     fontWeight: 700,
                     cursor: 'pointer',
-                    fontSize: '0.85rem'
+                    fontSize: '0.82rem'
                   }}
                 >
                   {v.label}
@@ -587,11 +744,11 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
 
           <div style={{ marginBottom: '24px' }}>
             <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '8px' }}>
-              EXPERT COMMENTARY & COACHING NOTES
+              INDUSTRY EXPERT COMMENTARY & REAL-WORLD NOTES
             </label>
             <textarea
               rows={5}
-              placeholder="e.g. Candidate exhibited strong architecture instincts. Concur with AI verifier that concurrency answer requires targeted practice..."
+              placeholder="e.g. Candidate demonstrated solid architecture instincts. However, their concurrency answer relied on default cloud availability rather than active consensus mitigation. Score calibrated to 6.8 with targeted distributed systems follow-up recommended..."
               value={reviewComments}
               onChange={(e) => setReviewComments(e.target.value)}
               style={{
@@ -612,7 +769,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
               onClick={handleExpertReviewSubmit}
               disabled={reviewSubmitting}
             >
-              <CheckCircle2 size={16} /> Finalize Expert Review & Mark Completed
+              <CheckCircle2 size={16} /> Finalize Expert Sign-Off & Lock Calibration
             </button>
           </div>
         </div>

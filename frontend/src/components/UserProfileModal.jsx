@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, User, CheckCircle2, ShieldCheck, Award, FileText } from 'lucide-react';
-
+import { API_BASE } from '../config.js';
 export default function UserProfileModal({ user, onClose, onSave }) {
   const [profile, setProfile] = useState(user || {
     name: "Alex Chen",
@@ -25,7 +25,7 @@ export default function UserProfileModal({ user, onClose, onSave }) {
 
   const handleSave = async () => {
     try {
-      const res = await fetch('/api/user/profile', {
+      const res = await fetch(`${API_BASE}/api/user/profile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile)

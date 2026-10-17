@@ -7,6 +7,11 @@ from pymongo import MongoClient
 from pymongo.collection import Collection
 from pymongo.database import Database
 
+from dotenv import load_dotenv
+
+load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+
 logger = logging.getLogger("InterviewLens.MongoDB")
 
 MONGODB_URI = os.getenv("MONGODB_URI")
@@ -46,8 +51,8 @@ class MongoDBManager:
             )
 
             connect_kwargs = {
-                "serverSelectionTimeoutMS": 10000,
-                "connectTimeoutMS": 10000,
+                "serverSelectionTimeoutMS": 2500,
+                "connectTimeoutMS": 2500,
                 "tls": True,
                 "tlsCAFile": certifi.where(),
             }

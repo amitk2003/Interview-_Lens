@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
-from models.schemas import (
+from .models.schemas import (
     AnalyzeRequest,
     WorkspaceCreateRequest,
     LiveConnectRequest,

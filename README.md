@@ -1,186 +1,163 @@
-# 🔍 InterviewLens — AI-Powered Real Interview Analysis Platform
+# InterviewLens
 
-> **Engineered for the micro1 Agentic Workflows Hackathon**  
-> Authorized interview ingestion • Multi-agent domain analysis • Evidence verification • Human review calibration • Longitudinal memory • Knowledge vs. Performance Gap diagnostics • MongoDB Atlas Cloud Persistence.
-
----
-
-## 🌟 The Problem & Core Insight
-
-Job candidates frequently struggle to understand why their technical preparation does not translate into real-world interview success. 
-
-**Core Insight:**  
-> **A poor interview answer is not always a knowledge gap; it is often a retrieval, structure, or verbal communication breakdown under interview pressure.**
-
-InterviewLens treats meeting platforms (Google Meet, Microsoft Teams, Zoom) purely as **input adapters**. The core product value is the continuous **Agentic Feedback & Longitudinal Memory Loop** that fact-checks every claim against verbatim transcript timestamps.
+A technical interview evaluation platform that combines automated transcript analysis with verified human expert review to produce accurate, auditable hiring reports.
 
 ---
 
-## 📊 Evaluation Baseline & Benchmark Architecture
+## What is InterviewLens?
 
-InterviewLens benchmarks its multi-agent system directly against single-prompt LLM outputs and calibrates with **Human Ground Truth**:
+Most automated interview tools generate scores using single AI prompts that can misinterpret answers or invent feedback. InterviewLens solves this by pairing automated transcript evaluation with a **human-in-the-loop review workflow**:
 
-```
-                       Evaluation Case
-                              │
-               ├──────────────┴───────────────┐
-               ▼                              ▼
-       Simple LLM Baseline              InterviewLens
-               │                              │
-               │                              ├── 🔧 Technical Agent
-               │                              ├── 🗣️ Communication Agent
-               │                              ├── 🧠 Behavioral Agent
-               │                              └── ✅ Verification Agent
-               │                              │
-               └──────────────┬───────────────┘
-                              ▼
-                     👤 Human Ground Truth
-                              │
-                              ▼
-                          📊 Metrics
-```
-
-### Benchmark Metrics Comparison:
-
-| Evaluation Metric | Simple LLM Baseline | InterviewLens Multi-Agent System | Human Ground Truth Alignment |
-|---|---|---|---|
-| **Evidence Grounding** | 0 citations (0% verifiable) | **100% timestamped quotes** from verbatim transcript | **Exact Match with Human Review** |
-| **Hallucination Filtering** | High (speculates "lacked confidence") | **Zero ungrounded claims** (Rejected by Verification Agent) | **100% Subjective Noise Filtered** |
-| **Diagnostic Precision** | Generic advice ("study databases more") | Differentiates **Knowledge Gap** from **Performance Gap** via re-test | **Actionable targeted drills** |
-| **Longitudinal Memory** | 0 (Stateless single prompt) | Persistent cross-interview pattern tracking across sessions | **Tracks career progression** |
-| **Overall Quality Score** | **3.2 / 10** | **9.4 / 10** | **20% Measured Quality Gain** |
+1. **Transcript Ingestion**: The system parses interview transcripts from Google Meet, Zoom, MS Teams, or text/audio uploads.
+2. **Automated Analysis**: The backend evaluates technical knowledge, problem-solving, communication clarity, and behavioral structure with timestamped transcript citations.
+3. **Evidence Verification**: Claims are checked against verbatim transcript text. Statements not spoken by the candidate are removed.
+4. **Human Expert Calibration**: A verified industry expert reviews the evidence, adjusts scores with written justification, and finalizes the assessment.
+5. **Auditable Report**: The candidate receives a finalized evaluation report. An append-only audit log records every score change and administrative action.
 
 ---
 
-## 🏗️ 7-Layer Agentic Architecture
+## Live Deployments
+
+* **Frontend**: [https://interview-lens-brown.vercel.app/](https://interview-lens-brown.vercel.app/) (Vercel)
+* **Backend API**: [https://interview-lens-2qgc.onrender.com/api/health](https://interview-lens-2qgc.onrender.com/api/health) (Render)
+
+---
+
+## System Architecture
+
+The project is structured as a decoupled full-stack application:
 
 ```
-                        REAL INTERVIEW DATA
-                                 │
-                                 ▼
-                    Authorized Capture / Upload
-     (Otter.ai / Google Meet / MS Teams / Zoom / File Ingest / Live AI)
-                                 │
-                                 ▼
-                       Transcript Normalizer
-             [{speaker, timestamp, text, is_question}]
-                                 │
-                                 ▼
-                       Interview Orchestrator
-         ┌───────────────────────┼───────────────────────┐
-         ▼                       ▼                       ▼
-  🔧 Technical Agent    🗣️ Communication Agent   🧠 Behavioral Agent (STAR)
-         │                       │                       │
-         └───────────────────────┼───────────────────────┘
-                                 │
-                                 ▼
-                   ✅ Evidence Verification Agent
-                 (Verifies claims vs transcript timestamps:
-                         Accept / Modify / Reject)
-                                 │
-                                 ▼
-                    👤 Human / Expert Reviewer
-                (AI-Assisted Calibration, not black box)
-                                 │
-                                 ▼
-                    📊 Verified Assessment
-                                 │
-                                 ▼
-                      🧠 Interview Memory
-                                 │
-                                 ▼
-                   📈 Cross-Interview Agent
-          (Recurring weaknesses & personalized roadmap)
-                                 │
-                                 ▼
-          🧪 Knowledge vs. Performance Gap Re-Test Engine
-                                 │
-                                 ▼
-                  🍃 MongoDB Atlas Cloud Storage
+[ Candidate / Expert / Admin ]
+              │
+              ▼
+   ┌─────────────────────┐
+   │   React 18 + Vite   │  (Hosted on Vercel)
+   │  Responsive Client  │
+   └──────────┬──────────┘
+              │ HTTPS / REST (Bearer Token)
+              ▼
+   ┌─────────────────────┐
+   │   FastAPI Backend   │  (Hosted on Render)
+   │   Python 3.12       │
+   ├─────────────────────┤
+   │ • Auth & RBAC Guard │  (Candidate, Pending Expert, Expert, Admin)
+   │ • Rate Limiter      │  (Sliding-window request limits)
+   │ • Transcript Parser │  (Extracts speaker tags and timestamps)
+   │ • Scoring Pipeline  │  (Groq Llama 3.3 70B / OpenAI fallback)
+   │ • Audit Logger      │  (Append-only, redacts passwords & tokens)
+   └──────────┬──────────┘
+              │
+      ┌───────┴───────┐
+      ▼               ▼
+┌──────────────┐  ┌─────────────────────┐
+│ MongoDB Atlas│  │ Local JSON Fallback │
+│  (Database)  │  │ (Zero-config local) │
+└──────────────┘  └─────────────────────┘
 ```
 
 ---
 
-## 🎙️ Real-World Meeting Capture: Solving the "Host Disabled Recording" Problem
+## Core Workflow
 
-In real Google Meet, Microsoft Teams, and Zoom interviews, the host/interviewer typically disables recording and native transcript export for the candidate. Additionally, mobile devices cannot capture laptop meeting audio. 
-
-**InterviewLens solves this through multi-modal candidate-side ingestion:**
-
-1. **Otter.ai Laptop Web App & Chrome Extension**:
-   - Run the **Otter.ai Chrome Extension** or Web App on your laptop during your Google Meet / Zoom / Teams interview.
-   - Otter captures both laptop speaker audio (the interviewer) and your microphone (candidate) without needing host permissions.
-   - Export the transcript as **`.txt`**, **`.vtt`**, **`.srt`**, or copy the text.
-   - Upload or paste directly into InterviewLens (`/upload`), where our `TranscriptNormalizer` automatically parses Otter's speaker headers and timestamps.
-
-2. **OtterPilot / Meeting Bot Integration**:
-   - Provide your meeting URL to Otter.ai/OtterPilot to join the call and generate real-time diarized transcripts.
-
-3. **Built-in Interactive Live AI Room**:
-   - Conduct practice interviews directly in InterviewLens with real-time voice recognition and dynamic follow-up questions.
-
----
-
-## 🤖 Specialized Agents Breakdown
-
-| Agent | Responsibility | Key Output / Metric |
-|---|---|---|
-| **Interview Orchestrator** | Coordinates parallel specialized agents, aggregates findings, and synthesizes 6-dimension scores. | Orchestration pipeline |
-| **Technical Agent** | Evaluates expected vs. demonstrated concepts, code correctness, depth, and extracts struggled questions. | Technical Score (0–10), Concept Coverage |
-| **Communication Agent** | Evaluates strictly **observable** conversational signals (filler words: *um, like, basically*; long pauses, clarification requests, follow-ups). | Fluency Breakdown & Observable Counts |
-| **Behavioral Agent** | Evaluates STAR structure (Situation, Task, Action, Result), personal ownership (*"I"* vs *"We"* ratio), and quantifiable metrics. | STAR % coverage, Ownership Score |
-| **Evidence Verification Agent** | Cross-references every finding against verbatim transcript timestamps. Rejects ungrounded AI claims. | Grounding % & Audit Trail |
-| **Cross-Interview Agent** | Longitudinal memory across multiple interviews to detect recurring bottlenecks and track dimension progress. | Recurring Patterns & Prep Roadmap |
-| **Knowledge Gap Analyzer** | Administers calm post-interview re-test to diagnose **Performance Gaps** (+delta) vs. **Knowledge Gaps**. | Diagnostic Delta & Targeted Drills |
+```
+1. Candidate completes interview & uploads transcript
+                 │
+                 ▼
+2. Backend parses transcript & runs initial analysis
+   (Generates 7 dimension scores + timestamped citations)
+                 │
+                 ▼
+3. Verification logic checks quotes against transcript
+   (Ungrounded claims are filtered out)
+                 │
+                 ▼
+4. Assessment enters Expert Queue
+                 │
+                 ▼
+5. Admin verifies an expert & assigns them to the assessment
+                 │
+                 ▼
+6. Assigned Expert inspects transcript quotes & adjusts scores
+                 │
+                 ▼
+7. Expert finalizes review & Admin releases report
+                 │
+                 ▼
+8. Candidate views final report | Audit log records all events
+```
 
 ---
 
-## 🔒 User Privacy & Data Isolation
+## User Roles & Permissions
 
-- **Isolated Candidate Workspaces**: Every interview and transcript is scoped strictly to the authenticated user's account (`user_email`).
-- **Zero Cross-User Leakage**: User A cannot view, query, or index User B's interview recordings, transcripts, or evaluations.
-- **Enterprise-Grade Database**: Backed by **MongoDB Atlas** with encrypted connections (TLS/SSL) and unique indexes.
+| Role | Access Level |
+|---|---|
+| **Candidate** | Can upload transcripts, view personal assessments, and request expert reviews on their own interviews. |
+| **Pending Expert** | An expert applicant awaiting administrator review. Cannot view the queue or score candidates. |
+| **Verified Expert** | Approved by an administrator. Can claim unassigned assessments, inspect evidence, and submit score calibrations. Cannot review their own assessments (conflict-of-interest check). |
+| **Administrator** | Verifies expert credentials, assigns evaluators, releases final reports, and inspects immutable audit logs. |
 
 ---
 
-## 🚀 Quickstart & Setup Instructions
+## Security & Reliability Features
 
-### 1. Requirements
-- Python 3.10+
-- Node.js 18+ (optional, production build already bundled in `frontend/dist`)
+* **Server-Side Authorization (RBAC)**: All permissions are enforced in Python backend endpoints, not just in frontend UI components.
+* **Resource Ownership Checks (IDOR Protection)**: Candidates can only access their own assessments and transcripts.
+* **Conflict of Interest Prevention**: Experts cannot claim or evaluate assessments where they are the candidate.
+* **State Machine Protection**: Candidates and unverified experts cannot force status changes (e.g., jumping directly to `FINALIZED`).
+* **Append-Only Audit Trail**: Every assignment, score change, and publication writes an immutable audit record with passwords and auth tokens automatically redacted (`[REDACTED]`).
+* **Rate Limiting**: Sliding-window rate limiters prevent brute-force attacks on login and spam submissions.
+
+---
+
+## Tech Stack
+
+* **Frontend**: React 18, Vite, Lucide Icons, Vanilla CSS
+* **Backend**: FastAPI, Python 3.12, Uvicorn, Gunicorn, Pydantic v2
+* **Database**: MongoDB Atlas (`pymongo`) with local JSON flat-file fallback
+* **LLM Engine**: Groq (`llama-3.3-70b-versatile`) with OpenAI fallback and offline heuristic mode
+* **Testing**: Pytest, Pytest-Asyncio, HTTP integration test runner
+
+---
+
+## Getting Started Locally
+
+### 1. Prerequisites
+* Python 3.10+
+* Node.js 18+ (optional, pre-built frontend bundle included in `frontend/dist`)
 
 ### 2. Configure Environment (`.env`)
-Create or edit `.env` in the root directory:
+Create a `.env` file in the project root:
+
 ```env
-# Groq API Key (Fast & Free tier available at console.groq.com)
-GROQ_API_KEY=gsk_your_groq_api_key_here
+# LLM Provider (Free key at console.groq.com)
+GROQ_API_KEY=your_groq_api_key_here
 GROQ_MODEL=llama-3.3-70b-versatile
 
-# Fallback OpenAI API Key (Optional)
+# Optional Fallback
 OPENAI_API_KEY=
 
-# MongoDB Atlas Configuration
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/InterviewPostmartem?appName=Cluster0
+# Database (Leave blank to use local file fallback)
+MONGODB_URI=
 MONGODB_DB_NAME=InterviewPostmartem
 
-# Server Ports
+# Server Port
 BACKEND_PORT=8000
-FRONTEND_PORT=3000
-NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
-> *Note: If no Groq API key is provided, InterviewLens automatically runs on our deterministic heuristic engine so you can test all features immediately.*
+> **Note**: If `GROQ_API_KEY` is not provided, the platform automatically runs on a built-in deterministic heuristic engine so all features work offline.
 
-### 3. Install Python Dependencies
+### 3. Install Backend Dependencies
 ```bash
 pip install -r backend/requirements.txt
 ```
 
-### 4. Run the Full-Stack Application
+### 4. Run the Application
 ```bash
 python start_app.py
 ```
-Open your browser at **`http://localhost:8000`** (or **`http://localhost:3000`** in dev mode) to access the complete application!
+Open **`http://localhost:8000`** in your browser.
 
 ### 5. (Optional) Run with Docker
 ```bash
@@ -189,40 +166,62 @@ docker compose up --build
 
 ---
 
-## 📁 Repository Structure
+## Running Automated Tests
+
+Run the full automated test suite (51 unit and integration tests):
+
+```bash
+python -m pytest tests/ -v
+```
+
+Run the live end-to-end workflow test against the deployed Render backend:
+
+```bash
+python scratch/test_e2e_full_verification.py
+```
+
+---
+
+## Project Structure
 
 ```
 Interviewlens/
 ├── backend/
-│   ├── main.py                     # FastAPI server with REST endpoints, Auth & static SPA serving
-│   ├── requirements.txt            # Python dependencies (FastAPI, Groq, OpenAI, Pydantic, PyMongo)
+│   ├── main.py                     # FastAPI REST API, auth routes & SPA server
+│   ├── requirements.txt            # Python dependencies
 │   ├── models/
-│   │   └── schemas.py              # Strict Pydantic models for transcript, auth & agent outputs
+│   │   └── schemas.py              # Pydantic data schemas
 │   ├── services/
-│   │   ├── normalizer.py           # VTT / SRT / JSON / TXT / PDF transcript parser
-│   │   ├── llm_client.py           # Universal Groq / OpenAI caller with JSON schema enforcement
-│   │   ├── storage.py              # Unified Repository Layer (MongoDB Atlas with memory/file fallback)
-│   │   ├── mongodb.py              # MongoDB Atlas cloud connection manager & indexer
-│   │   ├── auth_service.py         # Candidate Auth, OAuth & session management
-│   │   ├── file_parser.py          # PDF/DOCX JD & Resume document extractor
-│   │   ├── interactive_interview.py# Dynamic live speech AI question generator
-│   │   ├── knowledge_gap_analyzer.py # Re-test diagnostic engine (Knowledge vs. Performance)
-│   │   └── baseline_comparator.py  # Hackathon baseline benchmark evaluator
+│   │   ├── auth_service.py         # Authentication & RBAC logic
+│   │   ├── assignment_service.py   # Expert-to-interview assignment logic
+│   │   ├── audit_service.py        # Append-only security audit logger
+│   │   ├── lifecycle_service.py    # Assessment state machine
+│   │   ├── storage.py              # In-memory and file storage layer
+│   │   ├── mongodb.py              # MongoDB Atlas connection manager
+│   │   ├── rate_limiter.py         # Sliding-window rate limiter
+│   │   └── llm_client.py           # Groq and OpenAI API client
 │   └── agents/
-│       ├── orchestrator.py         # Multi-agent workflow orchestrator
-│       ├── technical_agent.py      # Technical depth & concept coverage agent
-│       ├── communication_agent.py  # Observable verbal fluency agent
-│       ├── behavioral_agent.py     # STAR & ownership agent
-│       ├── verification_agent.py   # Claim-to-transcript fact-checking agent
-│       └── cross_interview_agent.py# Longitudinal memory & recurring pattern agent
+│       ├── orchestrator.py         # Pipeline coordinator
+│       ├── technical_agent.py      # Technical depth evaluation
+│       ├── communication_agent.py  # Speaking pace & structure evaluation
+│       ├── behavioral_agent.py     # STAR method & ownership evaluation
+│       └── verification_agent.py   # Transcript quote ground-truth checker
 ├── frontend/
 │   ├── src/
-│   │   ├── components/             # Navbar, Dashboard, Report, Auth, Room, Benchmark, Architecture
-│   │   ├── App.jsx                 # Main state manager & router
-│   │   └── index.css               # Rich obsidian-cyan-emerald design system
-│   ├── dist/                       # Production pre-built SPA bundle
+│   │   ├── components/             # React views (Candidate, Expert, Admin)
+│   │   ├── App.jsx                 # Main application component
+│   │   └── index.css               # Design system & styles
+│   ├── dist/                       # Pre-built production frontend
 │   └── package.json
-├── docker-compose.yml              # Docker deployment definition
-├── start_app.py                    # Single-command full-stack launcher
-└── README.md                       # Comprehensive documentation
+├── tests/                          # 51 automated pytest test suites
+├── Dockerfile                      # Production container definition
+├── docker-compose.yml              # Local container orchestrator
+├── start_app.py                    # Single-command app launcher
+└── README.md
 ```
+
+---
+
+## License
+
+This project is licensed under the MIT License.

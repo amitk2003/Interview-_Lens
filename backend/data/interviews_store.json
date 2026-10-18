@@ -10586,7 +10586,7 @@
     "assigned_expert_email": "dr.marcus.vance@techlead.org",
     "expert_domain_tag": null,
     "review_requested_at": null,
-    "created_at": "2026-10-18T16:40:21.893571",
+    "created_at": "2026-10-18T16:42:13.547763",
     "raw_transcript": null,
     "normalized_transcript": null,
     "scores": {
@@ -10645,7 +10645,7 @@
     "assigned_expert_email": null,
     "expert_domain_tag": null,
     "review_requested_at": null,
-    "created_at": "2026-10-18T16:40:22.140526",
+    "created_at": "2026-10-18T16:42:13.674022",
     "raw_transcript": "Interviewer: Welcome Jane. Tell us about your private infrastructure.\nJane: Confidential cluster details...",
     "normalized_transcript": null,
     "scores": {
@@ -10704,7 +10704,7 @@
     "assigned_expert_email": null,
     "expert_domain_tag": null,
     "review_requested_at": null,
-    "created_at": "2026-10-18T16:39:28.114257",
+    "created_at": "2026-10-18T16:42:13.796519",
     "raw_transcript": null,
     "normalized_transcript": null,
     "scores": {
@@ -10763,7 +10763,7 @@
     "assigned_expert_email": "dr.marcus.vance@techlead.org",
     "expert_domain_tag": null,
     "review_requested_at": null,
-    "created_at": "2026-10-18T16:40:23.164869",
+    "created_at": "2026-10-18T16:42:13.875601",
     "raw_transcript": null,
     "normalized_transcript": null,
     "scores": {
@@ -10822,7 +10822,7 @@
     "assigned_expert_email": "dr.marcus.vance@techlead.org",
     "expert_domain_tag": null,
     "review_requested_at": null,
-    "created_at": "2026-10-18T16:40:23.468492",
+    "created_at": "2026-10-18T16:42:14.018972",
     "raw_transcript": null,
     "normalized_transcript": null,
     "scores": {
@@ -13125,9 +13125,9 @@
   {
     "id": "int_sec_pub_690149e5",
     "title": "Publication Audit Test",
-    "candidate_name": "Audit Candidate",
-    "candidate_email": "audit.candidate@test.io",
-    "user_email": null,
+    "candidate_name": "Alex Chen",
+    "candidate_email": "alex.chen@example.com",
+    "user_email": "alex.chen@example.com",
     "user_id": null,
     "job_role": "Test Engineer",
     "job_description": null,
@@ -14706,11 +14706,70 @@
     "executive_summary": null
   },
   {
+    "id": "int_sec_lc_92f4299b",
+    "title": "ML Engineer Assessment",
+    "candidate_name": "Interview Candidate",
+    "candidate_email": "alex.chen@example.com",
+    "user_email": "alex.chen@example.com",
+    "user_id": null,
+    "job_role": "ML Engineer",
+    "job_description": null,
+    "resume_text": null,
+    "meeting_url": null,
+    "adapter_type": "GOOGLE_MEET",
+    "platform": "Google Meet Adapter",
+    "status": "TRANSCRIPT_AVAILABLE",
+    "lifecycle_status": "ASSIGNED",
+    "assigned_expert_id": "exp_001",
+    "assigned_expert_name": "Dr. Marcus Vance",
+    "assigned_expert_title": null,
+    "assigned_expert_email": null,
+    "expert_domain_tag": null,
+    "review_requested_at": null,
+    "created_at": "2026-10-18T16:42:14.532346",
+    "raw_transcript": null,
+    "normalized_transcript": null,
+    "scores": {
+      "technical_knowledge": 0.0,
+      "communication": 0.0,
+      "answer_structure": 0.0,
+      "problem_solving": 0.0,
+      "behavioral": 0.0,
+      "question_understanding": 0.0,
+      "overall": 7.0
+    },
+    "original_ai_scores": {
+      "technical_knowledge": 0.0,
+      "communication": 0.0,
+      "answer_structure": 0.0,
+      "problem_solving": 0.0,
+      "behavioral": 0.0,
+      "question_understanding": 0.0,
+      "overall": 7.0
+    },
+    "original_ai_summary": null,
+    "technical_analysis": null,
+    "communication_analysis": null,
+    "behavioral_analysis": null,
+    "verification_result": null,
+    "expert_review": null,
+    "expert_review_history": [],
+    "status_history": [],
+    "is_released_to_candidate": false,
+    "released_at": null,
+    "released_by": null,
+    "reassessment_reason": null,
+    "revision_requested_reason": null,
+    "retest_questions": null,
+    "retest_results": null,
+    "executive_summary": null
+  },
+  {
     "id": "int_sec_conflict_8dc9227e",
     "title": "System Design Assessment",
-    "candidate_name": "Dr. Marcus Vance",
-    "candidate_email": "dr.marcus.vance@techlead.org",
-    "user_email": null,
+    "candidate_name": "Interview Candidate",
+    "candidate_email": "alex.chen@example.com",
+    "user_email": "alex.chen@example.com",
     "user_id": null,
     "job_role": "Systems Architect",
     "job_description": null,
@@ -14767,9 +14826,9 @@
   {
     "id": "int_sec_pub_d9b7842f",
     "title": "Publication Audit Test",
-    "candidate_name": "Audit Candidate",
-    "candidate_email": "audit.candidate@test.io",
-    "user_email": null,
+    "candidate_name": "Priya Sharma",
+    "candidate_email": "priya.sharma@evaluator.org",
+    "user_email": "priya.sharma@evaluator.org",
     "user_id": null,
     "job_role": "Test Engineer",
     "job_description": null,
@@ -14837,5 +14896,1083 @@
     "retest_questions": null,
     "retest_results": null,
     "executive_summary": null
+  },
+  {
+    "id": "int_bf278b33",
+    "title": "Distributed Systems Screen d633e4",
+    "candidate_name": "Alex Rivera d633e4",
+    "candidate_email": "candidate_e2e_d633e4@example.com",
+    "user_email": "candidate_e2e_d633e4@example.com",
+    "user_id": "usr_c0166b64",
+    "job_role": "Staff Distributed Systems Engineer",
+    "job_description": "Build high-throughput event-driven microservices.",
+    "resume_text": null,
+    "meeting_url": "https://meet.google.com/abc-defg-hij",
+    "adapter_type": "UPLOAD_TRANSCRIPT",
+    "platform": "Transcript Upload Adapter",
+    "status": "IN_EXPERT_REVIEW",
+    "lifecycle_status": "ASSIGNED",
+    "assigned_expert_id": "pex_d73c4e07",
+    "assigned_expert_name": "Dr. Sophia Sterling 009a3d",
+    "assigned_expert_title": "Principal Distributed Systems Architect",
+    "assigned_expert_email": "expert_evaluator_009a3d@expertlead.io",
+    "expert_domain_tag": "Staff Distributed Systems Engineer",
+    "review_requested_at": "2026-10-18T18:28:42.228643",
+    "created_at": "2026-10-18T18:28:41.475788",
+    "raw_transcript": "[00:01:10] Interviewer: How do you design high-throughput idempotency for Kafka message streams?\n[00:01:45] Candidate: We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.\n[00:02:30] Interviewer: What happens during a network partition?\n[00:03:00] Candidate: Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+    "normalized_transcript": {
+      "interview_id": null,
+      "title": "Distributed Systems Screen d633e4",
+      "job_role": "Staff Distributed Systems Engineer",
+      "job_description": "Build high-throughput event-driven microservices.",
+      "resume_text": null,
+      "platform": "Transcript Upload Adapter",
+      "adapter_type": "UPLOAD_TRANSCRIPT",
+      "meeting_url": "https://meet.google.com/abc-defg-hij",
+      "segments": [
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:01:10",
+          "text": "How do you design high-throughput idempotency for Kafka message streams?",
+          "is_question": true,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:01:45",
+          "text": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:02:30",
+          "text": "What happens during a network partition?",
+          "is_question": true,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:03:00",
+          "text": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        }
+      ],
+      "participant_events": []
+    },
+    "scores": {
+      "technical_knowledge": 8.2,
+      "communication": 8.5,
+      "answer_structure": 8.0,
+      "problem_solving": 7.5,
+      "behavioral": 7.3,
+      "question_understanding": 8.0,
+      "overall": 8.0
+    },
+    "original_ai_scores": {
+      "technical_knowledge": 8.2,
+      "communication": 8.5,
+      "answer_structure": 8.0,
+      "problem_solving": 7.5,
+      "behavioral": 7.3,
+      "question_understanding": 8.0,
+      "overall": 8.0
+    },
+    "original_ai_summary": "Candidate evaluated for Staff Distributed Systems Engineer scoring 8.0/10 overall. Demonstrated solid technical grasp (8.2/10) with verified strengths in Kafka idempotent producer, Transactional producers. Observable communication scored 8.5/10 with 0 filler words detected. Evidence Verifier validated 5/7 claims with 100% transcript grounding.",
+    "technical_analysis": {
+      "score": 8.2,
+      "question_understanding_score": 8.0,
+      "problem_solving_score": 7.5,
+      "expected_concepts": [
+        "Kafka idempotent producer",
+        "Transactional producers",
+        "Redis deduplication",
+        "Atomic multi-exec",
+        "Raft quorum",
+        "Network partition handling"
+      ],
+      "demonstrated_concepts": [
+        "Kafka idempotent producer",
+        "Transactional producers",
+        "Redis deduplication",
+        "Atomic multi-exec",
+        "Raft quorum",
+        "Network partition handling"
+      ],
+      "missing_concepts": [],
+      "strengths": [
+        {
+          "id": "tech_s1",
+          "category": "Architecture & System Design",
+          "title": "Strong explanation of idempotency strategy",
+          "description": "Candidate accurately described using transactional producers and Redis for deduplication with atomic multi-exec.",
+          "severity": "positive",
+          "score_impact": 1.2,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "weaknesses": [
+        {
+          "id": "tech_w1",
+          "category": "Distributed Systems Resilience",
+          "title": "Limited discussion on minority node behavior during partition",
+          "description": "Candidate did not elaborate on how writes are handled or recovered in minority partition.",
+          "severity": "needs_improvement",
+          "score_impact": -0.5,
+          "evidence": [
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:03:00].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "struggled_questions": [],
+      "summary": "Candidate demonstrates solid understanding of Kafka idempotency and Raft partition handling, but lacks depth on minority node recovery and broader distributed system resilience."
+    },
+    "communication_analysis": {
+      "score": 8.5,
+      "structure_score": 8.0,
+      "filler_words_detected": 0,
+      "filler_word_breakdown": {
+        "um": 0,
+        "like": 0,
+        "you know": 0,
+        "basically": 0,
+        "actually": 0,
+        "sort of / kind of": 0
+      },
+      "long_pauses_count": 0,
+      "clarification_requests_count": 0,
+      "interviewer_followup_count": 0,
+      "findings": [
+        {
+          "id": "comm_1",
+          "category": "Answer Clarity",
+          "title": "Concise Direct Answers",
+          "description": "Candidate answered each question in a single concise statement without filler words.",
+          "severity": "positive",
+          "score_impact": 1.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            },
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "comm_2",
+          "category": "Filler Word Usage",
+          "title": "No Filler Words",
+          "description": "Candidate's responses contained zero filler words.",
+          "severity": "positive",
+          "score_impact": 0.5,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "comm_3",
+          "category": "Questioning Behavior",
+          "title": "No Clarification or Follow-up Questions",
+          "description": "Candidate did not ask clarification questions and interviewer did not ask follow-up questions.",
+          "severity": "positive",
+          "score_impact": 0.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:10",
+              "quote": "Interviewer Follow-up Questions: 0",
+              "speaker": "system",
+              "context": null
+            }
+          ],
+          "verification_status": "REJECTED",
+          "verification_notes": "REJECTED: Hallucinated claim. Candidate never discussed these concepts in the interview transcript.",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "summary": "Candidate provided concise, direct answers with no filler words and did not engage in clarification or follow-up questioning."
+    },
+    "behavioral_analysis": {
+      "score": 7.3,
+      "star_coverage": {
+        "situation": 85.0,
+        "task": 80.0,
+        "action": 85.0,
+        "result": 55.0
+      },
+      "ownership_score": 3.0,
+      "specificity_score": 7.0,
+      "findings": [
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (0 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (0 personal action markers vs 1 team mentions).",
+          "severity": "neutral",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:03:00].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "behav_results",
+          "category": "STAR Methodology - Measurable Results",
+          "title": "Opportunity to quantify final business impact",
+          "description": "Candidate described successful task completion, but omitted concrete metrics (e.g. % latency reduction, time saved, revenue impacted).",
+          "severity": "needs_improvement",
+          "score_impact": 0.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "Project was delivered and worked well in production.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "REJECTED",
+          "verification_notes": "REJECTED: Hallucinated claim. Candidate never discussed these concepts in the interview transcript.",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "summary": "Candidate demonstrated solid STAR foundation with clear personal responsibility, with room to add quantifiable impact metrics."
+    },
+    "verification_result": {
+      "total_claims_checked": 7,
+      "verified_count": 5,
+      "modified_count": 0,
+      "rejected_count": 2,
+      "expert_verified_count": 0,
+      "verification_rate_pct": 71.4,
+      "verified_findings": [
+        {
+          "id": "tech_s1",
+          "category": "Architecture & System Design",
+          "title": "Strong explanation of idempotency strategy",
+          "description": "Candidate accurately described using transactional producers and Redis for deduplication with atomic multi-exec.",
+          "severity": "positive",
+          "score_impact": 1.2,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "tech_w1",
+          "category": "Distributed Systems Resilience",
+          "title": "Limited discussion on minority node behavior during partition",
+          "description": "Candidate did not elaborate on how writes are handled or recovered in minority partition.",
+          "severity": "needs_improvement",
+          "score_impact": -0.5,
+          "evidence": [
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:03:00].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "comm_1",
+          "category": "Answer Clarity",
+          "title": "Concise Direct Answers",
+          "description": "Candidate answered each question in a single concise statement without filler words.",
+          "severity": "positive",
+          "score_impact": 1.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            },
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "comm_2",
+          "category": "Filler Word Usage",
+          "title": "No Filler Words",
+          "description": "Candidate's responses contained zero filler words.",
+          "severity": "positive",
+          "score_impact": 0.5,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "comm_3",
+          "category": "Questioning Behavior",
+          "title": "No Clarification or Follow-up Questions",
+          "description": "Candidate did not ask clarification questions and interviewer did not ask follow-up questions.",
+          "severity": "positive",
+          "score_impact": 0.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:10",
+              "quote": "Interviewer Follow-up Questions: 0",
+              "speaker": "system",
+              "context": null
+            }
+          ],
+          "verification_status": "REJECTED",
+          "verification_notes": "REJECTED: Hallucinated claim. Candidate never discussed these concepts in the interview transcript.",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (0 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (0 personal action markers vs 1 team mentions).",
+          "severity": "neutral",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:03:00].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "behav_results",
+          "category": "STAR Methodology - Measurable Results",
+          "title": "Opportunity to quantify final business impact",
+          "description": "Candidate described successful task completion, but omitted concrete metrics (e.g. % latency reduction, time saved, revenue impacted).",
+          "severity": "needs_improvement",
+          "score_impact": 0.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "Project was delivered and worked well in production.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "REJECTED",
+          "verification_notes": "REJECTED: Hallucinated claim. Candidate never discussed these concepts in the interview transcript.",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "audit_trail": [
+        {
+          "finding_id": "tech_s1",
+          "title": "Strong explanation of idempotency strategy",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:01:45].",
+          "evidence_snippet": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic mul"
+        },
+        {
+          "finding_id": "tech_w1",
+          "title": "Limited discussion on minority node behavior during partition",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:03:00].",
+          "evidence_snippet": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency."
+        },
+        {
+          "finding_id": "comm_1",
+          "title": "Concise Direct Answers",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:01:45].",
+          "evidence_snippet": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic mul"
+        },
+        {
+          "finding_id": "comm_2",
+          "title": "No Filler Words",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:01:45].",
+          "evidence_snippet": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic mul"
+        },
+        {
+          "finding_id": "comm_3",
+          "title": "No Clarification or Follow-up Questions",
+          "status": "REJECTED",
+          "reason": "Transcript audit failed: Zero matching statements or vocabulary found in candidate responses.",
+          "evidence_snippet": "N/A (Filtered out)"
+        },
+        {
+          "finding_id": "behav_ownership",
+          "title": "Healthy ownership balance (0 direct personal actions cited)",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:03:00].",
+          "evidence_snippet": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency."
+        },
+        {
+          "finding_id": "behav_results",
+          "title": "Opportunity to quantify final business impact",
+          "status": "REJECTED",
+          "reason": "Transcript audit failed: Zero matching statements or vocabulary found in candidate responses.",
+          "evidence_snippet": "N/A (Filtered out)"
+        }
+      ]
+    },
+    "expert_review": null,
+    "expert_review_history": [],
+    "status_history": [
+      {
+        "id": "trans_7101669e",
+        "from_status": "AI_ASSESSMENT_PENDING",
+        "to_status": "PENDING_EXPERT_REVIEW",
+        "changed_by_user_id": "system",
+        "changed_by_name": "InterviewLens AI Engine",
+        "changed_by_role": "SYSTEM",
+        "reason": "AI multi-agent evaluation completed. Assessment ready for expert assignment.",
+        "timestamp": "2026-10-18T18:28:41.475879+00:00",
+        "metadata": {}
+      },
+      {
+        "id": "trans_ddce8916",
+        "from_status": "PENDING_EXPERT_REVIEW",
+        "to_status": "ASSIGNED",
+        "changed_by_user_id": "adm_001",
+        "changed_by_name": "InterviewLens Admin",
+        "changed_by_role": "ADMIN",
+        "reason": "Direct specialization match in Distributed Systems.",
+        "timestamp": "2026-10-18T18:28:45.016090+00:00",
+        "metadata": {
+          "assigned_expert_id": "pex_d73c4e07",
+          "assigned_expert_name": "Dr. Sophia Sterling 009a3d"
+        }
+      }
+    ],
+    "is_released_to_candidate": false,
+    "released_at": null,
+    "released_by": null,
+    "reassessment_reason": null,
+    "revision_requested_reason": null,
+    "retest_questions": [],
+    "retest_results": null,
+    "executive_summary": "Candidate evaluated for Staff Distributed Systems Engineer scoring 8.0/10 overall. Demonstrated solid technical grasp (8.2/10) with verified strengths in Kafka idempotent producer, Transactional producers. Observable communication scored 8.5/10 with 0 filler words detected. Evidence Verifier validated 5/7 claims with 100% transcript grounding."
+  },
+  {
+    "id": "int_29e756cc",
+    "title": "Distributed Systems Screen d6b4be",
+    "candidate_name": "Alex Rivera d6b4be",
+    "candidate_email": "candidate_e2e_d6b4be@example.com",
+    "user_email": "candidate_e2e_d6b4be@example.com",
+    "user_id": "usr_0a8af263",
+    "job_role": "Staff Distributed Systems Engineer",
+    "job_description": "Build high-throughput event-driven microservices.",
+    "resume_text": null,
+    "meeting_url": "https://meet.google.com/abc-defg-hij",
+    "adapter_type": "UPLOAD_TRANSCRIPT",
+    "platform": "Transcript Upload Adapter",
+    "status": "COMPLETED",
+    "lifecycle_status": "FINALIZED",
+    "assigned_expert_id": "pex_e51c3c76",
+    "assigned_expert_name": "Dr. Sophia Sterling 2ef003",
+    "assigned_expert_title": "Principal Distributed Systems Architect",
+    "assigned_expert_email": "expert_evaluator_2ef003@expertlead.io",
+    "expert_domain_tag": "Staff Distributed Systems Engineer",
+    "review_requested_at": "2026-10-18T18:29:56.701077",
+    "created_at": "2026-10-18T18:29:55.988705",
+    "raw_transcript": "[00:01:10] Interviewer: How do you design high-throughput idempotency for Kafka message streams?\n[00:01:45] Candidate: We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.\n[00:02:30] Interviewer: What happens during a network partition?\n[00:03:00] Candidate: Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+    "normalized_transcript": {
+      "interview_id": null,
+      "title": "Distributed Systems Screen d6b4be",
+      "job_role": "Staff Distributed Systems Engineer",
+      "job_description": "Build high-throughput event-driven microservices.",
+      "resume_text": null,
+      "platform": "Transcript Upload Adapter",
+      "adapter_type": "UPLOAD_TRANSCRIPT",
+      "meeting_url": "https://meet.google.com/abc-defg-hij",
+      "segments": [
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:01:10",
+          "text": "How do you design high-throughput idempotency for Kafka message streams?",
+          "is_question": true,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:01:45",
+          "text": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "interviewer",
+          "timestamp": "00:02:30",
+          "text": "What happens during a network partition?",
+          "is_question": true,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        },
+        {
+          "speaker": "candidate",
+          "timestamp": "00:03:00",
+          "text": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+          "is_question": false,
+          "confidence": 1.0,
+          "participant_id": null,
+          "audio_offset_ms": null
+        }
+      ],
+      "participant_events": []
+    },
+    "scores": {
+      "technical_knowledge": 8.2,
+      "communication": 7.8,
+      "answer_structure": 8.0,
+      "problem_solving": 8.0,
+      "behavioral": 7.3,
+      "question_understanding": 8.5,
+      "overall": 7.9
+    },
+    "original_ai_scores": {
+      "technical_knowledge": 8.2,
+      "communication": 7.8,
+      "answer_structure": 8.0,
+      "problem_solving": 8.0,
+      "behavioral": 7.3,
+      "question_understanding": 8.5,
+      "overall": 7.9
+    },
+    "original_ai_summary": "Candidate evaluated for Staff Distributed Systems Engineer scoring 7.9/10 overall. Demonstrated solid technical grasp (8.2/10) with verified strengths in Kafka Idempotent Producer, Transactional Producer. Observable communication scored 7.8/10 with 0 filler words detected. Evidence Verifier validated 4/5 claims with 100% transcript grounding.",
+    "technical_analysis": {
+      "score": 8.2,
+      "question_understanding_score": 8.5,
+      "problem_solving_score": 8.0,
+      "expected_concepts": [
+        "Kafka Idempotent Producer",
+        "Transactional Producer",
+        "Redis Deduplication",
+        "Atomic Multi-Exec",
+        "Raft Consensus",
+        "Quorum",
+        "Network Partition Handling",
+        "Consistency Preservation",
+        "CAP Theorem",
+        "Distributed Locking",
+        "Concurrency Control"
+      ],
+      "demonstrated_concepts": [
+        "Kafka Idempotent Producer",
+        "Transactional Producer",
+        "Redis Deduplication",
+        "Atomic Multi-Exec",
+        "Raft Consensus",
+        "Quorum",
+        "Network Partition Handling",
+        "Consistency Preservation"
+      ],
+      "missing_concepts": [
+        "CAP Theorem",
+        "Distributed Locking",
+        "Concurrency Control"
+      ],
+      "strengths": [
+        {
+          "id": "tech_s1",
+          "category": "Architecture & System Design",
+          "title": "Strong explanation of idempotency strategy",
+          "description": "Candidate accurately described using transactional producers and Redis for deduplication with atomic multi-exec",
+          "severity": "positive",
+          "score_impact": 1.2,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "weaknesses": [
+        {
+          "id": "tech_w1",
+          "category": "Partition Tolerance & Recovery",
+          "title": "Limited detail on partition recovery strategy",
+          "description": "Candidate only mentioned majority halting writes, no mention of leader election or data reconciliation",
+          "severity": "needs_improvement",
+          "score_impact": -0.5,
+          "evidence": [
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:03:00].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "struggled_questions": [],
+      "summary": "Candidate demonstrates solid understanding of idempotency and consensus mechanisms, but lacks depth in partition recovery and distributed locking concepts."
+    },
+    "communication_analysis": {
+      "score": 7.8,
+      "structure_score": 8.0,
+      "filler_words_detected": 0,
+      "filler_word_breakdown": {
+        "um": 0,
+        "like": 0,
+        "you know": 0,
+        "basically": 0,
+        "actually": 0,
+        "sort of / kind of": 0
+      },
+      "long_pauses_count": 0,
+      "clarification_requests_count": 0,
+      "interviewer_followup_count": 0,
+      "findings": [
+        {
+          "id": "comm_1",
+          "category": "Answer Structure & Clarity",
+          "title": "Concise, technically detailed responses",
+          "description": "Candidate provided direct, jargon\u2011rich answers without filler words, demonstrating technical depth.",
+          "severity": "positive",
+          "score_impact": 1.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi\u2011exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            },
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "summary": "Candidate delivered concise, technically detailed answers with no filler words, but did not provide higher\u2011level framing or elaboration."
+    },
+    "behavioral_analysis": {
+      "score": 7.3,
+      "star_coverage": {
+        "situation": 85.0,
+        "task": 80.0,
+        "action": 85.0,
+        "result": 55.0
+      },
+      "ownership_score": 3.0,
+      "specificity_score": 7.0,
+      "findings": [
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (0 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (0 personal action markers vs 1 team mentions).",
+          "severity": "neutral",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:03:00].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "behav_results",
+          "category": "STAR Methodology - Measurable Results",
+          "title": "Opportunity to quantify final business impact",
+          "description": "Candidate described successful task completion, but omitted concrete metrics (e.g. % latency reduction, time saved, revenue impacted).",
+          "severity": "needs_improvement",
+          "score_impact": 0.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "Project was delivered and worked well in production.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "REJECTED",
+          "verification_notes": "REJECTED: Hallucinated claim. Candidate never discussed these concepts in the interview transcript.",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "summary": "Candidate demonstrated solid STAR foundation with clear personal responsibility, with room to add quantifiable impact metrics."
+    },
+    "verification_result": {
+      "total_claims_checked": 5,
+      "verified_count": 4,
+      "modified_count": 0,
+      "rejected_count": 1,
+      "expert_verified_count": 0,
+      "verification_rate_pct": 80.0,
+      "verified_findings": [
+        {
+          "id": "tech_s1",
+          "category": "Architecture & System Design",
+          "title": "Strong explanation of idempotency strategy",
+          "description": "Candidate accurately described using transactional producers and Redis for deduplication with atomic multi-exec",
+          "severity": "positive",
+          "score_impact": 1.2,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi-exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "tech_w1",
+          "category": "Partition Tolerance & Recovery",
+          "title": "Limited detail on partition recovery strategy",
+          "description": "Candidate only mentioned majority halting writes, no mention of leader election or data reconciliation",
+          "severity": "needs_improvement",
+          "score_impact": -0.5,
+          "evidence": [
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:03:00].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "comm_1",
+          "category": "Answer Structure & Clarity",
+          "title": "Concise, technically detailed responses",
+          "description": "Candidate provided direct, jargon\u2011rich answers without filler words, demonstrating technical depth.",
+          "severity": "positive",
+          "score_impact": 1.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic multi\u2011exec blocks.",
+              "speaker": "candidate",
+              "context": null
+            },
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:01:45].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "behav_ownership",
+          "category": "Individual Ownership & Agency",
+          "title": "Healthy ownership balance (0 direct personal actions cited)",
+          "description": "Candidate appropriately highlighted their direct contributions (0 personal action markers vs 1 team mentions).",
+          "severity": "neutral",
+          "score_impact": 0.9,
+          "evidence": [
+            {
+              "timestamp": "00:03:00",
+              "quote": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "verification_notes": "Verbatim transcript alignment verified at [00:03:00].",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        },
+        {
+          "id": "behav_results",
+          "category": "STAR Methodology - Measurable Results",
+          "title": "Opportunity to quantify final business impact",
+          "description": "Candidate described successful task completion, but omitted concrete metrics (e.g. % latency reduction, time saved, revenue impacted).",
+          "severity": "needs_improvement",
+          "score_impact": 0.0,
+          "evidence": [
+            {
+              "timestamp": "00:01:45",
+              "quote": "Project was delivered and worked well in production.",
+              "speaker": "candidate",
+              "context": null
+            }
+          ],
+          "verification_status": "REJECTED",
+          "verification_notes": "REJECTED: Hallucinated claim. Candidate never discussed these concepts in the interview transcript.",
+          "expert_comment": null,
+          "expert_score_override": null,
+          "verified_by": null
+        }
+      ],
+      "audit_trail": [
+        {
+          "finding_id": "tech_s1",
+          "title": "Strong explanation of idempotency strategy",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:01:45].",
+          "evidence_snippet": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic mul"
+        },
+        {
+          "finding_id": "tech_w1",
+          "title": "Limited detail on partition recovery strategy",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:03:00].",
+          "evidence_snippet": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency."
+        },
+        {
+          "finding_id": "comm_1",
+          "title": "Concise, technically detailed responses",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:01:45].",
+          "evidence_snippet": "We used transactional producers with idempotent producer configs, storing deduplication offsets in Redis with atomic mul"
+        },
+        {
+          "finding_id": "behav_ownership",
+          "title": "Healthy ownership balance (0 direct personal actions cited)",
+          "status": "VERIFIED",
+          "reason": "Ground truth confirmed at timestamp [00:03:00].",
+          "evidence_snippet": "Raft quorum requires majority nodes. If partitioned, minority halts writes to preserve consistency."
+        },
+        {
+          "finding_id": "behav_results",
+          "title": "Opportunity to quantify final business impact",
+          "status": "REJECTED",
+          "reason": "Transcript audit failed: Zero matching statements or vocabulary found in candidate responses.",
+          "evidence_snippet": "N/A (Filtered out)"
+        }
+      ]
+    },
+    "expert_review": {
+      "id": "rev_a1dddf86",
+      "interview_id": "int_29e756cc",
+      "expert_id": "pex_e51c3c76",
+      "reviewer_name": "Industry Technical Lead",
+      "reviewer_title": "Staff Distributed Systems Architect",
+      "reviewer_company": "Tier-1 Tech / FinTech",
+      "verdict": "MODIFIED",
+      "overall_rating": 8.4,
+      "comments": "Candidate demonstrated strong production knowledge of Kafka idempotency and Raft quorum.",
+      "override_scores": null,
+      "dimension_overrides": {
+        "technical_knowledge": 8.8,
+        "communication": 8.0,
+        "answer_structure": 8.0,
+        "problem_solving": 8.5,
+        "behavioral": 8.0,
+        "question_understanding": 8.5,
+        "overall": 8.4
+      },
+      "modified_findings": null,
+      "verified_claim_ids": [],
+      "disputed_claim_ids": [],
+      "audit_notes": {},
+      "sign_off_certificate_id": null,
+      "reviewed_at": "2026-10-18T18:30:01.132522"
+    },
+    "expert_review_history": [],
+    "status_history": [
+      {
+        "id": "trans_14b45421",
+        "from_status": "AI_ASSESSMENT_PENDING",
+        "to_status": "PENDING_EXPERT_REVIEW",
+        "changed_by_user_id": "system",
+        "changed_by_name": "InterviewLens AI Engine",
+        "changed_by_role": "SYSTEM",
+        "reason": "AI multi-agent evaluation completed. Assessment ready for expert assignment.",
+        "timestamp": "2026-10-18T18:29:55.988753+00:00",
+        "metadata": {}
+      },
+      {
+        "id": "trans_14694df7",
+        "from_status": "PENDING_EXPERT_REVIEW",
+        "to_status": "ASSIGNED",
+        "changed_by_user_id": "adm_001",
+        "changed_by_name": "InterviewLens Admin",
+        "changed_by_role": "ADMIN",
+        "reason": "Direct specialization match in Distributed Systems.",
+        "timestamp": "2026-10-18T18:29:59.395958+00:00",
+        "metadata": {
+          "assigned_expert_id": "pex_e51c3c76",
+          "assigned_expert_name": "Dr. Sophia Sterling 2ef003"
+        }
+      },
+      {
+        "id": "trans_90b5d13b",
+        "from_status": "ASSIGNED",
+        "to_status": "FINALIZED",
+        "changed_by_user_id": "pex_e51c3c76",
+        "changed_by_name": "Dr. Sophia Sterling 2ef003",
+        "changed_by_role": "EXPERT",
+        "reason": "Expert review complete and verified.",
+        "timestamp": "2026-10-18T18:30:01.806410+00:00",
+        "metadata": {}
+      },
+      {
+        "id": "trans_3f4697c1",
+        "from_status": "FINALIZED",
+        "to_status": "FINALIZED",
+        "changed_by_user_id": "adm_001",
+        "changed_by_name": "InterviewLens Admin",
+        "changed_by_role": "ADMIN",
+        "reason": "E2E verification release.",
+        "timestamp": "2026-10-18T18:30:02.524239+00:00",
+        "metadata": {
+          "released_at": "2026-10-18T18:30:02.524201+00:00",
+          "released_by": "InterviewLens Admin"
+        }
+      }
+    ],
+    "is_released_to_candidate": true,
+    "released_at": "2026-10-18T18:30:02.524201+00:00",
+    "released_by": "InterviewLens Admin",
+    "reassessment_reason": null,
+    "revision_requested_reason": null,
+    "retest_questions": [],
+    "retest_results": null,
+    "executive_summary": "Candidate evaluated for Staff Distributed Systems Engineer scoring 7.9/10 overall. Demonstrated solid technical grasp (8.2/10) with verified strengths in Kafka Idempotent Producer, Transactional Producer. Observable communication scored 7.8/10 with 0 filler words detected. Evidence Verifier validated 4/5 claims with 100% transcript grounding."
   }
 ]

@@ -110,18 +110,18 @@ export default function ArchitectureView() {
   ];
 
   return (
-    <div style={{ padding: '32px 28px', maxWidth: '1180px', margin: '0 auto' }}>
+    <div className="page-container">
       {/* Header Banner */}
-      <div className="glass-panel glass-panel-glow" style={{ padding: '36px', borderRadius: '20px', marginBottom: '36px', textAlign: 'center' }}>
+      <div className="glass-panel glass-panel-glow modal-inner-padding" style={{ padding: '36px', borderRadius: '20px', marginBottom: '36px', textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
           <span className="badge badge-cyan">Complete Target Architecture</span>
           <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>•</span>
           <span style={{ fontSize: '0.8rem', color: 'var(--accent-emerald)', fontWeight: 600 }}>micro1 Hackathon Blueprint</span>
         </div>
-        <h1 style={{ fontSize: '2.4rem', fontWeight: 800, marginBottom: '10px' }}>
+        <h1 style={{ fontSize: 'clamp(1.6rem, 3.8vw, 2.4rem)', fontWeight: 800, marginBottom: '10px' }}>
           INTERVIEW<span style={{ color: 'var(--accent-cyan)' }}>LENS</span>
         </h1>
-        <p style={{ fontSize: '1.1rem', color: 'var(--accent-cyan)', fontWeight: 600, marginBottom: '12px' }}>
+        <p style={{ fontSize: '1.05rem', color: 'var(--accent-cyan)', fontWeight: 600, marginBottom: '12px' }}>
           Real Interview Capture + Agentic Interview Intelligence
         </p>
         <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', maxWidth: '820px', margin: '0 auto', lineHeight: 1.6 }}>
@@ -136,13 +136,14 @@ export default function ArchitectureView() {
           return (
             <React.Fragment key={layer.stage}>
               <div className="glass-panel" style={{
-                padding: '24px 30px',
+                padding: '20px 24px',
                 borderRadius: '16px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '24px',
+                gap: '20px',
                 borderLeft: `4px solid ${layer.color}`,
-                background: 'rgba(14, 20, 34, 0.75)'
+                background: 'rgba(14, 20, 34, 0.75)',
+                flexWrap: 'wrap'
               }}>
                 {/* Stage Badge & Icon */}
                 <div style={{

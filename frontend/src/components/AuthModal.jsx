@@ -153,26 +153,15 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(5, 8, 14, 0.88)',
-      backdropFilter: 'blur(18px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 200,
-      padding: '20px'
-    }}>
-      <div className="glass-panel" style={{
+    <div className="modal-overlay" style={{ zIndex: 200 }}>
+      <div className="glass-panel modal-inner-padding modal-content-scrollable" style={{
         width: '100%',
         maxWidth: '480px',
-        padding: '32px',
+        padding: '30px',
         position: 'relative',
-        borderRadius: '24px',
+        borderRadius: '22px',
         boxShadow: '0 20px 50px rgba(0,0,0,0.6)',
-        maxHeight: '90vh',
-        overflowY: 'auto'
+        maxHeight: '90vh'
       }}>
         {/* Close Button */}
         <button

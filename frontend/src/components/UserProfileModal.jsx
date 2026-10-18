@@ -42,21 +42,11 @@ export default function UserProfileModal({ user, onClose, onSave }) {
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(5, 8, 14, 0.85)',
-      backdropFilter: 'blur(16px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 100,
-      padding: '20px'
-    }}>
-      <div className="glass-panel" style={{
+    <div className="modal-overlay">
+      <div className="glass-panel modal-inner-padding modal-content-scrollable" style={{
         width: '100%',
         maxWidth: '560px',
-        padding: '32px',
+        padding: '30px',
         position: 'relative',
         borderRadius: '20px'
       }}>

@@ -266,25 +266,12 @@ export default function CreateInterviewModal({
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(5, 8, 14, 0.9)',
-      backdropFilter: 'blur(18px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 100,
-      padding: '20px'
-    }}>
-      <div className="glass-panel" style={{
-        width: '100%',
+    <div className="modal-overlay">
+      <div className="glass-panel modal-content-scrollable modal-inner-padding" style={{
         maxWidth: '920px',
-        maxHeight: '92vh',
-        overflowY: 'auto',
-        padding: '34px',
+        padding: '30px',
         position: 'relative',
-        borderRadius: '24px'
+        borderRadius: '22px'
       }}>
         {/* Close Button */}
         <button
@@ -311,7 +298,7 @@ export default function CreateInterviewModal({
         </div>
 
         {/* Workspace Title & Target Role */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+        <div className="grid-responsive-2" style={{ marginBottom: '20px' }}>
           <div>
             <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
               INTERVIEW TITLE
@@ -353,11 +340,11 @@ export default function CreateInterviewModal({
           background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)',
           marginBottom: '18px'
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '8px' }}>
             <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-cyan)' }}>
               1. JOB DESCRIPTION & REQUIRED SKILLS
             </label>
-            <div style={{ display: 'flex', gap: '6px' }}>
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
               <button
                 type="button"
                 onClick={() => setJdMode('file')}
@@ -431,11 +418,11 @@ export default function CreateInterviewModal({
           background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)',
           marginBottom: '22px'
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '8px' }}>
             <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-violet)' }}>
               2. CANDIDATE RESUME & EXPERIENCE
             </label>
-            <div style={{ display: 'flex', gap: '6px' }}>
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
               <button
                 type="button"
                 onClick={() => setResumeMode('file')}
@@ -508,7 +495,7 @@ export default function CreateInterviewModal({
           <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '10px' }}>
             3. SELECT INTERVIEW FORMAT & EXECUTION
           </label>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px', marginBottom: '16px' }}>
+          <div className="grid-responsive-cards" style={{ gap: '12px', marginBottom: '16px' }}>
             {ADAPTERS.map(a => {
               const Icon = a.icon;
               const isSel = selectedAdapter === a.id;
@@ -678,7 +665,7 @@ export default function CreateInterviewModal({
         </div>
 
         {/* Action Buttons */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', flexWrap: 'wrap' }}>
           <button className="btn btn-secondary" onClick={onClose} disabled={loading}>
             Cancel
           </button>

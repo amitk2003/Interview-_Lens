@@ -274,28 +274,15 @@ export default function LiveInterviewRoom({
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(5, 8, 14, 0.94)',
-      backdropFilter: 'blur(20px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 150,
-      padding: '20px'
-    }}>
-      <div className="glass-panel" style={{
-        width: '100%',
+    <div className="modal-overlay" style={{ zIndex: 150 }}>
+      <div className="glass-panel modal-content-scrollable modal-inner-padding" style={{
         maxWidth: '960px',
-        maxHeight: '92vh',
-        overflowY: 'auto',
-        padding: '30px',
+        padding: '28px',
         position: 'relative',
-        borderRadius: '24px'
+        borderRadius: '22px'
       }}>
         {/* Header Bar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span className="badge badge-cyan">
               <span className="pulse-glow" style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-cyan)', display: 'inline-block' }} />
@@ -488,7 +475,7 @@ export default function LiveInterviewRoom({
             )}
           </div>
 
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <button className="btn btn-secondary" onClick={onClose} disabled={isSubmitting || isEvaluatingTurn}>
               Exit Room
             </button>

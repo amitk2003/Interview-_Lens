@@ -169,9 +169,9 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
   };
 
   return (
-    <div style={{ padding: '32px 28px', maxWidth: '1380px', margin: '0 auto' }}>
+    <div className="page-container">
       {/* Top Navigation / Breadcrumbs */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <button className="btn btn-secondary" onClick={onBack} style={{ padding: '8px 14px', fontSize: '0.8rem' }}>
           <ArrowLeft size={16} /> Back to Interviews
         </button>
@@ -185,11 +185,11 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
       </div>
 
       {/* Header Profile Card */}
-      <div className="glass-panel" style={{ padding: '28px 32px', marginBottom: '28px', borderRadius: '18px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
+      <div className="glass-panel modal-inner-padding" style={{ padding: '28px 32px', marginBottom: '28px', borderRadius: '18px' }}>
+        <div className="report-header-stack" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-              <h1 style={{ fontSize: '1.8rem', fontWeight: 800 }}>{interview.title}</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
+              <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 1.8rem)', fontWeight: 800 }}>{interview.title}</h1>
               <span className="badge badge-cyan" style={{ fontSize: '0.75rem' }}>{interview.job_role}</span>
             </div>
             <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', maxWidth: '780px', lineHeight: 1.5 }}>
@@ -198,12 +198,12 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
           </div>
 
           {/* Overall Score Dial */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
+          <div className="report-score-group" style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
             <div
               className="score-circle"
               style={{
                 '--score-pct': Math.round((scores.overall / 10) * 100),
-                width: '84px', height: '84px'
+                width: '84px', height: '84px', flexShrink: 0
               }}
             >
               <div className="score-circle-inner" style={{ width: '70px', height: '70px' }}>
@@ -215,7 +215,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-emerald)', fontSize: '0.82rem', fontWeight: 700 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-emerald)', fontSize: '0.82rem', fontWeight: 700, justifyContent: 'flex-end' }}>
                 <ShieldCheck size={16} /> {verification.verification_rate_pct}% Grounded
               </div>
               <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
@@ -225,8 +225,8 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div style={{ display: 'flex', gap: '8px', marginTop: '24px', borderTop: '1px solid var(--border-subtle)', paddingTop: '18px', flexWrap: 'wrap' }}>
+        {/* Navigation Tabs (Swipeable on touch/mobile) */}
+        <div className="scrollable-tabs" style={{ marginTop: '24px', borderTop: '1px solid var(--border-subtle)', paddingTop: '18px' }}>
           {[
             { id: 'scorecard', label: '6-Dimension Scorecard', icon: Award },
             { id: 'evidence', label: `Evidence Drawer (${allFindings.length})`, icon: ShieldCheck },
@@ -262,7 +262,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
       {activeTab === 'scorecard' && (
         <div>
           {/* Dimension Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '28px' }}>
+          <div className="grid-responsive-cards" style={{ marginBottom: '28px' }}>
             {[
               { label: 'Technical Knowledge', score: scores.technical_knowledge, icon: Cpu, color: 'var(--accent-cyan)', desc: 'Correctness, system depth, and expected concept coverage against JD' },
               { label: 'Observable Communication', score: scores.communication, icon: MessageSquare, color: 'var(--accent-emerald)', desc: `${interview.communication_analysis?.filler_words_detected || 0} filler words, ${interview.communication_analysis?.clarification_requests_count || 0} clarifications asked` },
@@ -290,7 +290,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
           </div>
 
           {/* Detailed Specialized Agent Breakdowns */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+          <div className="grid-responsive-2">
             {/* Technical Agent Findings */}
             <div className="glass-panel" style={{ padding: '26px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
@@ -378,7 +378,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
       {activeTab === 'evidence' && (
         <div>
           {/* Filter Bar */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
             <div>
               <h3 style={{ fontSize: '1.2rem', fontWeight: 700 }}>Evidence Verification Audit Trail</h3>
               <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
@@ -386,7 +386,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
               </p>
             </div>
 
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div className="scrollable-tabs" style={{ gap: '8px' }}>
               {['ALL', 'VERIFIED', 'MODIFIED', 'REJECTED'].map(f => (
                 <button
                   key={f}
@@ -622,7 +622,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
 
       {/* TAB 4: HUMAN / EXPERT REVIEW */}
       {activeTab === 'expert_review' && (
-        <div className="glass-panel" style={{ padding: '32px', borderRadius: '18px', maxWidth: '860px', margin: '0 auto' }}>
+        <div className="glass-panel modal-inner-padding" style={{ padding: '32px', borderRadius: '18px', maxWidth: '860px', margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <User size={22} color="var(--accent-cyan)" />
@@ -640,7 +640,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
           </p>
 
           {/* Expert Identity Credentials */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+          <div className="grid-responsive-2" style={{ marginBottom: '20px' }}>
             <div>
               <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '6px' }}>
                 EXPERT REVIEWER NAME
@@ -714,7 +714,7 @@ export default function InterviewReportView({ interview, onBack, onUpdateIntervi
             <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '8px' }}>
               INDUSTRY HIRING VERDICT
             </label>
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div className="verdict-selector-group" style={{ display: 'flex', gap: '10px' }}>
               {[
                 { id: 'APPROVED', label: 'Approve & Validate Findings', color: 'var(--accent-emerald)' },
                 { id: 'MODIFIED', label: 'Modify Scores (Adjust for Buzzwords)', color: 'var(--accent-amber)' },

@@ -65,16 +65,16 @@ export default function BenchmarkView({ interviews }) {
   }, []);
 
   return (
-    <div style={{ padding: '32px 28px', maxWidth: '1380px', margin: '0 auto' }}>
+    <div className="page-container">
       {/* Header Panel */}
-      <div className="glass-panel glass-panel-glow" style={{ padding: '32px', borderRadius: '20px', marginBottom: '28px' }}>
+      <div className="glass-panel glass-panel-glow modal-inner-padding" style={{ padding: '32px', borderRadius: '20px', marginBottom: '28px' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
           <span className="badge badge-cyan">micro1 Hackathon Core Deliverable</span>
           <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>•</span>
           <span style={{ fontSize: '0.8rem', color: 'var(--accent-emerald)', fontWeight: 600 }}>Empirical Benchmark Proof</span>
         </div>
 
-        <h1 style={{ fontSize: '2.1rem', fontWeight: 800, marginBottom: '8px' }}>
+        <h1 style={{ fontSize: 'clamp(1.4rem, 3.2vw, 2.1rem)', fontWeight: 800, marginBottom: '8px' }}>
           Empirical Benchmark: Multi-Agent System vs. Single-Step LLM Baseline
         </h1>
         <p style={{ fontSize: '0.94rem', color: 'var(--text-secondary)', maxWidth: '920px', lineHeight: 1.6 }}>
@@ -107,7 +107,7 @@ export default function BenchmarkView({ interviews }) {
         <div>
           {/* Top Metric Cards */}
           {suiteReport && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '28px' }}>
+            <div className="grid-responsive-cards" style={{ marginBottom: '28px' }}>
               <div className="glass-panel" style={{ padding: '24px', borderRadius: '16px', borderLeft: '4px solid var(--accent-emerald)' }}>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
                   Multi-Agent Quality Score
@@ -238,7 +238,7 @@ export default function BenchmarkView({ interviews }) {
                   </div>
 
                   {/* Side-by-Side Outputs */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
+                  <div className="grid-responsive-cards" style={{ gap: '16px' }}>
                     {/* Baseline Box */}
                     <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(244, 63, 94, 0.05)', border: '1px solid rgba(244, 63, 94, 0.2)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px', color: 'var(--accent-rose)' }}>
@@ -319,7 +319,7 @@ export default function BenchmarkView({ interviews }) {
                   </h2>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap', justifyContent: 'center' }}>
                   <div style={{ textAlign: 'center' }}>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Single LLM Baseline</span>
                     <span style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-secondary)' }}>
@@ -349,7 +349,7 @@ export default function BenchmarkView({ interviews }) {
                     comparison.metrics_comparison.metric_3_actionability,
                     comparison.metrics_comparison.metric_4_longitudinal_learning
                   ].filter(Boolean).map((m, idx) => (
-                    <div key={idx} style={{ padding: '16px 20px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)', display: 'grid', gridTemplateColumns: '1.4fr 1.3fr 1.5fr 1fr', gap: '16px', alignItems: 'center' }}>
+                    <div key={idx} className="grid-benchmark-table-row" style={{ padding: '16px 20px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)' }}>
                       <div>
                         <strong style={{ fontSize: '0.9rem', color: '#FFFFFF', display: 'block' }}>{m.name}</strong>
                       </div>

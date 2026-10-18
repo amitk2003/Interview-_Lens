@@ -39,15 +39,15 @@ export default function CrossInterviewView() {
   }
 
   return (
-    <div style={{ padding: '32px 28px', maxWidth: '1380px', margin: '0 auto' }}>
+    <div className="page-container">
       {/* Header */}
-      <div className="glass-panel glass-panel-glow" style={{ padding: '32px', borderRadius: '18px', marginBottom: '32px' }}>
+      <div className="glass-panel glass-panel-glow modal-inner-padding" style={{ padding: '32px', borderRadius: '18px', marginBottom: '32px' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
           <span className="badge badge-cyan">Longitudinal Intelligence</span>
           <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>•</span>
           <span style={{ fontSize: '0.8rem', color: 'var(--accent-emerald)', fontWeight: 600 }}>Cross-Interview Learning Loop</span>
         </div>
-        <h1 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '8px' }}>
+        <h1 style={{ fontSize: 'clamp(1.4rem, 3.2vw, 2rem)', fontWeight: 800, marginBottom: '8px' }}>
           Interview Memory & Recurring Pattern Analytics
         </h1>
         <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', maxWidth: '820px', lineHeight: 1.6 }}>
@@ -56,7 +56,7 @@ export default function CrossInterviewView() {
       </div>
 
       {/* Overview Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+      <div className="grid-responsive-cards" style={{ marginBottom: '32px' }}>
         <div className="glass-panel" style={{ padding: '24px' }}>
           <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>Analyzed Sessions</span>
           <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginTop: '6px', color: 'var(--accent-cyan)' }}>
@@ -83,7 +83,7 @@ export default function CrossInterviewView() {
       </div>
 
       {/* Main Breakdown: Recurring Weaknesses & Prep Roadmap */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }}>
+      <div className="grid-responsive-2" style={{ marginBottom: '32px' }}>
         {/* Recurring Weaknesses */}
         <div className="glass-panel" style={{ padding: '28px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}>

@@ -12,7 +12,9 @@ import {
   User, 
   ShieldCheck,
   LogIn,
-  LogOut
+  LogOut,
+  Menu,
+  X
 } from 'lucide-react';
 
 export default function Navbar({ 
@@ -30,11 +32,24 @@ export default function Navbar({
 }) {
   const [showKeyModal, setShowKeyModal] = useState(false);
   const [tempKey, setTempKey] = useState(apiKey || '');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSaveKey = () => {
     setApiKey(tempKey);
     localStorage.setItem('GROQ_API_KEY', tempKey);
     setShowKeyModal(false);
+  };
+
+  const navItems = [
+    { id: 'dashboard', label: 'Interviews', icon: Compass },
+    { id: 'insights', label: 'Interview Memory', icon: BarChart3 },
+    { id: 'benchmark', label: 'Baseline vs Multi-Agent', icon: Zap },
+    { id: 'architecture', label: 'Architecture Blueprint', icon: Layers }
+  ];
+
+  const handleNavClick = (tabId) => {
+    setActiveTab(tabId);
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -43,60 +58,62 @@ export default function Navbar({
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        background: 'rgba(8, 11, 17, 0.88)',
+        background: 'rgba(8, 11, 17, 0.92)',
         backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid var(--border-subtle)',
-        padding: '14px 28px',
+        padding: '12px 18px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
         {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', cursor: 'pointer' }} onClick={() => setActiveTab('dashboard')}>
+        <div 
+          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} 
+          onClick={() => handleNavClick('dashboard')}
+        >
           <div style={{
-            width: '42px',
-            height: '42px',
-            borderRadius: '12px',
+            width: '38px',
+            height: '38px',
+            borderRadius: '10px',
             background: 'linear-gradient(135deg, #00F0FF 0%, #3B82F6 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 20px rgba(0, 240, 255, 0.4)'
+            boxShadow: '0 0 16px rgba(0, 240, 255, 0.4)',
+            flexShrink: 0
           }}>
-            <Sparkles size={22} color="#050B14" />
+            <Sparkles size={20} color="#050B14" />
           </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="brand-font" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span className="brand-font" style={{ fontSize: '1.18rem', fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
                 Interview<span style={{ color: 'var(--accent-cyan)' }}>Lens</span>
               </span>
-              <span className="badge badge-cyan" style={{ fontSize: '0.65rem', padding: '2px 6px' }}>micro1 Hackathon</span>
+              <span className="badge badge-cyan desktop-only" style={{ fontSize: '0.62rem', padding: '1px 5px' }}>micro1 Hackathon</span>
             </div>
-            <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Real Interview Capture + Agentic Intelligence</p>
+            <p className="desktop-only" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Real Interview Capture + Agentic Intelligence</p>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          {[
-            { id: 'dashboard', label: 'Interviews', icon: Compass },
-            { id: 'insights', label: 'Interview Memory', icon: BarChart3 },
-            { id: 'benchmark', label: 'Baseline vs Multi-Agent', icon: Zap },
-            { id: 'architecture', label: 'Architecture Blueprint', icon: Layers }
-          ].map(tab => {
+        {/* Desktop Navigation Tabs */}
+        <nav className="desktop-only" style={{ alignItems: 'center', gap: '6px' }}>
+          {navItems.map(tab => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleNavClick(tab.id)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '8px 16px',
+                  padding: '8px 14px',
                   borderRadius: '10px',
-                  fontSize: '0.85rem',
+                  fontSize: '0.82rem',
                   fontWeight: 600,
                   border: 'none',
                   cursor: 'pointer',
@@ -106,15 +123,15 @@ export default function Navbar({
                   borderBottom: isActive ? '2px solid var(--accent-cyan)' : '2px solid transparent'
                 }}
               >
-                <Icon size={16} />
+                <Icon size={15} />
                 {tab.label}
               </button>
             );
           })}
         </nav>
 
-        {/* Actions & Status */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        {/* Desktop Actions & Status */}
+        <div className="desktop-only" style={{ alignItems: 'center', gap: '12px' }}>
           {/* User Profile Pill or Login Button */}
           {isAuthenticated ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -165,7 +182,7 @@ export default function Navbar({
               style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', padding: '6px 14px' }}
             >
               <LogIn size={15} color="var(--accent-cyan)" />
-              Sign In / Register
+              Sign In
             </button>
           )}
 
@@ -196,36 +213,205 @@ export default function Navbar({
             <span>
               {healthData?.llm_engine === 'groq' 
                 ? `Groq (${healthData.groq_model || 'llama-3.3-70b'})` 
-                : 'Deterministic Engine'}
+                : 'Deterministic'}
             </span>
             <Key size={13} style={{ opacity: 0.6 }} />
           </div>
 
           {/* Ingestion Wizard CTA */}
-          <button className="btn btn-primary" onClick={onOpenCreate}>
-            <PlusCircle size={16} />
-            Capture / Ingest Interview
+          <button className="btn btn-primary" onClick={onOpenCreate} style={{ padding: '8px 16px', fontSize: '0.84rem' }}>
+            <PlusCircle size={15} />
+            Capture / Ingest
+          </button>
+        </div>
+
+        {/* Mobile Header Controls */}
+        <div className="mobile-only" style={{ alignItems: 'center', gap: '8px' }}>
+          <button 
+            className="btn btn-primary" 
+            onClick={onOpenCreate}
+            style={{ padding: '7px 12px', fontSize: '0.78rem', borderRadius: '10px' }}
+          >
+            <PlusCircle size={15} />
+            <span>Ingest</span>
+          </button>
+
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            style={{
+              background: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: '10px',
+              color: '#FFFFFF',
+              width: '38px',
+              height: '38px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            aria-label="Toggle navigation menu"
+          >
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </header>
 
+      {/* Mobile Navigation Drawer */}
+      {isMobileMenuOpen && (
+        <>
+          <div 
+            className="mobile-nav-backdrop"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          <div className="mobile-nav-drawer">
+            {/* Drawer Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '14px', borderBottom: '1px solid var(--border-subtle)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  width: '32px', height: '32px', borderRadius: '8px',
+                  background: 'linear-gradient(135deg, #00F0FF 0%, #3B82F6 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                  <Sparkles size={16} color="#050B14" />
+                </div>
+                <span className="brand-font" style={{ fontSize: '1.1rem', fontWeight: 800, color: '#FFFFFF' }}>
+                  Interview<span style={{ color: 'var(--accent-cyan)' }}>Lens</span>
+                </span>
+              </div>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* User Profile / Auth Section in Drawer */}
+            <div style={{ padding: '12px', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '12px', border: '1px solid var(--border-subtle)' }}>
+              {isAuthenticated ? (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div 
+                    onClick={() => { setIsMobileMenuOpen(false); onOpenProfile(); }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+                  >
+                    <div style={{
+                      width: '32px', height: '32px', borderRadius: '50%',
+                      background: 'var(--accent-cyan)', color: '#050B14',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontWeight: 800, fontSize: '0.82rem'
+                    }}>
+                      {userProfile?.name ? userProfile.name[0] : 'A'}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#FFFFFF' }}>{userProfile?.name || 'Alex Chen'}</div>
+                      <span className="badge badge-verified" style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
+                        {userProfile?.auth_provider || 'Google'}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => { setIsMobileMenuOpen(false); onLogout(); }}
+                    style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '6px' }}
+                    title="Sign Out"
+                  >
+                    <LogOut size={18} />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  onClick={() => { setIsMobileMenuOpen(false); onOpenAuth(); }}
+                  style={{ width: '100%', fontSize: '0.85rem', padding: '10px' }}
+                >
+                  <LogIn size={16} /> Sign In / Register
+                </button>
+              )}
+            </div>
+
+            {/* Mobile Navigation Links */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+                Navigation
+              </span>
+              {navItems.map(tab => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => handleNavClick(tab.id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '12px 14px',
+                      borderRadius: '12px',
+                      fontSize: '0.9rem',
+                      fontWeight: 600,
+                      border: 'none',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      background: isActive ? 'rgba(0, 240, 255, 0.14)' : 'transparent',
+                      color: isActive ? 'var(--accent-cyan)' : 'var(--text-primary)',
+                      borderLeft: isActive ? '3px solid var(--accent-cyan)' : '3px solid transparent'
+                    }}
+                  >
+                    <Icon size={18} />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Engine Config Pill */}
+            <div 
+              onClick={() => { setIsMobileMenuOpen(false); setShowKeyModal(true); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '12px 14px',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid var(--border-subtle)',
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+                marginTop: 'auto',
+                color: 'var(--text-secondary)'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  width: '8px', height: '8px', borderRadius: '50%',
+                  background: healthData?.llm_engine === 'groq' ? 'var(--accent-emerald)' : 'var(--accent-amber)',
+                  boxShadow: healthData?.llm_engine === 'groq' ? '0 0 10px var(--accent-emerald)' : '0 0 8px var(--accent-amber)'
+                }} />
+                <span>Engine: <strong>{healthData?.llm_engine === 'groq' ? 'Groq LLaMA' : 'Deterministic'}</strong></span>
+              </div>
+              <Key size={14} color="var(--accent-cyan)" />
+            </div>
+
+            {/* Primary Action Button */}
+            <button 
+              className="btn btn-primary" 
+              onClick={() => { setIsMobileMenuOpen(false); onOpenCreate(); }}
+              style={{ width: '100%', padding: '12px', fontSize: '0.9rem' }}
+            >
+              <PlusCircle size={18} /> Ingest / Setup Interview
+            </button>
+          </div>
+        </>
+      )}
+
       {/* API Key Modal */}
       {showKeyModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0, left: 0, right: 0, bottom: 0,
-          background: 'rgba(5, 8, 14, 0.8)',
-          backdropFilter: 'blur(10px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 100
-        }}>
-          <div className="glass-panel" style={{ width: '480px', padding: '28px', position: 'relative' }}>
+        <div className="modal-overlay">
+          <div className="glass-panel modal-inner-padding" style={{ width: '100%', maxWidth: '480px', padding: '28px', position: 'relative' }}>
             <h3 style={{ fontSize: '1.25rem', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Key size={20} color="var(--accent-cyan)" /> Configure Groq API Key
             </h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '20px', lineHeight: 1.5 }}>
               InterviewLens runs on <strong>Groq Llama-3.3-70b-versatile</strong> for ultra-fast agentic reasoning. If no key is set, it runs on our built-in deterministic heuristic analysis engine.
             </p>
 

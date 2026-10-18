@@ -1,0 +1,129 @@
+================================================================================
+INTERVIEWLENS: KEY ENGINEERING CHALLENGES FACED & TECHNICAL SOLUTIONS
+================================================================================
+
+1. AI HALLUCINATIONS & UNGROUNDED FEEDBACK
+--------------------------------------------------------------------------------
+Problem:
+Standard single-pass LLM prompts frequently hallucinate candidate weaknesses—for
+example, penalizing a candidate for "not knowing Kafka or Redis" even when the
+interviewer never asked about them, or inventing vague critiques like
+"candidate lacked confidence".
+
+Root Cause:
+Single-pass LLM prompts summarize probabilistically rather than checking factual
+ground truth against the transcript.
+
+Solution Implemented:
+- Built a deterministic Verification Agent (backend/agents/verification_agent.py).
+- The agent takes every AI claim and searches verbatim candidate speech segments.
+- It matches 3+ consecutive substantive words and validates timestamp alignment.
+- If a quote or technical claim is not found in the transcript, the finding is
+  marked "REJECTED" and its score impact is automatically zeroed out, preventing
+  hallucinated score penalties.
+
+
+2. INSECURE DIRECT OBJECT REFERENCES (IDOR) & ASSESSMENT USURPATION
+--------------------------------------------------------------------------------
+Problem:
+During security testing, two data ownership vulnerabilities were discovered:
+1. A candidate could trigger expert review requests on any other candidate’s
+   assessment simply by guessing or passing its interview ID.
+2. Signing in via OAuth claimed all interviews where user_email was empty,
+   inadvertently overwriting the candidate_email of assessments belonging to
+   other candidates.
+
+Solution Implemented:
+- Resource Ownership Check (backend/main.py):
+  Added server-side validation verifying:
+    user.email == interview.candidate_email
+  Unaffiliated candidates attempting to request reviews on other interviews receive
+  HTTP 403 Forbidden.
+- Strict Claim Guard (backend/services/storage.py):
+  Hardened claim_unclaimed_interviews so that an assessment is only claimed if
+  BOTH user_email and candidate_email are completely empty.
+
+
+3. EVALUATOR CONFLICT-OF-INTEREST & DUAL-ROLE EXPLOITATION
+--------------------------------------------------------------------------------
+Problem:
+Because users can register as both candidates and experts, a candidate who is
+also an approved expert could browse the open queue and claim their own interview
+assessment to give themselves an unverified perfect score.
+
+Solution Implemented:
+- Automated Conflict-of-Interest Check (backend/main.py):
+  Built validation on /api/expert/claim/{id} that verifies:
+    actor.email != candidate_email  AND  actor.id != candidate_id
+  Any collision immediately rejects the claim with HTTP 409 Conflict.
+- Strict Assignment Enforcement:
+  Experts can only submit reviews for interviews formally assigned to them by an
+  administrator.
+
+
+4. CLIENT-SIDE LIFECYCLE STATE MACHINE TAMPERING
+--------------------------------------------------------------------------------
+Problem:
+The assessment lifecycle moves through strict stages:
+  ANALYZING -> AWAITING_REVIEW -> ASSIGNED -> IN_REVIEW -> FINALIZED -> RELEASED
+Previously, a candidate could send a manual POST request directly to
+/api/interviews/{id}/lifecycle/transition and advance their assessment status
+straight to FINALIZED or RELEASED.
+
+Solution Implemented:
+- Server-Side Role Enforcement (backend/main.py):
+  Enforced strict server-side RBAC on all lifecycle transition endpoints.
+- Explicitly blocked CANDIDATE and PENDING_EXPERT roles from modifying assessment
+  states (HTTP 403 Forbidden).
+- Only assigned, verified experts and administrators can trigger lifecycle status
+  changes.
+
+
+5. AUDIT LOGGING COMPLIANCE WITH ZERO PII / SECRET LEAKAGE
+--------------------------------------------------------------------------------
+Problem:
+Enterprise compliance requires recording an audit trail of every score change
+and administrative action. However, logging raw request payloads risked writing
+sensitive candidate passwords, OAuth tokens, or authorization headers into
+persistent logs.
+
+Solution Implemented:
+- Recursive Sanitizer (backend/services/audit_service.py):
+  Engineered _sanitize_metadata() which recursively intercepts all audit payloads.
+- Any field named "password", "token", "authorization", "secret", or "credential"
+  is automatically scrubbed and replaced with "[REDACTED]".
+- Append-Only Store:
+  The audit trail is strictly append-only. No PUT, PATCH, or DELETE endpoints
+  exist to alter historical audit records.
+
+
+6. MULTI-WORKER CONCURRENCY & SESSION DRIFT
+--------------------------------------------------------------------------------
+Problem:
+In production, Gunicorn spawns multiple worker processes. If session tokens or
+assessment caches are kept solely in local process memory, a user logging in on
+Worker A would be rejected with HTTP 401 Unauthorized when their next request hit
+Worker B.
+
+Solution Implemented:
+- Centralized Persistence (backend/services/mongodb.py):
+  Integrated MongoDB Atlas as the shared centralized database layer.
+- Test Isolation:
+  Updated all automated test cases using dynamically generated UUIDs to eliminate
+  cross-test state pollution.
+- Configured single-worker headroom for lightweight container deployments while
+  preparing stateless JWT migration for horizontal scaling.
+
+
+================================================================================
+SUMMARY MATRIX
+================================================================================
+#  Challenge               Security / Operational Risk         Architectural Solution
+--------------------------------------------------------------------------------
+1  AI Hallucinations       Wrong hiring feedback               Verification Agent checking verbatim quotes
+2  IDOR Vulnerabilities    Cross-candidate data leaks          Strict resource ownership checks in FastAPI
+3  Conflict of Interest    Experts evaluating own interviews   Automated email/ID matching blocking self-claims
+4  Lifecycle Tampering     Skipping evaluation gates           Server-side role validation on state transitions
+5  Audit Log Leaks         Passwords/tokens exposed in logs    Recursive [REDACTED] metadata sanitization
+6  Process Concurrency     State/session drift across workers  MongoDB Atlas sync & dynamic UUID test isolation
+================================================================================

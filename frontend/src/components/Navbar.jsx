@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Compass, 
   PlusCircle, 
@@ -10,12 +10,17 @@ import {
   Sparkles, 
   Zap, 
   User, 
-  ShieldCheck,
-  LogIn,
-  LogOut,
-  Menu,
-  X
+  ShieldCheck, 
+  ShieldAlert, 
+  Clock, 
+  LogIn, 
+  LogOut, 
+  Menu, 
+  X, 
+  Award,
+  Bell
 } from 'lucide-react';
+import { API_BASE } from '../config.js';
 
 export default function Navbar({ 
   activeTab, 
@@ -40,12 +45,133 @@ export default function Navbar({
     setShowKeyModal(false);
   };
 
-  const navItems = [
-    { id: 'dashboard', label: 'Interviews', icon: Compass },
-    { id: 'insights', label: 'Interview Memory', icon: BarChart3 },
-    { id: 'benchmark', label: 'Baseline vs Multi-Agent', icon: Zap },
-    { id: 'architecture', label: 'Architecture Blueprint', icon: Layers }
-  ];
+  // In-App Notifications State
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifDropdown, setShowNotifDropdown] = useState(false);
+
+  const fetchUnreadCount = async () => {
+    const token = localStorage.getItem('AUTH_TOKEN');
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/notifications/unread-count?token=${encodeURIComponent(token)}`);
+      if (res.ok) {
+        const data = await res.json();
+        setUnreadCount(data.unread_count || 0);
+      }
+    } catch (e) {}
+  };
+
+  const fetchNotifications = async () => {
+    const token = localStorage.getItem('AUTH_TOKEN');
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/notifications?token=${encodeURIComponent(token)}`);
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data);
+      }
+    } catch (e) {}
+  };
+
+  const handleToggleNotif = async () => {
+    const next = !showNotifDropdown;
+    setShowNotifDropdown(next);
+    if (next) {
+      await fetchNotifications();
+    }
+  };
+
+  const handleMarkAllRead = async () => {
+    const token = localStorage.getItem('AUTH_TOKEN');
+    if (!token) return;
+    try {
+      await fetch(`${API_BASE}/api/notifications/mark-read?token=${encodeURIComponent(token)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notification_ids: null })
+      });
+      setUnreadCount(0);
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    } catch (e) {}
+  };
+
+  const handleNotificationClick = async (notif) => {
+    const token = localStorage.getItem('AUTH_TOKEN');
+    if (token && !notif.read) {
+      try {
+        await fetch(`${API_BASE}/api/notifications/mark-read?token=${encodeURIComponent(token)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ notification_ids: [notif.id] })
+        });
+        setUnreadCount(prev => Math.max(0, prev - 1));
+        setNotifications(prev => prev.map(n => n.id === notif.id ? { ...n, read: true } : n));
+      } catch (e) {}
+    }
+    setShowNotifDropdown(false);
+
+    if (notif.type?.includes('ASSIGNMENT') || notif.type?.includes('EXPERT')) {
+      setActiveTab('expert_queue');
+    } else if (notif.type?.includes('APPLICATION')) {
+      if (userProfile?.role === 'ADMIN') {
+        setActiveTab('admin_console');
+      } else {
+        setActiveTab('expert_pending');
+      }
+    } else if (notif.interview_id) {
+      setActiveTab('dashboard');
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchUnreadCount();
+      const interval = setInterval(fetchUnreadCount, 15000);
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated]);
+
+  const isAdmin = userProfile?.role === 'ADMIN';
+  const isExpert = userProfile?.role === 'EXPERT' && userProfile?.is_verified_expert;
+  const isPendingExpert = userProfile?.role === 'PENDING_EXPERT' || userProfile?.expert_approval_status === 'PENDING' || userProfile?.expert_approval_status === 'INFO_REQUESTED';
+
+  let navItems = [];
+  if (isAdmin) {
+    navItems = [
+      { id: 'admin_console', label: 'Admin Console', icon: ShieldAlert },
+      { id: 'profile', label: 'Candidate Profile & History', icon: User },
+      { id: 'dashboard', label: 'All Assessments', icon: Compass },
+      { id: 'expert_queue', label: 'Review Queue', icon: ShieldCheck },
+      { id: 'benchmark', label: 'Baseline vs Multi-Agent', icon: Zap },
+      { id: 'architecture', label: 'Architecture Blueprint', icon: Layers }
+    ];
+  } else if (isExpert) {
+    navItems = [
+      { id: 'expert_queue', label: 'Review Queue', icon: ShieldCheck },
+      { id: 'expert_profile', label: 'Expert Profile', icon: Award },
+      { id: 'dashboard', label: 'Candidate Assessments', icon: Compass },
+      { id: 'benchmark', label: 'Baseline vs Multi-Agent', icon: Zap },
+      { id: 'architecture', label: 'Architecture Blueprint', icon: Layers }
+    ];
+  } else if (isPendingExpert) {
+    navItems = [
+      { id: 'expert_pending', label: 'Verification Status', icon: Clock },
+      { id: 'profile', label: 'Profile & History', icon: User },
+      { id: 'dashboard', label: 'My Interviews', icon: Compass },
+      { id: 'insights', label: 'Interview Memory', icon: BarChart3 },
+      { id: 'architecture', label: 'Architecture Blueprint', icon: Layers }
+    ];
+  } else {
+    navItems = [
+      { id: 'profile', label: 'Profile & History', icon: User },
+      { id: 'dashboard', label: 'My Interviews', icon: Compass },
+      { id: 'expert_apply', label: 'Become an Expert', icon: Award },
+      { id: 'insights', label: 'Interview Memory', icon: BarChart3 },
+      { id: 'benchmark', label: 'Baseline vs Multi-Agent', icon: Zap },
+      { id: 'architecture', label: 'Architecture Blueprint', icon: Layers }
+    ];
+  }
 
   const handleNavClick = (tabId) => {
     setActiveTab(tabId);
@@ -153,17 +279,199 @@ export default function Navbar({
               >
                 <div style={{
                   width: '20px', height: '20px', borderRadius: '50%',
-                  background: 'var(--accent-cyan)', color: '#050B14',
+                  background: isAdmin ? '#A855F7' : (isExpert ? '#10B981' : (isPendingExpert ? '#F59E0B' : 'var(--accent-cyan)')), 
+                  color: '#050B14',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontWeight: 800, fontSize: '0.68rem'
                 }}>
-                  {userProfile?.name ? userProfile.name[0] : 'A'}
+                  {userProfile?.name ? userProfile.name[0] : (isAdmin ? 'A' : (isExpert ? 'E' : 'C'))}
                 </div>
-                <span>{userProfile?.name || 'Alex Chen'}</span>
-                <span className="badge badge-verified" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>
-                  {userProfile?.auth_provider || 'Google'}
-                </span>
+                <span>{userProfile?.name || (isAdmin ? 'Admin Officer' : (isExpert ? 'Dr. Marcus Vance' : 'Alex Chen'))}</span>
+                {isAdmin ? (
+                  <span style={{
+                    fontSize: '0.62rem',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    background: 'rgba(168, 85, 247, 0.2)',
+                    color: '#C084FC',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '3px'
+                  }}>
+                    <ShieldAlert size={10} /> Platform Admin
+                  </span>
+                ) : isExpert ? (
+                  <span style={{
+                    fontSize: '0.62rem',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    background: 'rgba(16, 185, 129, 0.2)',
+                    color: '#34D399',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '3px'
+                  }}>
+                    <ShieldCheck size={10} /> Verified Expert
+                  </span>
+                ) : isPendingExpert ? (
+                  <span style={{
+                    fontSize: '0.62rem',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    background: 'rgba(245, 158, 11, 0.2)',
+                    color: '#FBBF24',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '3px'
+                  }}>
+                    <Clock size={10} /> Pending Approval
+                  </span>
+                ) : (
+                  <span className="badge badge-verified" style={{ fontSize: '0.6rem', padding: '1px 5px' }}>
+                    {userProfile?.auth_provider || 'Google'}
+                  </span>
+                )}
               </div>
+
+              {/* In-App Notifications Bell */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={handleToggleNotif}
+                  style={{
+                    background: showNotifDropdown ? 'rgba(0, 240, 255, 0.15)' : 'rgba(255, 255, 255, 0.04)',
+                    border: '1px solid var(--border-subtle)',
+                    color: showNotifDropdown ? 'var(--accent-cyan)' : '#FFFFFF',
+                    cursor: 'pointer',
+                    padding: '7px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative'
+                  }}
+                  title="Notifications"
+                >
+                  <Bell size={16} />
+                  {unreadCount > 0 && (
+                    <span style={{
+                      position: 'absolute',
+                      top: '-3px',
+                      right: '-3px',
+                      background: '#F59E0B',
+                      color: '#050B14',
+                      fontSize: '0.62rem',
+                      fontWeight: 800,
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 0 8px rgba(245, 158, 11, 0.6)'
+                    }}>
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+
+                {/* Notifications Popover Dropdown */}
+                {showNotifDropdown && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '42px',
+                    right: '0',
+                    width: '340px',
+                    maxHeight: '420px',
+                    background: 'rgba(10, 15, 24, 0.98)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: '16px',
+                    boxShadow: '0 12px 32px rgba(0, 0, 0, 0.7)',
+                    zIndex: 100,
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}>
+                    {/* Header */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '12px 16px',
+                      borderBottom: '1px solid var(--border-subtle)',
+                      background: 'rgba(255, 255, 255, 0.02)'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Bell size={14} color="var(--accent-cyan)" />
+                        <span style={{ fontWeight: 800, fontSize: '0.84rem', color: '#FFFFFF' }}>Notifications</span>
+                        {unreadCount > 0 && (
+                          <span style={{ fontSize: '0.68rem', background: 'rgba(245, 158, 11, 0.2)', color: '#FBBF24', padding: '1px 6px', borderRadius: '4px', fontWeight: 700 }}>
+                            {unreadCount} unread
+                          </span>
+                        )}
+                      </div>
+                      {unreadCount > 0 && (
+                        <button
+                          onClick={handleMarkAllRead}
+                          style={{
+                            background: 'none', border: 'none',
+                            color: 'var(--accent-cyan)', fontSize: '0.72rem',
+                            fontWeight: 600, cursor: 'pointer'
+                          }}
+                        >
+                          Mark all as read
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Notification items list */}
+                    <div style={{ overflowY: 'auto', maxHeight: '340px', padding: '6px' }}>
+                      {notifications.length === 0 ? (
+                        <div style={{ textAlign: 'center', padding: '32px 16px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                          <CheckCircle2 size={24} color="var(--accent-emerald)" style={{ margin: '0 auto 8px auto' }} />
+                          <div>No new notifications</div>
+                        </div>
+                      ) : (
+                        notifications.map((n) => (
+                          <div
+                            key={n.id}
+                            onClick={() => handleNotificationClick(n)}
+                            style={{
+                              padding: '10px 12px',
+                              borderRadius: '10px',
+                              marginBottom: '4px',
+                              cursor: 'pointer',
+                              background: n.read ? 'transparent' : 'rgba(0, 240, 255, 0.06)',
+                              border: n.read ? '1px solid transparent' : '1px solid rgba(0, 240, 255, 0.2)',
+                              transition: 'all 0.15s ease'
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>
+                              <div style={{ fontWeight: 700, fontSize: '0.8rem', color: n.read ? '#FFFFFF' : 'var(--accent-cyan)' }}>
+                                {n.title}
+                              </div>
+                              {!n.read && (
+                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent-cyan)', flexShrink: 0, marginTop: '4px' }} />
+                              )}
+                            </div>
+                            <div style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', marginTop: '2px', lineHeight: 1.4 }}>
+                              {n.body}
+                            </div>
+                            <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                              {new Date(n.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {new Date(n.created_at).toLocaleDateString()}
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <button
                 onClick={onLogout}
                 style={{
@@ -297,17 +605,64 @@ export default function Navbar({
                   >
                     <div style={{
                       width: '32px', height: '32px', borderRadius: '50%',
-                      background: 'var(--accent-cyan)', color: '#050B14',
+                      background: isAdmin ? '#A855F7' : (isExpert ? '#10B981' : (isPendingExpert ? '#F59E0B' : 'var(--accent-cyan)')), 
+                      color: '#050B14',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontWeight: 800, fontSize: '0.82rem'
                     }}>
-                      {userProfile?.name ? userProfile.name[0] : 'A'}
+                      {userProfile?.name ? userProfile.name[0] : (isAdmin ? 'A' : (isExpert ? 'E' : 'C'))}
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#FFFFFF' }}>{userProfile?.name || 'Alex Chen'}</div>
-                      <span className="badge badge-verified" style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
-                        {userProfile?.auth_provider || 'Google'}
-                      </span>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#FFFFFF' }}>
+                        {userProfile?.name || (isAdmin ? 'Admin Officer' : (isExpert ? 'Dr. Marcus Vance' : 'Alex Chen'))}
+                      </div>
+                      {isAdmin ? (
+                        <span style={{
+                          fontSize: '0.65rem',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          background: 'rgba(168, 85, 247, 0.2)',
+                          color: '#C084FC',
+                          fontWeight: 700,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '3px'
+                        }}>
+                          <ShieldAlert size={11} /> Platform Admin
+                        </span>
+                      ) : isExpert ? (
+                        <span style={{
+                          fontSize: '0.65rem',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          background: 'rgba(16, 185, 129, 0.2)',
+                          color: '#34D399',
+                          fontWeight: 700,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '3px'
+                        }}>
+                          <ShieldCheck size={11} /> Verified Expert
+                        </span>
+                      ) : isPendingExpert ? (
+                        <span style={{
+                          fontSize: '0.65rem',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          background: 'rgba(245, 158, 11, 0.2)',
+                          color: '#FBBF24',
+                          fontWeight: 700,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '3px'
+                        }}>
+                          <Clock size={11} /> Pending Approval
+                        </span>
+                      ) : (
+                        <span className="badge badge-verified" style={{ fontSize: '0.62rem', padding: '1px 6px' }}>
+                          {userProfile?.auth_provider || 'Google'}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <button

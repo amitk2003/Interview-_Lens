@@ -1,0 +1,1209 @@
+[
+  {
+    "id": "app_vance_001",
+    "user_id": "exp_001",
+    "user_email": "dr.marcus.vance@techlead.org",
+    "full_name": "Dr. Marcus Vance",
+    "headline": "Staff Distributed Systems Architect | Ex-Google / Stripe",
+    "current_experience": "Staff Systems Architect at Stripe, leading consensus and high-throughput real-time ledgers.",
+    "years_of_experience": 14.0,
+    "technical_expertise": [
+      "Distributed Consensus (Raft/Paxos)",
+      "Kafka & Event Streams",
+      "Database Internals",
+      "System Design"
+    ],
+    "supported_interview_categories": [
+      "System Design",
+      "Distributed Systems",
+      "Backend Architecture",
+      "Engineering Leadership"
+    ],
+    "industry_specialization": "FinTech Infrastructure & High-Reliability Core Services",
+    "portfolio_url": "https://linkedin.com/in/marcus-vance-dist-sys",
+    "credential_documents": [
+      {
+        "id": "doc_vance_01",
+        "filename": "Stanford_PhD_Distributed_Systems.pdf",
+        "file_url": "/api/expert/credential/Stanford_PhD_Distributed_Systems.pdf",
+        "file_size_bytes": 1420500,
+        "document_type": "Doctoral Degree & Academic Verification",
+        "uploaded_at": "2026-09-10T14:20:00Z"
+      },
+      {
+        "id": "doc_vance_02",
+        "filename": "Stripe_Staff_Architect_Employment_Proof.pdf",
+        "file_url": "/api/expert/credential/Stripe_Staff_Architect_Employment_Proof.pdf",
+        "file_size_bytes": 840200,
+        "document_type": "Employment Verification",
+        "uploaded_at": "2026-09-10T14:25:00Z"
+      }
+    ],
+    "conflict_of_interest_declaration": "I disclose full-time advisory roles with fintech platforms. I agree to recuse myself from any interview candidates employed by current commercial partners.",
+    "conflict_declared": true,
+    "status": "APPROVED",
+    "admin_notes": "Verified via corporate domain authentication, academic transcript review, and industry leadership committee recommendation.",
+    "requested_info_details": null,
+    "applicant_response": null,
+    "status_history": [
+      {
+        "id": "aud_vance_01",
+        "timestamp": "2026-09-10T14:30:00Z",
+        "action": "SUBMITTED",
+        "actor_email": "dr.marcus.vance@techlead.org",
+        "actor_name": "Dr. Marcus Vance",
+        "actor_role": "APPLICANT",
+        "notes": "Initial application submitted with doctoral and employer credentials.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_vance_02",
+        "timestamp": "2026-09-12T10:15:00Z",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Chief Platform Administrator",
+        "actor_role": "ADMIN",
+        "notes": "Credentials, conflict declarations, and employment history verified. Approved for Staff/Principal reviews.",
+        "requested_info": null,
+        "provided_info": null
+      }
+    ],
+    "applied_at": "2026-09-10T14:30:00Z",
+    "updated_at": "2026-09-12T10:15:00Z",
+    "reviewed_at": "2026-09-12T10:15:00Z",
+    "reviewed_by": "admin@interviewlens.ai"
+  },
+  {
+    "id": "app_priya_001",
+    "user_id": "pex_001",
+    "user_email": "priya.sharma@evaluator.org",
+    "full_name": "Priya Sharma",
+    "headline": "Staff Performance & Linux Kernel Engineer | Netflix",
+    "current_experience": "Senior Staff Performance Engineer at Netflix streaming core; 9 years optimizing eBPF observability and distributed RPC latencies.",
+    "years_of_experience": 9.5,
+    "technical_expertise": [
+      "Linux eBPF",
+      "Latency Profiling",
+      "Distributed Tracing",
+      "C++ / Rust",
+      "Kernel Network Stacks"
+    ],
+    "supported_interview_categories": [
+      "Systems Performance",
+      "Linux Internals",
+      "Low Latency Networking",
+      "Backend Systems"
+    ],
+    "industry_specialization": "High-Throughput Media Streaming & Low-Latency Cloud Compute",
+    "portfolio_url": "https://linkedin.com/in/priya-sharma-perf",
+    "credential_documents": [
+      {
+        "id": "doc_priya_01",
+        "filename": "Priya_Sharma_USENIX_Paper_eBPF.pdf",
+        "file_url": "/api/expert/credential/Priya_Sharma_USENIX_Paper_eBPF.pdf",
+        "file_size_bytes": 2150000,
+        "document_type": "Conference Publication / Research Verification",
+        "uploaded_at": "2026-10-17T09:10:00Z"
+      }
+    ],
+    "conflict_of_interest_declaration": "I declare no direct conflicts. Will recuse myself from reviewing direct colleagues within the Netflix CDN organization.",
+    "conflict_declared": true,
+    "status": "APPROVED",
+    "admin_notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+    "requested_info_details": null,
+    "applicant_response": null,
+    "status_history": [
+      {
+        "id": "aud_priya_01",
+        "timestamp": "2026-10-17T09:15:00Z",
+        "action": "SUBMITTED",
+        "actor_email": "priya.sharma@evaluator.org",
+        "actor_name": "Priya Sharma",
+        "actor_role": "APPLICANT",
+        "notes": "Candidate submitted application for Staff Performance & Linux Systems expert accreditation.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_334d330b",
+        "timestamp": "2026-10-18T09:27:09.508640",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "InterviewLens Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_637ff95c",
+        "timestamp": "2026-10-18T09:34:58.537518",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_f6490c0e",
+        "timestamp": "2026-10-18T10:42:07.158467",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "InterviewLens Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_954fe19f",
+        "timestamp": "2026-10-18T10:43:29.660558",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_57cdfff7",
+        "timestamp": "2026-10-18T11:38:10.159355",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_7123673d",
+        "timestamp": "2026-10-18T11:57:41.812704",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_7c4b02a1",
+        "timestamp": "2026-10-18T11:59:47.896455",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_bc051122",
+        "timestamp": "2026-10-18T12:14:48.380613",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_d8eac680",
+        "timestamp": "2026-10-18T12:29:44.130263",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_1a6d7b20",
+        "timestamp": "2026-10-18T16:40:21.418639",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_675a0ddb",
+        "timestamp": "2026-10-18T16:42:13.367220",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Verified past credentials at OpenScale / ex-Anthropic.",
+        "requested_info": null,
+        "provided_info": null
+      }
+    ],
+    "applied_at": "2026-10-17T09:15:00Z",
+    "updated_at": "2026-10-17T09:15:00Z",
+    "reviewed_at": "2026-10-18T16:42:13.367220",
+    "reviewed_by": "admin@interviewlens.ai"
+  },
+  {
+    "id": "app_david_001",
+    "user_id": "usr_david_001",
+    "user_email": "david.zheng@cloudai.io",
+    "full_name": "David Zheng",
+    "headline": "Principal Cloud AI Infrastructure Architect",
+    "current_experience": "Principal AI Systems Architect at CloudAI, designing GPU cluster interconnects and InfiniBand topologies.",
+    "years_of_experience": 11.0,
+    "technical_expertise": [
+      "GPU Orchestration",
+      "InfiniBand / RoCE",
+      "Kubernetes AI Workloads",
+      "Distributed LLM Serving"
+    ],
+    "supported_interview_categories": [
+      "AI Infrastructure",
+      "High Performance Computing",
+      "Cloud Architecture"
+    ],
+    "industry_specialization": "Hyperscale AI / GPU Compute Clusters",
+    "portfolio_url": "https://github.com/davidzheng-ai",
+    "credential_documents": [
+      {
+        "id": "doc_david_01",
+        "filename": "David_Zheng_Resume.pdf",
+        "file_url": "/api/expert/credential/David_Zheng_Resume.pdf",
+        "file_size_bytes": 520000,
+        "document_type": "Resume Overview",
+        "uploaded_at": "2026-10-15T11:00:00Z"
+      }
+    ],
+    "conflict_of_interest_declaration": "No active commercial conflicts outside CloudAI.",
+    "conflict_declared": true,
+    "status": "INFO_REQUESTED",
+    "admin_notes": "Resume uploaded, but certified vendor accreditation or employer verification proof is required.",
+    "requested_info_details": "Please provide official proof of Staff/Principal employment verification or AWS/NVIDIA HPC Solutions Architect Certification before we can approve your evaluator status.",
+    "applicant_response": null,
+    "status_history": [
+      {
+        "id": "aud_david_01",
+        "timestamp": "2026-10-15T11:05:00Z",
+        "action": "SUBMITTED",
+        "actor_email": "david.zheng@cloudai.io",
+        "actor_name": "David Zheng",
+        "actor_role": "APPLICANT",
+        "notes": "Submitted initial application.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_david_02",
+        "timestamp": "2026-10-16T14:20:00Z",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Chief Platform Administrator",
+        "actor_role": "ADMIN",
+        "notes": "Requested proof of HPC/InfiniBand production certifications or employer title verification.",
+        "requested_info": "Please provide official proof of Staff/Principal employment verification or AWS/NVIDIA HPC Solutions Architect Certification.",
+        "provided_info": null
+      }
+    ],
+    "applied_at": "2026-10-15T11:05:00Z",
+    "updated_at": "2026-10-16T14:20:00Z",
+    "reviewed_at": "2026-10-16T14:20:00Z",
+    "reviewed_by": "admin@interviewlens.ai"
+  },
+  {
+    "id": "app_18b5cb33",
+    "user_id": "usr_e61d262b",
+    "user_email": "john.doe@expertapplicant.io",
+    "full_name": "John Doe",
+    "headline": "Staff SRE & Distributed Infrastructure Architect",
+    "current_experience": "Staff SRE at Datadog managing multi-region Kubernetes clusters",
+    "years_of_experience": 10.5,
+    "technical_expertise": [
+      "Kubernetes",
+      "Linux Kernel",
+      "eBPF",
+      "Prometheus",
+      "High Availability"
+    ],
+    "supported_interview_categories": [
+      "SRE / DevOps",
+      "System Design",
+      "Cloud Infrastructure"
+    ],
+    "industry_specialization": "Cloud Observability & Distributed Infrastructure",
+    "portfolio_url": "https://linkedin.com/in/johndoe-sre",
+    "credential_documents": [],
+    "conflict_of_interest_declaration": "I declare that I have disclosed all active commercial affiliations. I will recuse myself from reviewing current Datadog personnel.",
+    "conflict_declared": true,
+    "status": "PENDING",
+    "admin_notes": null,
+    "requested_info_details": null,
+    "applicant_response": null,
+    "status_history": [
+      {
+        "id": "aud_dce93278",
+        "timestamp": "2026-10-18T09:22:38.649394",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Candidate submitted formal application for Verified Industry Expert accreditation.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_2af5916f",
+        "timestamp": "2026-10-18T09:24:38.263292",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_24b3dfcb",
+        "timestamp": "2026-10-18T09:27:09.709551",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_0ccc8c92",
+        "timestamp": "2026-10-18T09:34:47.987445",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_5d42afc9",
+        "timestamp": "2026-10-18T10:41:24.468405",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_dff69323",
+        "timestamp": "2026-10-18T10:43:24.635516",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_3f7235e3",
+        "timestamp": "2026-10-18T11:37:59.510463",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_32b39500",
+        "timestamp": "2026-10-18T11:57:31.567261",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_84dbe579",
+        "timestamp": "2026-10-18T11:59:37.631816",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_c4e128fd",
+        "timestamp": "2026-10-18T12:14:47.563363",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_f38d1418",
+        "timestamp": "2026-10-18T12:29:33.271472",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_daaf6277",
+        "timestamp": "2026-10-18T16:40:09.762287",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_a0fc8113",
+        "timestamp": "2026-10-18T16:42:07.828812",
+        "action": "SUBMITTED",
+        "actor_email": "john.doe@expertapplicant.io",
+        "actor_name": "John Doe",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      }
+    ],
+    "applied_at": "2026-10-18T09:22:38.649394",
+    "updated_at": "2026-10-18T16:42:07.828812",
+    "reviewed_at": null,
+    "reviewed_by": null
+  },
+  {
+    "id": "app_ecb52ccd",
+    "user_id": "usr_bd8441ce",
+    "user_email": "sarah.applicant@systems.io",
+    "full_name": "Sarah Systems",
+    "headline": "Senior Staff Architect",
+    "current_experience": "Leading distributed consensus teams",
+    "years_of_experience": 8.0,
+    "technical_expertise": [
+      "Distributed Systems",
+      "Raft",
+      "PostgreSQL"
+    ],
+    "supported_interview_categories": [
+      "System Design"
+    ],
+    "industry_specialization": "Distributed Databases",
+    "portfolio_url": "https://github.com/sarah-systems",
+    "credential_documents": [
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T09:22:39.496305"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T09:24:38.386775"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T09:27:09.825777"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T09:34:48.168515"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T10:41:24.560686"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T10:43:24.724371"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T11:37:59.701553"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T11:57:31.708168"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T11:59:37.766087"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T12:14:47.704689"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T12:29:33.421399"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T16:40:09.892029"
+      },
+      {
+        "id": "doc_acm_01",
+        "filename": "ACM_Paper_Consensus_Sarah.pdf",
+        "file_url": "/api/expert/credential/ACM_Paper_Consensus_Sarah.pdf",
+        "file_size_bytes": 1240000,
+        "document_type": "ACM Research Publication",
+        "uploaded_at": "2026-10-18T16:42:07.961765"
+      }
+    ],
+    "conflict_of_interest_declaration": "No commercial conflicts of interest.",
+    "conflict_declared": true,
+    "status": "APPROVED",
+    "admin_notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+    "requested_info_details": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+    "applicant_response": "I have attached my ACM Distributed Systems publication and official promotion announcement letter.",
+    "status_history": [
+      {
+        "id": "aud_c8fb60b5",
+        "timestamp": "2026-10-18T09:22:39.468233",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Candidate submitted formal application for Verified Industry Expert accreditation.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_c0ca3788",
+        "timestamp": "2026-10-18T09:22:39.483083",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_2253a45c",
+        "timestamp": "2026-10-18T09:22:39.497820",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_22d5a2c1",
+        "timestamp": "2026-10-18T09:22:39.508806",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_cc92aef4",
+        "timestamp": "2026-10-18T09:24:38.356590",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_e0131f18",
+        "timestamp": "2026-10-18T09:24:38.370623",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_36f78af4",
+        "timestamp": "2026-10-18T09:24:38.387771",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_e2856b48",
+        "timestamp": "2026-10-18T09:24:38.403773",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_2c6d7be4",
+        "timestamp": "2026-10-18T09:27:09.802302",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_51e13033",
+        "timestamp": "2026-10-18T09:27:09.814319",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_4995bb05",
+        "timestamp": "2026-10-18T09:27:09.826821",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_e177bf57",
+        "timestamp": "2026-10-18T09:27:09.838738",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_c9005067",
+        "timestamp": "2026-10-18T09:34:48.140747",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_0f644cbb",
+        "timestamp": "2026-10-18T09:34:48.154352",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_f1a3b50c",
+        "timestamp": "2026-10-18T09:34:48.169518",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_c9a260a4",
+        "timestamp": "2026-10-18T09:34:48.181790",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_1d5104b3",
+        "timestamp": "2026-10-18T10:41:24.544531",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_8882ba7e",
+        "timestamp": "2026-10-18T10:41:24.552940",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_bce01a8f",
+        "timestamp": "2026-10-18T10:41:24.560686",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_891ea015",
+        "timestamp": "2026-10-18T10:41:24.568446",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_73addc77",
+        "timestamp": "2026-10-18T10:43:24.706311",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_bdddb2fc",
+        "timestamp": "2026-10-18T10:43:24.715249",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_e2cdf25f",
+        "timestamp": "2026-10-18T10:43:24.724371",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_f7c2cb3d",
+        "timestamp": "2026-10-18T10:43:24.733815",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_dafe4d1f",
+        "timestamp": "2026-10-18T11:37:59.671446",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_27e31a18",
+        "timestamp": "2026-10-18T11:37:59.686882",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_5ecfef7a",
+        "timestamp": "2026-10-18T11:37:59.702551",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_ae42e21c",
+        "timestamp": "2026-10-18T11:37:59.717260",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_f7c11418",
+        "timestamp": "2026-10-18T11:57:31.674344",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_78321f7d",
+        "timestamp": "2026-10-18T11:57:31.691342",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_43281a3d",
+        "timestamp": "2026-10-18T11:57:31.710188",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_8443f2ee",
+        "timestamp": "2026-10-18T11:57:31.726701",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_2d3acafe",
+        "timestamp": "2026-10-18T11:59:37.731375",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_9d210d14",
+        "timestamp": "2026-10-18T11:59:37.747854",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_dee078f6",
+        "timestamp": "2026-10-18T11:59:37.767277",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_7318ede1",
+        "timestamp": "2026-10-18T11:59:37.785052",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_1f13b425",
+        "timestamp": "2026-10-18T12:14:47.659468",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_e17c8e39",
+        "timestamp": "2026-10-18T12:14:47.682784",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_06184c65",
+        "timestamp": "2026-10-18T12:14:47.706685",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_bcbb62cb",
+        "timestamp": "2026-10-18T12:14:47.729125",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_0aa2100f",
+        "timestamp": "2026-10-18T12:29:33.387444",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_5fba422c",
+        "timestamp": "2026-10-18T12:29:33.404409",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_778c6fd3",
+        "timestamp": "2026-10-18T12:29:33.422516",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_67da6cae",
+        "timestamp": "2026-10-18T12:29:33.437833",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_49f3d1e6",
+        "timestamp": "2026-10-18T16:40:09.858239",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_d375e4f0",
+        "timestamp": "2026-10-18T16:40:09.877016",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_7e8d383d",
+        "timestamp": "2026-10-18T16:40:09.893141",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_55e48901",
+        "timestamp": "2026-10-18T16:40:09.909474",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_b8ad169a",
+        "timestamp": "2026-10-18T16:42:07.934847",
+        "action": "SUBMITTED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant updated application fields and submitted for administrative review.",
+        "requested_info": null,
+        "provided_info": null
+      },
+      {
+        "id": "aud_eafcd2a2",
+        "timestamp": "2026-10-18T16:42:07.948863",
+        "action": "INFO_REQUESTED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "Please provide proof of employment as Staff Architect or patent / publication citations.",
+        "requested_info": "We require verification of your Staff Architect appointment or peer-reviewed publication.",
+        "provided_info": null
+      },
+      {
+        "id": "aud_555f3e69",
+        "timestamp": "2026-10-18T16:42:07.963008",
+        "action": "INFO_PROVIDED",
+        "actor_email": "sarah.applicant@systems.io",
+        "actor_name": "Sarah Systems",
+        "actor_role": "APPLICANT",
+        "notes": "Applicant provided answers and additional proof documents in response to admin information request.",
+        "requested_info": null,
+        "provided_info": "I have attached my ACM Distributed Systems publication and official promotion announcement letter."
+      },
+      {
+        "id": "aud_a80eb00a",
+        "timestamp": "2026-10-18T16:42:07.973132",
+        "action": "APPROVED",
+        "actor_email": "admin@interviewlens.ai",
+        "actor_name": "Admin",
+        "actor_role": "ADMIN",
+        "notes": "ACM publication and credentials verified. Promoting to Verified Industry Expert.",
+        "requested_info": null,
+        "provided_info": null
+      }
+    ],
+    "applied_at": "2026-10-18T09:22:39.468233",
+    "updated_at": "2026-10-18T16:42:07.963008",
+    "reviewed_at": "2026-10-18T16:42:07.973132",
+    "reviewed_by": "admin@interviewlens.ai"
+  }
+]

@@ -5,7 +5,7 @@ import asyncio
 # Ensure project root in python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from services.benchmark_suite import BenchmarkSuiteService
+from backend.services.benchmark_suite import BenchmarkSuiteService
 
 async def main():
     print("=" * 80)

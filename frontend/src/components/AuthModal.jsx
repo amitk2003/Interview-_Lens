@@ -10,7 +10,9 @@ import {
   Lock, 
   Mail, 
   User, 
-  Briefcase 
+  Briefcase,
+  Clock,
+  ShieldAlert
 } from 'lucide-react';
 import { API_BASE } from '../config.js';
 
@@ -33,10 +35,18 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
   if (!isOpen) return null;
 
   const [authMode, setAuthMode] = useState('signin'); // 'signin' | 'signup' | 'demo'
+  const [role, setRole] = useState('CANDIDATE'); // 'CANDIDATE' | 'EXPERT'
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [targetRole, setTargetRole] = useState('Senior Distributed Systems Engineer');
+  
+  // Expert fields
+  const [expertTitle, setExpertTitle] = useState('Staff Distributed Systems Architect');
+  const [expertOrg, setExpertOrg] = useState('Google / Stripe');
+  const [expertDomain, setExpertDomain] = useState('Distributed Systems');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -50,10 +60,21 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
         if (!name.trim() || !email.trim() || !password.trim()) {
           throw new Error('Please fill in all required fields.');
         }
+        const payload = {
+          name,
+          email,
+          password,
+          apply_as_expert: role === 'EXPERT',
+          target_role: role === 'CANDIDATE' ? targetRole : undefined,
+          expert_title: role === 'EXPERT' ? expertTitle : undefined,
+          expert_organization: role === 'EXPERT' ? expertOrg : undefined,
+          expert_domain: role === 'EXPERT' ? [expertDomain] : undefined,
+          linkedin_url: role === 'EXPERT' ? linkedinUrl : undefined
+        };
         const res = await fetch(`${API_BASE}/api/auth/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password, target_role: targetRole })
+          body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || 'Registration failed');
@@ -86,8 +107,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
     setLoading(true);
     setError('');
     try {
-      // Simulate OAuth by prompting for name/email or using defaults
-      const oauthName = name.trim() || 'Interview Candidate';
+      const oauthName = name.trim() || (role === 'EXPERT' ? 'Verified Industry Expert' : 'Interview Candidate');
       const oauthEmail = email.trim() || `user.${Date.now()}@${provider.toLowerCase()}.com`;
       const res = await fetch(`${API_BASE}/api/auth/oauth`, {
         method: 'POST',
@@ -95,7 +115,10 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
         body: JSON.stringify({
           provider,
           name: oauthName,
-          email: oauthEmail
+          email: oauthEmail,
+          role: role,
+          expert_title: role === 'EXPERT' ? expertTitle : undefined,
+          expert_organization: role === 'EXPERT' ? expertOrg : undefined
         })
       });
       const data = await res.json();
@@ -120,7 +143,11 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
         body: JSON.stringify({
           provider: preset.provider || 'Demo',
           name: preset.name,
-          email: preset.email
+          email: preset.email,
+          role: preset.role || 'CANDIDATE',
+          expert_title: preset.expert_title,
+          expert_organization: preset.expert_organization,
+          expert_domain: preset.expert_domain
         })
       });
       const data = await res.json();
@@ -188,10 +215,12 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
             <Sparkles size={26} color="#050B14" />
           </div>
           <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#FFFFFF', marginBottom: '4px' }}>
-            {authMode === 'signin' ? 'Sign in to InterviewLens' : authMode === 'signup' ? 'Create Candidate Account' : 'Quick Demo Access'}
+            {authMode === 'signin' ? 'Sign in to InterviewLens' : authMode === 'signup' ? (role === 'EXPERT' ? 'Join as Verified Industry Expert' : 'Create Candidate Account') : 'Quick Demo Access'}
           </h2>
           <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-            Authenticate to take live interviews, upload custom JDs & Resumes, and access agentic evaluations.
+            {role === 'EXPERT' && authMode === 'signup'
+              ? 'Provide independent evaluations, calibrate AI interview assessments, and sign off on candidates.'
+              : 'Authenticate to take live interviews, upload custom JDs & Resumes, and access agentic evaluations.'}
           </p>
         </div>
 
@@ -254,56 +283,249 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
 
         {/* Demo Fast Logins */}
         {authMode === 'demo' ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
-              Select a pre-configured candidate profile:
-            </span>
-            <button
-              type="button"
-              disabled={loading}
-              onClick={() => handleDemoLogin({
-                name: 'Alex Chen',
-                email: 'alex.chen@example.com',
-                provider: 'Google'
-              })}
-              style={{
-                padding: '12px 16px', borderRadius: '12px',
-                background: 'rgba(0, 240, 255, 0.08)', border: '1px solid var(--accent-cyan)',
-                color: '#FFFFFF', textAlign: 'left', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-              }}
-            >
-              <div>
-                <strong style={{ fontSize: '0.88rem', color: 'var(--accent-cyan)', display: 'block' }}>Alex Chen (Senior Backend Engineer)</strong>
-                <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>alex.chen@example.com • Google OAuth Verified</span>
-              </div>
-              <ArrowRight size={16} color="var(--accent-cyan)" />
-            </button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
+            <div>
+              <span style={{ fontSize: '0.72rem', color: 'var(--accent-cyan)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                👤 Candidate Personas
+              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => handleDemoLogin({
+                    name: 'Alex Chen',
+                    email: 'alex.chen@example.com',
+                    provider: 'Google',
+                    role: 'CANDIDATE'
+                  })}
+                  style={{
+                    padding: '10px 14px', borderRadius: '10px',
+                    background: 'rgba(0, 240, 255, 0.06)', border: '1px solid rgba(0, 240, 255, 0.3)',
+                    color: '#FFFFFF', textAlign: 'left', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                >
+                  <div>
+                    <strong style={{ fontSize: '0.84rem', color: 'var(--accent-cyan)', display: 'block' }}>Alex Chen (Senior Backend)</strong>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>alex.chen@example.com • Candidate Role</span>
+                  </div>
+                  <ArrowRight size={14} color="var(--accent-cyan)" />
+                </button>
 
-            <button
-              type="button"
-              disabled={loading}
-              onClick={() => handleDemoLogin({
-                name: 'Sarah Miller',
-                email: 'candidate.demo@interviewlens.ai',
-                provider: 'GitHub'
-              })}
-              style={{
-                padding: '12px 16px', borderRadius: '12px',
-                background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)',
-                color: '#FFFFFF', textAlign: 'left', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-              }}
-            >
-              <div>
-                <strong style={{ fontSize: '0.88rem', color: '#FFFFFF', display: 'block' }}>Sarah Miller (Full Stack / AI Lead)</strong>
-                <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>candidate.demo@interviewlens.ai • GitHub OAuth Verified</span>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => handleDemoLogin({
+                    name: 'Sarah Miller',
+                    email: 'candidate.demo@interviewlens.ai',
+                    provider: 'GitHub',
+                    role: 'CANDIDATE'
+                  })}
+                  style={{
+                    padding: '10px 14px', borderRadius: '10px',
+                    background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)',
+                    color: '#FFFFFF', textAlign: 'left', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                >
+                  <div>
+                    <strong style={{ fontSize: '0.84rem', color: '#FFFFFF', display: 'block' }}>Sarah Miller (Full Stack / AI Lead)</strong>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>candidate.demo@interviewlens.ai • Candidate Role</span>
+                  </div>
+                  <ArrowRight size={14} color="var(--text-muted)" />
+                </button>
               </div>
-              <ArrowRight size={16} color="var(--text-muted)" />
-            </button>
+            </div>
+
+            <div>
+              <span style={{ fontSize: '0.72rem', color: '#10B981', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                🛡️ Verified Industry Expert Personas
+              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => handleDemoLogin({
+                    name: 'Dr. Marcus Vance',
+                    email: 'dr.marcus.vance@techlead.org',
+                    provider: 'VerifiedExpert',
+                    role: 'EXPERT',
+                    expert_title: 'Staff Distributed Systems Architect',
+                    expert_organization: 'Stripe / ex-Google',
+                    expert_domain: 'Distributed Systems & Cloud Architecture'
+                  })}
+                  style={{
+                    padding: '10px 14px', borderRadius: '10px',
+                    background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.4)',
+                    color: '#FFFFFF', textAlign: 'left', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <strong style={{ fontSize: '0.84rem', color: '#10B981' }}>Dr. Marcus Vance</strong>
+                      <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(16, 185, 129, 0.2)', color: '#34D399', fontWeight: 700 }}>
+                        VERIFIED EXPERT ★ 4.96
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>Staff Distributed Systems Architect (Stripe / ex-Google)</span>
+                  </div>
+                  <ArrowRight size={14} color="#10B981" />
+                </button>
+
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => handleDemoLogin({
+                    name: 'Elena Rostova',
+                    email: 'elena.rostova@cloudscale.io',
+                    provider: 'VerifiedExpert',
+                    role: 'EXPERT',
+                    expert_title: 'Principal Full Stack & AI Systems Lead',
+                    expert_organization: 'CloudScale / ex-Meta',
+                    expert_domain: 'Full Stack & AI Systems'
+                  })}
+                  style={{
+                    padding: '10px 14px', borderRadius: '10px',
+                    background: 'rgba(16, 185, 129, 0.04)', border: '1px solid rgba(16, 185, 129, 0.2)',
+                    color: '#FFFFFF', textAlign: 'left', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <strong style={{ fontSize: '0.84rem', color: '#FFFFFF' }}>Elena Rostova</strong>
+                      <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(16, 185, 129, 0.2)', color: '#34D399', fontWeight: 700 }}>
+                        VERIFIED EXPERT ★ 4.98
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>Principal Full Stack & AI Systems Lead (CloudScale / ex-Meta)</span>
+                  </div>
+                  <ArrowRight size={14} color="var(--text-muted)" />
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <span style={{ fontSize: '0.72rem', color: '#C084FC', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                👑 Platform Administrator Persona
+              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => handleDemoLogin({
+                    name: 'InterviewLens Admin',
+                    email: 'admin@interviewlens.ai',
+                    provider: 'AdminPortal',
+                    role: 'ADMIN'
+                  })}
+                  style={{
+                    padding: '10px 14px', borderRadius: '10px',
+                    background: 'rgba(168, 85, 247, 0.08)', border: '1px solid rgba(168, 85, 247, 0.4)',
+                    color: '#FFFFFF', textAlign: 'left', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <strong style={{ fontSize: '0.84rem', color: '#C084FC' }}>InterviewLens Admin</strong>
+                      <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(168, 85, 247, 0.2)', color: '#C084FC', fontWeight: 700 }}>
+                        PLATFORM ADMIN
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>admin@interviewlens.ai • Security Governance &amp; Expert Vetting Authority</span>
+                  </div>
+                  <ArrowRight size={14} color="#C084FC" />
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <span style={{ fontSize: '0.72rem', color: '#FBBF24', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                ⏳ Pending Expert Applicant Persona
+              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => handleDemoLogin({
+                    name: 'Priya Sharma',
+                    email: 'priya.sharma@evaluator.org',
+                    provider: 'ExpertApplicant',
+                    role: 'PENDING_EXPERT'
+                  })}
+                  style={{
+                    padding: '10px 14px', borderRadius: '10px',
+                    background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.4)',
+                    color: '#FFFFFF', textAlign: 'left', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <strong style={{ fontSize: '0.84rem', color: '#FBBF24' }}>Priya Sharma</strong>
+                      <span style={{ fontSize: '0.68rem', padding: '1px 6px', borderRadius: '4px', background: 'rgba(245, 158, 11, 0.2)', color: '#FBBF24', fontWeight: 700 }}>
+                        AWAITING APPROVAL
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>priya.sharma@evaluator.org • Senior Staff ML Infra (OpenScale / ex-Anthropic)</span>
+                  </div>
+                  <ArrowRight size={14} color="#FBBF24" />
+                </button>
+              </div>
+            </div>
           </div>
         ) : (
           <>
+            {/* Account Role Selector for Sign Up */}
+            {authMode === 'signup' && (
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: '6px', letterSpacing: '0.05em' }}>
+                  SELECT ACCOUNT TYPE
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setRole('CANDIDATE')}
+                    style={{
+                      padding: '10px', borderRadius: '10px', cursor: 'pointer',
+                      border: role === 'CANDIDATE' ? '2px solid var(--accent-cyan)' : '1px solid var(--border-subtle)',
+                      background: role === 'CANDIDATE' ? 'rgba(0, 240, 255, 0.1)' : 'rgba(255, 255, 255, 0.02)',
+                      color: role === 'CANDIDATE' ? '#FFFFFF' : 'var(--text-secondary)',
+                      textAlign: 'left'
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: '0.82rem', color: role === 'CANDIDATE' ? 'var(--accent-cyan)' : '#FFFFFF' }}>
+                      Candidate
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+                      Take interviews & get assessed
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setRole('EXPERT')}
+                    style={{
+                      padding: '10px', borderRadius: '10px', cursor: 'pointer',
+                      border: role === 'EXPERT' ? '2px solid #10B981' : '1px solid var(--border-subtle)',
+                      background: role === 'EXPERT' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(255, 255, 255, 0.02)',
+                      color: role === 'EXPERT' ? '#FFFFFF' : 'var(--text-secondary)',
+                      textAlign: 'left'
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: '0.82rem', color: role === 'EXPERT' ? '#34D399' : '#FFFFFF' }}>
+                      Industry Expert
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+                      Review & calibrate reports
+                    </div>
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Google & GitHub OAuth Buttons */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '18px' }}>
               <button
@@ -325,7 +547,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
                 }}
               >
                 <GoogleIcon />
-                {authMode === 'signin' ? 'Continue with Google' : 'Sign up with Google'}
+                {authMode === 'signin' ? 'Continue with Google' : `Sign up with Google as ${role === 'EXPERT' ? 'Expert' : 'Candidate'}`}
               </button>
 
               <button
@@ -347,7 +569,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
                 }}
               >
                 <GitHubIcon />
-                {authMode === 'signin' ? 'Continue with GitHub' : 'Sign up with GitHub'}
+                {authMode === 'signin' ? 'Continue with GitHub' : `Sign up with GitHub as ${role === 'EXPERT' ? 'Expert' : 'Candidate'}`}
               </button>
             </div>
 
@@ -358,7 +580,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
             }}>
               <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
               <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                or continue with email
+                or continue with credentials
               </span>
               <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
             </div>
@@ -377,7 +599,7 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="e.g. Alex Chen"
+                        placeholder={role === 'EXPERT' ? 'e.g. Dr. Marcus Vance' : 'e.g. Alex Chen'}
                         style={{
                           width: '100%', padding: '10px 14px 10px 38px', borderRadius: '10px',
                           background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
@@ -387,25 +609,83 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
                     </div>
                   </div>
 
-                  <div>
-                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '4px' }}>
-                      TARGET ROLE / SPECIALTY
-                    </label>
-                    <div style={{ position: 'relative' }}>
-                      <Briefcase size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '12px' }} />
-                      <input
-                        type="text"
-                        value={targetRole}
-                        onChange={(e) => setTargetRole(e.target.value)}
-                        placeholder="e.g. Senior Distributed Systems Engineer"
-                        style={{
-                          width: '100%', padding: '10px 14px 10px 38px', borderRadius: '10px',
-                          background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
-                          color: '#FFFFFF', fontSize: '0.85rem'
-                        }}
-                      />
+                  {role === 'CANDIDATE' ? (
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '4px' }}>
+                        TARGET ROLE / SPECIALTY
+                      </label>
+                      <div style={{ position: 'relative' }}>
+                        <Briefcase size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '12px' }} />
+                        <input
+                          type="text"
+                          value={targetRole}
+                          onChange={(e) => setTargetRole(e.target.value)}
+                          placeholder="e.g. Senior Distributed Systems Engineer"
+                          style={{
+                            width: '100%', padding: '10px 14px 10px 38px', borderRadius: '10px',
+                            background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                            color: '#FFFFFF', fontSize: '0.85rem'
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#34D399', marginBottom: '4px' }}>
+                          EXPERT TITLE & LEVEL
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={expertTitle}
+                          onChange={(e) => setExpertTitle(e.target.value)}
+                          placeholder="e.g. Staff Distributed Systems Architect"
+                          style={{
+                            width: '100%', padding: '10px 14px', borderRadius: '10px',
+                            background: 'rgba(16, 185, 129, 0.06)', border: '1px solid rgba(16, 185, 129, 0.3)',
+                            color: '#FFFFFF', fontSize: '0.85rem'
+                          }}
+                        />
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                        <div>
+                          <label style={{ display: 'block', fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '4px' }}>
+                            ORGANIZATION / EX-CO
+                          </label>
+                          <input
+                            type="text"
+                            value={expertOrg}
+                            onChange={(e) => setExpertOrg(e.target.value)}
+                            placeholder="e.g. Stripe / ex-Google"
+                            style={{
+                              width: '100%', padding: '10px 14px', borderRadius: '10px',
+                              background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                              color: '#FFFFFF', fontSize: '0.85rem'
+                            }}
+                          />
+                        </div>
+
+                        <div>
+                          <label style={{ display: 'block', fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '4px' }}>
+                            CORE DOMAIN
+                          </label>
+                          <input
+                            type="text"
+                            value={expertDomain}
+                            onChange={(e) => setExpertDomain(e.target.value)}
+                            placeholder="e.g. Distributed Systems"
+                            style={{
+                              width: '100%', padding: '10px 14px', borderRadius: '10px',
+                              background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)',
+                              color: '#FFFFFF', fontSize: '0.85rem'
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
 
@@ -451,6 +731,20 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
                 </div>
               </div>
 
+              {authMode === 'signup' && role === 'EXPERT' && (
+                <div style={{
+                  padding: '10px 12px', borderRadius: '10px',
+                  background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)',
+                  color: '#FBBF24', fontSize: '0.74rem', marginTop: '10px', marginBottom: '6px',
+                  display: 'flex', alignItems: 'flex-start', gap: '8px', lineHeight: 1.4
+                }}>
+                  <Clock size={15} style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong>Admin Verification Guard:</strong> Industry Expert accounts start with <em>Pending Accreditation</em> status until approved by a Platform Administrator.
+                  </div>
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={loading}
@@ -463,9 +757,13 @@ export default function AuthModal({ isOpen, onClose, onAuthenticated }) {
                   <>
                     <LogIn size={16} /> Sign In to Dashboard
                   </>
+                ) : role === 'EXPERT' ? (
+                  <>
+                    <ShieldCheck size={16} /> Register as Verified Expert
+                  </>
                 ) : (
                   <>
-                    <UserPlus size={16} /> Create Account & Start
+                    <UserPlus size={16} /> Create Candidate Account & Start
                   </>
                 )}
               </button>
